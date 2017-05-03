@@ -1,0 +1,38 @@
+{
+  "name": "Eina",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git"
+  },
+  "description": "Eina 50 anys",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "grunt build && mkdir -p docs/js && ./node_modules/browserify/bin/cmd.js  -t [ stringify --extensions [.obj .svg .glsl] ]  app/js/main.js > docs/js/main.js",
+    "start": "node main.js"
+  },
+  "keywords": [],
+  "author": "lct",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "*",
+    "browserify-middleware": "*",
+    "express": "*",
+    "figlet": "*",
+    "pug": "*",
+    "nib": "*",
+    "stringify": "*",
+    "stylus": "*"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jade": "^1.0.0",
+    "grunt-contrib-stylus": "^1.2.0"
+  },
+  "engines": {
+    "node": "6.2.0"
+  }
+}
