@@ -2,14 +2,14 @@ var StepGradient = function( parent, block ) {
 	this.parent = parent;
 
 	this.props = {
-		steps : 5
+		steps : 10
 	}
 
 	this.group = this.parent.two.makeGroup();
 
 	for( var i = 0 ; i < this.props.steps ; i++ ){
 		if( block.w > block.h ){
-			// var rect = this.parent.two.makeRectangle( 0 - block.w / 2 + ( block.w / this.props.steps / 2	) + ( block.w / this.props.steps * i), 0, block.w, block.h / this.props.steps );
+			var rect = this.parent.two.makeRectangle( 0 - block.w / 2 + ( block.w / this.props.steps / 2	) + ( block.w / this.props.steps * i), 0, block.w / this.props.steps, block.h );
 		} else {
 			var rect = this.parent.two.makeRectangle( 0, - block.h / 2 + ( block.h / this.props.steps / 2	) + ( block.h / this.props.steps * i), block.w, block.h / this.props.steps );
 		}
@@ -21,5 +21,9 @@ var StepGradient = function( parent, block ) {
 	}
 	
 }
+
+StepGradient.prototype.step = function() {
+
+};
 
 module.exports = StepGradient;

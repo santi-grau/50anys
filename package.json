@@ -19,8 +19,10 @@
     "browserify-middleware": "*",
     "express": "*",
     "figlet": "*",
-    "pug": "*",
+    "gsap": "^1.19.1",
     "nib": "*",
+    "pug": "*",
+    "simplex-noise": "^2.3.0",
     "stringify": "*",
     "stylus": "*"
   },

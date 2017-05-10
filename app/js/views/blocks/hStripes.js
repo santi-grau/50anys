@@ -1,7 +1,6 @@
 var Vstripes = function( parent, block ) {
 	this.parent = parent;
 
-	this.positions = [];
 	this.time = 0;
 
 	this.stripes = this.parent.two.makeGroup();
@@ -10,7 +9,8 @@ var Vstripes = function( parent, block ) {
 	this.props = {
 		lineWidth : 5,
 		lineGap : 5,
-		timeInc : 0.1,
+		timeInc : 0,
+		maxTimeInc : 0.5,
 		moveUp : true
 	}
 
@@ -22,11 +22,14 @@ var Vstripes = function( parent, block ) {
 		this.stripes.add( line );
 	}
 
-	var rect = this.parent.two.makeRectangle( block.x, block.y, block.w, block.h );
-	rect.translation = { x : 0, y : 0 };	
+	var rect = this.parent.two.makeRectangle( 0, 0, block.w, block.h );
 	this.stripes.mask = rect;
 	this.group.add( rect );
-	
+}
+
+Vstripes.prototype.animate = function( val ){
+	if( val ) TweenMax.to(this.props, 1, {  timeInc: this.props.maxTimeInc, ease: Circ.easeIn } );
+	else TweenMax.to(this.props, 2, {  timeInc: 0, ease: Power4.easeOut } );
 }
 
 Vstripes.prototype.step = function( time ){

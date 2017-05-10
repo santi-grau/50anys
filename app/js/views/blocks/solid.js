@@ -8,4 +8,12 @@ var Solid = function( parent, block ) {
 	this.group = this.parent.two.makeGroup( rect );
 }
 
+Solid.prototype.animate = function( val ){
+
+}
+
+Solid.prototype.step = function() {
+
+};
+
 module.exports = Solid;
