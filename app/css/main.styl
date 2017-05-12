@@ -11,11 +11,33 @@ body
 	padding 0
 
 	#main
+		background #dedede
 		width 100%
 		height 100%
 		position fixed
 		top 0
 		left 0
+		.inner
+			width 100%
+			height 100%
+			position absolute
+			top 0
+			left 0
+			&#one
+				z-index 3
+				.block
+					position absolute
+					cursor pointer
+					&.active
+						background rgba(0,0,0,0.6)
+						&:hover
+							background rgba(0,0,0,0.6)
+					&:hover
+						background rgba(255,255,255,0.6)
+			&#two
+				z-index 2
+			&#three
+				z-index 1
 		canvas
 			width 100%
 			height 100%

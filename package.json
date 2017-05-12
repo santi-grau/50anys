@@ -24,7 +24,8 @@
     "pug": "*",
     "simplex-noise": "^2.3.0",
     "stringify": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "three": "^0.85.2"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

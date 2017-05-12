@@ -1,11 +1,21 @@
 var Solid = function( parent, block ) {
 	this.parent = parent;
+	this.block = block;
 
-	var rect = this.parent.two.makeRectangle(0, 0, block.w, block.h );
+
+	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.noStroke();
 	rect.fill = '#000000';
 
-	this.group = this.parent.two.makeGroup( rect );
+	this.group = this.parent.parent.two.makeGroup( rect );
+}
+
+Solid.prototype.build = function( val ){
+
+}
+
+Solid.prototype.destroy = function( val ){
+	this.parent.parent.two.remove( this.group );
 }
 
 Solid.prototype.animate = function( val ){
