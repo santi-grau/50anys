@@ -19,7 +19,25 @@ var blockScripts = [
 	require('./blocks/hexagon'),
 	require('./blocks/crazylines'),
 	require('./blocks/tinydots'),
-	require('./blocks/dotsDiagonal')
+	require('./blocks/dotsDiagonal'),
+	require('./blocks/glitch'),
+	require('./blocks/gradient'),
+	require('./blocks/noise1'),
+	require('./blocks/noise2'),
+	require('./blocks/points'),
+	require('./blocks/layers'),
+	require('./blocks/bigx'),
+	require('./blocks/fourSquares'),
+	require('./blocks/delaunay'),
+	require('./blocks/voronoi'),
+	require('./blocks/stepGradient'),
+	require('./blocks/fiftyFifty'),
+	require('./blocks/tunel'),
+	require('./blocks/twoTris'),
+	require('./blocks/perspective'),
+	require('./blocks/shadowBars'),
+	require('./blocks/ascii'),
+	require('./blocks/bars')
 ]
 
 

@@ -29,6 +29,11 @@ var Switch = function( parent, block ) {
 	
 }
 
+Switch.prototype.destroy = function( val ){
+	this.parent.parent.two.remove( this.group );
+}
+
+
 Switch.prototype.step = function() {
 
 };

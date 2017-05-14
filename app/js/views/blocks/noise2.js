@@ -1,40 +1,31 @@
-var tileVS = require('./../../../shaders/tileVS.glsl');
-var tileFS = require('./../../../shaders/tileFS.glsl');
+var baseVS = require('./../../../shaders/baseVS.glsl');
+var noise2FS = require('./../../../shaders/noise2FS.glsl');
 
-var BaseTiles = function( parent, block ) {
+var Noise1 = function( parent, block ) {
+
 	this.parent = parent;
 	this.block = block;
-}
-
-BaseTiles.prototype.create = function( reps, tex ) {
-	var reps = reps || 3;
-	var repeat = new THREE.Vector2( reps, reps );
-	var ar = this.block.w / this.block.h;
-	var offset = new THREE.Vector2( Math.random(), Math.random() );
-	var offset = new THREE.Vector2( 0 , 0 );
-	if( ar > 1 ) repeat.x *= ar;
-	else repeat.y *= this.block.h / this.block.w;
 
 	var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.block.h );
 
 	var loader = new THREE.TextureLoader();
 
-	var texture = loader.load( tex || this.parent.parent.textures.txtrs.checkers, function ( texture ) {
+	var texture = loader.load( 'media/noise_gs.jpg' , function ( texture ) {
 		texture.generateMipmaps = false;
 		texture.magFilter = THREE.NearestFilter;
 		texture.minFilter = THREE.NearestFilter;
 		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 	} );
 
+
 	var material = new THREE.ShaderMaterial( {
 		uniforms: {
-			repeat: { value: repeat },
-			offset: { value: offset },
 			texture: { value: texture },
-			time: { value: new THREE.Vector2(0,0) }
+			time: { value: new THREE.Vector2(0,0) },
+			resolution : { value : new THREE.Vector2( this.block.w, this.block.h ) }
 		},
-		vertexShader: tileVS,
-		fragmentShader: tileFS
+		vertexShader: baseVS,
+		fragmentShader: noise2FS
 	} );
 
 	var plane = new THREE.Mesh( geometry, material );
@@ -44,10 +35,15 @@ BaseTiles.prototype.create = function( reps, tex ) {
 	this.group = new THREE.Group();
 	this.group.add(plane);
 	this.parent.parent.scene.add( this.group );
-};
+	
+}
 
-BaseTiles.prototype.destroy = function( val ){
+Noise1.prototype.destroy = function( val ){
 	this.parent.parent.scene.remove(this.group);
 }
 
-module.exports = BaseTiles;
+Noise1.prototype.step = function( time ) {
+	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(time/100000,time/10000);
+};
+
+module.exports = Noise1;

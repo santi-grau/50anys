@@ -17,6 +17,7 @@
   "dependencies": {
     "browserify": "*",
     "browserify-middleware": "*",
+    "delaunay-triangulate": "^1.1.6",
     "express": "*",
     "figlet": "*",
     "gsap": "^1.19.1",
@@ -25,7 +26,8 @@
     "simplex-noise": "^2.3.0",
     "stringify": "*",
     "stylus": "*",
-    "three": "^0.85.2"
+    "three": "^0.85.2",
+    "voronoi": "^1.0.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

@@ -1,5 +1,7 @@
 window.THREE = require('three');
 window.TweenMax = require('gsap');
+window.triangulate = require('delaunay-triangulate');
+window.voronoi = require('voronoi');
 
 var modules = require('./../media/blocks2.svg');
 
@@ -52,7 +54,6 @@ App.prototype.onReady = function(){
 	var mods = new DOMParser().parseFromString(modules, "image/svg+xml");
 	var viewBox = mods.getElementsByTagName('svg')[0].getAttribute('viewBox').split(' ');
 
-	console.log(viewBox)
 	this.containerEl.style.width = viewBox[2] * this.moduleSize + 'px';
 	this.containerEl.style.height = viewBox[3] * this.moduleSize + 'px';
 

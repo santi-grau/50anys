@@ -11,10 +11,6 @@ Empty.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.group )
 }
 
-Empty.prototype.animate = function( val ){
-
-}
-
 Empty.prototype.step = function( time ) {
 	
 };

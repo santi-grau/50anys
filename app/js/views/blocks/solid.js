@@ -10,16 +10,8 @@ var Solid = function( parent, block ) {
 	this.group = this.parent.parent.two.makeGroup( rect );
 }
 
-Solid.prototype.build = function( val ){
-
-}
-
 Solid.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.group );
-}
-
-Solid.prototype.animate = function( val ){
-
 }
 
 Solid.prototype.step = function() {

@@ -23,6 +23,11 @@ var Offset = function( parent, block ) {
 	
 }
 
+Offset.prototype.destroy = function( val ){
+	this.parent.parent.two.remove( this.group );
+}
+
+
 Offset.prototype.step = function() {
 
 };
