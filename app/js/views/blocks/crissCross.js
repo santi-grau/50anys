@@ -9,7 +9,8 @@ CrissCross.prototype = Object.create(BaseTiles.prototype);
 CrissCross.prototype.constructor = CrissCross;
 
 CrissCross.prototype.step = function( time ) {
-	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(0,0);
+	if( !this.animate ) return;
+	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(0.2,0);
 };
 
 module.exports = CrissCross;

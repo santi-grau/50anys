@@ -9,14 +9,13 @@ body
 	height 100%
 	margin 0
 	padding 0
-
+	font-family Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif
 	#main
-		background #dedede
 		width 100%
 		height 100%
 		position fixed
-		top 0
-		left 0
+		top 50%
+		left 50%
 		.inner
 			width 100%
 			height 100%
@@ -28,16 +27,92 @@ body
 				.block
 					position absolute
 					cursor pointer
-					&.active
-						background rgba(0,0,0,0.6)
-						&:hover
-							background rgba(0,0,0,0.6)
-					&:hover
-						background rgba(255,255,255,0.6)
 			&#two
-				z-index 2
-			&#three
 				z-index 1
+			&#three
+				z-index 2
 		canvas
 			width 100%
 			height 100%
+		#selector
+			z-index 4
+			opacity 0
+			transition opacity 0.15s
+			position absolute
+			top 0
+			left 0
+			width 150px
+			background #ffffff
+			border solid 2px #000000
+			font-size 10px
+			line-height 12px
+			padding 10px
+			pointer-events none
+			margin-top -25px
+			ul
+				list-style-type none
+				margin 0
+				padding 0
+				li
+					display inline-block
+					margin-right 10px
+					margin-bottom 10px
+
+			#animateToggle
+				.x
+					display none
+				.space
+					display inline
+				&.active
+					.x
+						display inline
+					.space
+						display none
+				> span
+					pointer-events none
+			&.active
+				opacity 1
+			&.left
+				margin-left -190px
+				&:after, &:before
+					left 100%
+					top 50%
+				&:after
+					border-left-color #ffffff
+				&:before 
+					border-left-color #000000
+			&.right
+				&:after, &:before
+					right 100%
+					top 50%
+				&:after
+					border-right-color #ffffff
+				&:before 
+					border-right-color #000000
+			&:after, &:before
+				border solid transparent
+				content " "
+				height 0
+				width 0
+				position absolute
+				pointer-events none
+			&:after
+				border-width 10px
+				margin-top -10px
+			&:before 
+				border-width 13px
+				margin-top -13px
+	#cursors
+		position fixed
+		top 0
+		left 0
+		width 100%
+		height 100%
+		pointer-events none
+		.cursor
+			position absolute
+			top 0
+			left 0
+			font-size 8px
+			background #ff0000
+			color #ffffff

@@ -2,7 +2,7 @@ var Tunel = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
 	this.props = {
-		spacing : 4
+		spacing : 10
 	}
 
 	this.group = this.parent.parent.two.makeGroup();

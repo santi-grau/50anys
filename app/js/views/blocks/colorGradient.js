@@ -1,4 +1,4 @@
-var FourSquares = function( parent, block ) {
+var ColorGradient = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
 
@@ -20,12 +20,12 @@ var FourSquares = function( parent, block ) {
 	this.group = this.parent.parent.two.makeGroup( rect );
 }
 
-FourSquares.prototype.destroy = function( val ){
+ColorGradient.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.group );
 }
 
-FourSquares.prototype.step = function() {
+ColorGradient.prototype.step = function() {
 
 };
 
-module.exports = FourSquares;
+module.exports = ColorGradient;

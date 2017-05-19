@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "grunt build && mkdir -p docs/js && ./node_modules/browserify/bin/cmd.js  -t [ stringify --extensions [.obj .svg .glsl] ]  app/js/main.js > docs/js/main.js",
-    "start": "node main.js"
+    "start": "node main.js",
+    "server": "node server.js"
   },
   "keywords": [],
   "author": "lct",
@@ -27,9 +28,12 @@
     "stringify": "*",
     "stylus": "*",
     "three": "^0.85.2",
-    "voronoi": "^1.0.0"
+    "voronoi": "^1.0.0",
+    "ws": "^2.3.1"
   },
   "devDependencies": {
+    "body-parser": "^1.17.1",
+    "cron": "^1.2.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",

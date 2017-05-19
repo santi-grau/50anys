@@ -6,20 +6,30 @@ var Layers = function( parent, block ) {
 		amount : 4
 	}
 
-	this.group = this.parent.parent.two.makeGroup();
+	this.group = new THREE.Group();
 
 	for( var i = 0 ; i < this.props.amount; i++ ){
-		var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2 + i * 2, this.block.y + this.block.h / 2 -i * 2, block.w, block.h );
-		rect.linewidth = 1;
-		rect.noFill();
-		rect.fill = '#ffffff';
-		this.group.add( rect );
-	}
 	
+		var geometry = new THREE.PlaneBufferGeometry( this.block.w - 2, this.block.h - 2 );
+		var material = new THREE.MeshBasicMaterial( { color : 0xffffff } );
+		var plane = new THREE.Mesh( geometry, material );
+
+		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, 1 + i * 2  );
+		this.group.add(plane);
+
+		var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.block.h );
+		var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
+		var plane = new THREE.Mesh( geometry, material );
+
+		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, i * 2  );
+		this.group.add(plane);
+	}
+
+	this.parent.parent.scene.add( this.group );
 }
 
 Layers.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
+	this.parent.parent.scene.remove(this.group);
 }
 
 

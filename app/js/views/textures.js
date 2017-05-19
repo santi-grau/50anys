@@ -1,4 +1,4 @@
-var texs = require('./../../media/test.svg');
+var texs = require('./../../media/patterns.svg');
 
 var Textures = function( parent ){
 	this.parent = parent;
@@ -14,24 +14,6 @@ var Textures = function( parent ){
 	for( var i = 0 ; i < layers.length ; i++ ) this.makeCanvas(layers[i].getAttribute('id'), layers[i].innerHTML, ctx, totalTexs );
 }
 
-Textures.prototype.loadSingles = function(){
-	var canvas = document.createElement('canvas');
-	var ctx=canvas.getContext("2d");
-
-	canvas.width  = 512;
-	canvas.height = 512;
-
-	var grd=ctx.createLinearGradient(0,0,512,0);
-	grd.addColorStop(0,'#000000');
-	grd.addColorStop(1,'#444444');
-
-	ctx.fillStyle = grd;
-	ctx.fillRect(0,0,512,512);
-	this.txtrs.gradient = ctx.canvas.toDataURL();
-
-	window.dispatchEvent(this.parent.event);
-}
-
 Textures.prototype.makeCanvas = function( id, content, ctx, totalTexs ){
 	var _this = this;
 	var svg = new Blob(['<svg xmlns="http://www.w3.org/2000/svg" >' + content + '</svg>'], {type:"image/svg+xml;charset=utf-8"});
@@ -44,11 +26,10 @@ Textures.prototype.makeCanvas = function( id, content, ctx, totalTexs ){
 		ctx.drawImage(this, 0, 0);     
 		domURL.revokeObjectURL(url);
 		_this.txtrs[id] = ctx.canvas.toDataURL();
-		// console.log(ctx.canvas.toDataURL())
 		var c = 0;
 		for(var key in _this.txtrs) {
 			c++;
-			if( c == totalTexs ) _this.loadSingles();
+			if( c == totalTexs ) window.dispatchEvent(_this.parent.event);;
 		}
     };
     img.src = url;

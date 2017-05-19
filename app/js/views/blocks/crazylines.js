@@ -9,7 +9,8 @@ CrazyLines.prototype = Object.create(BaseTiles.prototype);
 CrazyLines.prototype.constructor = CrazyLines;
 
 CrazyLines.prototype.step = function( time ) {
-	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(0,0);
+	if( !this.animate ) return;
+	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(0,0.2);
 };
 
 module.exports = CrazyLines;

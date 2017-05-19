@@ -9,6 +9,7 @@ Checkers.prototype = Object.create(BaseTiles.prototype);
 Checkers.prototype.constructor = Checkers;
 
 Checkers.prototype.step = function( time ) {
+	if( !this.animate ) return;
 	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(0,time/1000);
 };
 

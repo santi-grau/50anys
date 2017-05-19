@@ -17,6 +17,13 @@ var fs = require('fs');
 var pckg = require('./package.json');
 var pug = require('pug');
 
+// var bodyParser = require('body-parser');
+// var http = require('http');
+// var WebSocketServer = require('ws').Server;
+
+var MakeLetter = require('./routes/makeLetter');
+
+
 // ┌────────────────────────────────────────────────────────────────────┐
 // | Initialize vars + constants
 // └────────────────────────────────────────────────────────────────────┘
@@ -44,9 +51,30 @@ app.use(express.static(__dirname + '/app'));
 // | Routes
 // └────────────────────────────────────────────────────────────────────┘
 
+var letter = new MakeLetter(1);
+console.log(letter.blocks);
+
 app.get('/', function(req, res){
-	res.render( 'main', {title: pckg.name});
+	res.render( 'main', { title: pckg.name });
 });
+
+// app.get('/letter', function(req, res){
+// 	res.render( 'main', {title: pckg.name});
+// });
+
+
+
+// cronjob
+// var job = new CronJob({
+//   cronTime: '* * * * *',
+//   onTick: function() {
+//   	console.log('every minute');
+//   },
+//   start: false,
+//   timeZone: 'Europe/Paris'
+// });
+// job.start();
+
 
 // ┌────────────────────────────────────────────────────────────────────┐
 // | Init!!

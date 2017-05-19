@@ -4,6 +4,8 @@ var tileFS = require('./../../../shaders/tileFS.glsl');
 var BaseTiles = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
+	this.active = false;
+	this.animate = block.a;
 }
 
 BaseTiles.prototype.create = function( reps, tex ) {
@@ -31,7 +33,9 @@ BaseTiles.prototype.create = function( reps, tex ) {
 			repeat: { value: repeat },
 			offset: { value: offset },
 			texture: { value: texture },
-			time: { value: new THREE.Vector2(0,0) }
+			time: { value: new THREE.Vector2( 0, 0 ) },
+			col1 : { value : new THREE.Vector4( 0, 0, 0, 1 ) },
+			col2 : { value : new THREE.Vector4( 0, 0, 0, 0 ) }
 		},
 		vertexShader: tileVS,
 		fragmentShader: tileFS
