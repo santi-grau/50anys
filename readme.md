@@ -1,10 +1,14 @@
 # EINA 50 ANYS
 
 ### TODO
-- [ ] Make block selector and modifier
-- [ ] Animate blocks and props
-- [ ] Resolutions and browsers
-- [ ] Create WS
-- [ ] Polish blocks
+
+- [ ] Animate blocks, polish patterns, make block exporters
 - [ ] Create Exporter
 - [ ] Clean up code PLEASE
+- [ ] Show cursors
+- [ ] Logo
+- [ ] Info
+- [ ] Navigate history
+- [ ] Resolutions and browsers
+
+- [ ] Keep history of changes

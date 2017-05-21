@@ -27,6 +27,126 @@ letter1 += 		'0000000000000000';													letter3 +=		'01100111100111111110\n
 
 var blocks = ['empty','solid','checkers','vStripes','hStripes','triangles','plus','gridLines','crissCross','hDashes','dotsSolid','dotsHollow','trisTras','tdCubes','ls','zigZag','morisc','hexagon','crazyLines','tinyDots','dotsDiagonal','glitch','gradient','noise1','noise2','points','layers','bigx','colorGradient','delaunay','voronoi','stepGradient','fiftyFifty','tunel','twoTris','perspective','shadowBars','ascii','bars'];
 
+var settings = {
+	'empty' : {
+		complexity : 0
+	},
+	'solid' : {
+		complexity : 0
+	},
+	'checkers' : {
+		complexity : 1
+	},
+	'vStripes' : {
+		complexity : 1
+	},
+	'hStripes' : {
+		complexity : 1
+	},
+	'triangles' : {
+		complexity : 1
+	},
+	'plus' : {
+		complexity : 1
+	},
+	'gridLines' : {
+		complexity : 1
+	},
+	'crissCross' : {
+		complexity : 1
+	},
+	'hDashes' : {
+		complexity : 1
+	},
+	'dotsSolid' : {
+		complexity : 1
+	},
+	'dotsHollow' : {
+		complexity : 1
+	},
+	'trisTras' : {
+		complexity : 1
+	},
+	'tdCubes' : {
+		complexity : 1
+	},
+	'ls' : {
+		complexity : 1
+	},
+	'zigZag' : {
+		complexity : 1
+	},
+	'morisc' : {
+		complexity : 1
+	},
+	'hexagon' : {
+		complexity : 1
+	},
+	'crazyLines' : {
+		complexity : 1
+	},
+	'tinyDots' : {
+		complexity : 1
+	},
+	'dotsDiagonal' : {
+		complexity : 1
+	},
+	'glitch' : {
+		complexity : 1
+	},
+	'gradient' : {
+		complexity : 0
+	},
+	'noise1' : {
+		complexity : 1
+	},
+	'noise2' : {
+		complexity : 1
+	},
+	'points' : {
+		complexity : 1
+	},
+	'layers' : {
+		complexity : 1
+	},
+	'bigx' : {
+		complexity : 1
+	},
+	'colorGradient' : {
+		complexity : 1
+	},
+	'delaunay' : {
+		complexity : 1
+	},
+	'voronoi' : {
+		complexity : 1
+	},
+	'stepGradient' : {
+		complexity : 1
+	},
+	'fiftyFifty' : {
+		complexity : 1
+	},
+	'tunel' : {
+		complexity : 1
+	},
+	'twoTris' : {
+		complexity : 1
+	},
+	'perspective' : {
+		complexity : 1
+	},
+	'shadowBars' : {
+		complexity : 1
+	},
+	'ascii' : {
+		complexity : 1
+	},
+	'bars' : {
+		complexity : 1
+	}
+};
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function Shuffle(o) {
@@ -63,7 +183,14 @@ App.prototype.addBlock = function(){
 }
 
 App.prototype.blockType = function(){
-	return blocks[Math.floor( Math.random() * blocks.length )];
+	var simplex = [];
+	var complex = [];
+	for( var i = 0 ; i < blocks.length ; i++ ){
+		if( settings[ blocks[ i ] ].complexity ) complex.push( blocks[ i ] );
+		else simplex.push( blocks[ i ] );
+	}
+
+	return ( Math.random() > 0.6 ) ? ( complex[Math.floor( Math.random() * complex.length )] ) : (simplex[Math.floor( Math.random() * simplex.length )]);
 }
 
 App.prototype.computeAvailable = function(){
@@ -95,6 +222,8 @@ App.prototype.testFit = function( dir, length, avails ){
 }
 
 App.prototype.insert = function(dir,length,pos){
+
+
 	if( dir == 0 ){
 		this.blocks.list.push( { x : pos[1], y : pos[0], w : length, h : 1, t : this.blockType(), a : Math.round( Math.random() ) } );
 		for( var i = 0 ; i < length ; i++ ) this.data[pos[0]][pos[1]+i] = 0;

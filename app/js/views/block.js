@@ -1,8 +1,10 @@
-var Block = function(parent, block){
+var Block = function( parent, block, id ){
 	this.parent = parent;
 	this.block = block;
+	this.id = id;
+
 	this.down = false;
-	this.toggleComplete = false;
+	this.animateComplete = false;
 	
 	// create dom element for this block
 	this.containerEl = document.createElement('div');
@@ -28,7 +30,7 @@ Block.prototype.mouseLeave = function( e ){
 	this.parent.selector.remove( );
 }
 
-Block.prototype.setCurrentBlock = function( ){
+Block.prototype.iterateBlock = function( ){
 	var current = false, selected = false, newBlock;
 	for ( var key in this.parent.blockScripts ){
 		if( current ){
@@ -40,27 +42,51 @@ Block.prototype.setCurrentBlock = function( ){
 	}
 
 	if(!selected) this.block.t = newBlock = Object.keys(this.parent.blockScripts)[0];
+
+	if( this.parent.wsReady ) this.parent.ws.send(  JSON.stringify( { 't' : 'blockTexture', 'id' : this.id, 'blockTexture' : newBlock } ) );
+
+	this.setBlockTexture( newBlock );
+}
+
+Block.prototype.setBlockTexture = function( block ){
 	this.currentBlock.destroy();
-	this.currentBlock = new this.parent.blockScripts[newBlock]( this, this.block );
+	this.block.t = block;
+	this.currentBlock = new this.parent.blockScripts[block]( this, this.block );
+}
+
+Block.prototype.setBlockAnimate = function( animate ){
+	this.block.a = animate;
+	this.currentBlock.animate = animate;
+}
+
+Block.prototype.destroy = function(){
+	this.parent.containerOne.removeChild(this.containerEl);
+	this.currentBlock.destroy();
 }
 
 Block.prototype.mousedown = function( e ){
 	this.down = true;
-	this.longPressTimer = setTimeout( this.toggleAnimate.bind(this), 1000 )
+	this.longPressTimer = setTimeout( this.animateTimerOn.bind(this), 1000 )
+}
+
+Block.prototype.animateTimerOn = function(){
+	this.animateComplete = true;
 }
 
 Block.prototype.toggleAnimate = function(){
-	this.toggleComplete = true;
+	this.block.a = !this.block.a;
+	this.setBlockAnimate( this.block.a );
+	if( this.parent.wsReady ) this.parent.ws.send(  JSON.stringify( { 't' : 'blockAnimate', 'id' : this.id, 'blockAnimate' : this.block.a } ) );
 }
 
 Block.prototype.mouseup = function( e ){
 	if( !this.down ) return;
 	
-	if( this.toggleComplete ) this.currentBlock.animate = this.block.a = !this.block.a;
-	else this.setCurrentBlock();
+	if( this.animateComplete ) this.toggleAnimate();
+	else this.iterateBlock();
 
 	this.parent.selector.setActive( true, this.block );
-	this.toggleComplete = false;
+	this.animateComplete = false;
 	
 	clearTimeout( this.longPressTimer );
 	this.down = false;

@@ -8,8 +8,6 @@ var Grid = require('./views/grid');
 var Selector = require('./views/selector');
 var Textures = require('./views/textures');
 var SimplexNoise = require('simplex-noise');
- 
-var ws = new WebSocket('ws://localhost:8080');
 
 
 var blockScripts = {
@@ -82,12 +80,13 @@ Cursors.prototype.step = function( ){
 		this.data[key].el.style.transform = 'translate3d(' + ( this.containerEl.offsetWidth / 2 + this.data[key].pos[0] ) + 'px, ' + ( this.containerEl.offsetHeight / 2 + this.data[key].pos[1] ) + 'px, 0)';	
 		this.data[key].oldPos = this.data[key].pos;
 	}
-
 }
 
-
-
 var App = function() {
+
+	this.wsReady = true;
+	this.ws = new WebSocket('ws://localhost:8080');
+	this.ws.addEventListener('error', this.ws_error.bind(this) );
 
 	this.cursors = new Cursors();
 
@@ -103,11 +102,7 @@ var App = function() {
 	this.blocks = [];
 	this.active = null;
 
-
-	ws.onopen = function () { this.onReady('ws') }.bind(this);
-
-	ws.onmessage = function (event) {
-		// console.log( 'WS --- > message received' );
+	this.ws.onmessage = function (event) {
 		var wsData = JSON.parse( event.data );
 		if ( this[ 'ws_' + wsData.t ] ) this[ 'ws_' + wsData.t ](wsData);
 	}.bind(this);
@@ -143,11 +138,17 @@ var App = function() {
 	this.cursor = [0,0];
 
 	this.selector = new Selector( this );
+
+	this.byPassSocketTimer = setTimeout( this.onReady.bind(this, 'ws'), 2000)
 	
 	window.addEventListener('resize', this.onResize.bind(this) );
 	window.addEventListener('mousemove', this.mouseMove.bind(this) );
 
 	this.step();
+}
+
+App.prototype.ws_error = function( d ){
+	this.wsReady = false;
 }
 
 App.prototype.ws_cursor = function( d ){
@@ -162,88 +163,62 @@ App.prototype.ws_removeCursor = function( d ){
 	if( this.cursors.data[id] ) this.cursors.remove(id);
 }
 
-App.prototype.ws_id = function( d ){
-	this.id = d.id;
+App.prototype.ws_updateLetter = function( d ){
+	this.makeLetter( d.data );
 }
+
+App.prototype.ws_setup = function( d ){
+	this.id = d.data.id;
+	this.data = JSON.parse(d.data.currentLetter);
+	this.onReady('ws');
+}
+
+App.prototype.ws_blockTexture = function( d ){
+	this.blocks[d.id].setBlockTexture(d.blockTexture);
+}
+
+App.prototype.ws_blockAnimate = function( d ){
+	this.blocks[d.id].setBlockAnimate(d.blockAnimate);
+}
+
 
 App.prototype.mouseMove = function(e){
 	this.cursor = [ event.clientX - window.innerWidth / 2, event.clientY - window.innerHeight / 2 ];
 }
 
 App.prototype.sendCurrentMouse = function(){
-	ws.send(  JSON.stringify( { 't' : 'cursor', 'id' : this.id, 'cursor' : this.cursor } ) );
+	if( this.wsReady ) this.ws.send(  JSON.stringify( { 't' : 'cursor', 'id' : this.id, 'cursor' : this.cursor } ) );
+}
+
+
+App.prototype.makeLetter = function( data ){
+	if( this.blocks ) for( var i = 0 ; i < this.blocks.length ; i++ ) this.blocks[i].destroy();
+
+	this.blocks = [];
+
+	this.containerEl.style.width = data.viewBox[0] * this.moduleSize + 'px';
+	this.containerEl.style.height = data.viewBox[1] * this.moduleSize + 'px';
+
+	this.containerEl.style['margin-left'] = data.viewBox[0] / -2 * this.moduleSize - this.moduleSize / 2 + 'px';
+	this.containerEl.style['margin-top'] = data.viewBox[1] / -2 * this.moduleSize + 'px';
+
+	for( var i = 0 ; i < data.list.length ; i++ ) this.blocks.push( new Block( this, { x : data.list[i].x * this.moduleSize, y : data.list[i].y * this.moduleSize, w : data.list[i].w * this.moduleSize, h : data.list[i].h * this.moduleSize, t : data.list[i].t, a : data.list[i].a }, i ) );
+	this.onResize();
 }
 
 App.prototype.onReady = function( event ){
-
 	this.loadStates[event] = true;
-
-	
 
 	// wait until all loadstates are true
 	for ( var key in this.loadStates ) if( !this.loadStates[key] ) return;
 
+	// remove sockettimer
+	clearInterval( this.byPassSocketTimer );
+
 	setInterval( this.sendCurrentMouse.bind(this), 2000 );
 
-	var modTest = { viewBox: [ 21, 14 ],
-  list: 
-   [ { x: 14, y: 2, w: 4, h: 1, t: 'points', a: 1 },
-     { x: 18, y: 2, w: 1, h: 9, t: 'voronoi', a: 0 },
-     { x: 1, y: 2, w: 7, h: 1, t: 'plus', a: 1 },
-     { x: 9, y: 8, w: 1, h: 2, t: 'perspective', a: 1 },
-     { x: 2, y: 9, w: 1, h: 1, t: 'delaunay', a: 1 },
-     { x: 17, y: 6, w: 1, h: 3, t: 'crazyLines', a: 0 },
-     { x: 1, y: 1, w: 8, h: 1, t: 'dotsDiagonal', a: 0 },
-     { x: 13, y: 5, w: 1, h: 8, t: 'hexagon', a: 0 },
-     { x: 2, y: 11, w: 4, h: 1, t: 'twoTris', a: 1 },
-     { x: 2, y: 6, w: 6, h: 1, t: 'ls', a: 0 },
-     { x: 12, y: 2, w: 1, h: 8, t: 'ls', a: 1 },
-     { x: 6, y: 12, w: 1, h: 1, t: 'noise2', a: 0 },
-     { x: 13, y: 1, w: 4, h: 1, t: 'gradient', a: 1 },
-     { x: 14, y: 11, w: 1, h: 1, t: 'noise2', a: 0 },
-     { x: 11, y: 4, w: 1, h: 6, t: 'gradient', a: 1 },
-     { x: 1, y: 10, w: 3, h: 1, t: 'morisc', a: 0 },
-     { x: 1, y: 5, w: 7, h: 1, t: 'glitch', a: 0 },
-     { x: 19, y: 7, w: 1, h: 1, t: 'ascii', a: 0 },
-     { x: 8, y: 9, w: 1, h: 2, t: 'gridLines', a: 0 },
-     { x: 19, y: 4, w: 1, h: 3, t: 'bigx', a: 0 },
-     { x: 7, y: 7, w: 1, h: 4, t: 'tunel', a: 0 },
-     { x: 17, y: 11, w: 2, h: 1, t: 'crissCross', a: 1 },
-     { x: 11, y: 3, w: 1, h: 1, t: 'noise1', a: 1 },
-     { x: 14, y: 12, w: 4, h: 1, t: 'layers', a: 0 },
-     { x: 19, y: 8, w: 1, h: 3, t: 'crazyLines', a: 0 },
-     { x: 3, y: 3, w: 1, h: 1, t: 'bigx', a: 0 },
-     { x: 13, y: 2, w: 1, h: 3, t: 'solid', a: 0 },
-     { x: 6, y: 11, w: 3, h: 1, t: 'shadowBars', a: 0 },
-     { x: 3, y: 12, w: 3, h: 1, t: 'dotsHollow', a: 0 },
-     { x: 8, y: 6, w: 1, h: 2, t: 'delaunay', a: 0 },
-     { x: 17, y: 9, w: 1, h: 2, t: 'morisc', a: 1 },
-     { x: 15, y: 11, w: 2, h: 1, t: 'empty', a: 0 },
-     { x: 17, y: 4, w: 1, h: 2, t: 'hDashes', a: 0 },
-     { x: 1, y: 4, w: 3, h: 1, t: 'noise2', a: 1 },
-     { x: 12, y: 10, w: 1, h: 2, t: 'gridLines', a: 1 },
-     { x: 3, y: 9, w: 1, h: 1, t: 'morisc', a: 0 },
-     { x: 8, y: 2, w: 1, h: 1, t: 'stepGradient', a: 0 },
-     { x: 9, y: 10, w: 1, h: 1, t: 'fiftyFifty', a: 1 },
-     { x: 1, y: 3, w: 2, h: 1, t: 'voronoi', a: 1 },
-     { x: 1, y: 9, w: 1, h: 1, t: 'layers', a: 1 },
-     { x: 17, y: 3, w: 1, h: 1, t: 'vStripes', a: 0 },
-     { x: 17, y: 1, w: 1, h: 1, t: 'tunel', a: 0 },
-     { x: 8, y: 8, w: 1, h: 1, t: 'triangles', a: 0 },
-     { x: 11, y: 10, w: 1, h: 1, t: 'checkers', a: 1 },
-     { x: 19, y: 3, w: 1, h: 1, t: 'tunel', a: 1 },
-     { x: 1, y: 6, w: 1, h: 1, t: 'hexagon', a: 1 },
-     { x: 7, y: 12, w: 1, h: 1, t: 'tdCubes', a: 1 },
-     { x: 9, y: 7, w: 1, h: 1, t: 'bigx', a: 1 } ] }
+	this.makeLetter( this.data );
 
-	this.containerEl.style.width = modTest.viewBox[0] * this.moduleSize + 'px';
-	this.containerEl.style.height = modTest.viewBox[1] * this.moduleSize + 'px';
-
-	this.containerEl.style['margin-left'] = modTest.viewBox[0] / -2 * this.moduleSize - this.moduleSize / 2 + 'px';
-	this.containerEl.style['margin-top'] = modTest.viewBox[1] / -2 * this.moduleSize + 'px';
-
-	for( var i = 0 ; i < modTest.list.length ; i++ ) this.blocks.push( new Block( this, { x : modTest.list[i].x * this.moduleSize, y : modTest.list[i].y * this.moduleSize, w : modTest.list[i].w * this.moduleSize, h : modTest.list[i].h * this.moduleSize, t : modTest.list[i].t, a : modTest.list[i].a } ) );
-	this.onResize();
 }
 
 App.prototype.onResize = function(e) {
@@ -255,6 +230,9 @@ App.prototype.onResize = function(e) {
 	this.camera.bottom = this.containerThree.offsetHeight / - 2;
 	this.camera.position.z = 100;
 	this.camera.updateProjectionMatrix();
+
+	this.two.width = this.containerThree.offsetWidth;
+	this.two.height = this.containerThree.offsetHeight;
 
 	this.grid.resize();
 	clearTimeout( this.resizeStart );
