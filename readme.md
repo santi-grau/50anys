@@ -2,13 +2,14 @@
 
 ### TODO
 
-- [ ] Animate blocks, polish patterns, make block exporters
-- [ ] Create Exporter
-- [ ] Clean up code PLEASE
+- [ ] Animate blocks, polish patterns
+
 - [ ] Show cursors
-- [ ] Logo
+- [ ] Logo text and UI
 - [ ] Info
 - [ ] Navigate history
+- [ ] Make exporter
 - [ ] Resolutions and browsers
+- [ ] Clean up code PLEASE
 
 - [ ] Keep history of changes

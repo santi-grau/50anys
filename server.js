@@ -14,7 +14,7 @@ var wss = new WebSocketServer({port:8080});
 var currentLetter = JSON.parse( fs.readFileSync('./letters/current.json', 'utf8') );
 
 var job = new CronJob({
-	cronTime: '0 * * * *',
+	cronTime: '0 0 * * * *',
 	onTick: function() {
 		var totalLetters = 0;
 		var letters = fs.readdirSync('./letters');
@@ -27,15 +27,14 @@ var job = new CronJob({
 		currentLetter = new MakeLetter().blocks;
 		
 		fs.writeFile("./letters/current.json", JSON.stringify( currentLetter ), function(err) {
-    		if(err) return console.log(err);
-    		wss.clients.forEach(function each(client) {
-			if ( client.readyState ) client.send( JSON.stringify( { t : 'updateLetter', data : currentLetter } ) );
-		});
+			if(err) return console.log(err);
+			wss.clients.forEach(function each(client) {
+				if ( client.readyState ) client.send( JSON.stringify( { t : 'updateLetter', data : currentLetter } ) );
+			});
 			console.log("New letter created");
 		}); 
 	},
-	start: true,
-	timeZone: 'Europe/Paris'
+	start: true
 });
 
 wss.on('connection', function connection(ws) {
