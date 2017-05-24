@@ -5,23 +5,17 @@ var Noise1 = function( parent, block ) {
 
 	this.parent = parent;
 	this.block = block;
+	this.animate = block.a;
+
+	this.time = Math.random() * 200;
+	this.timeInc = 0;
+	this.timeTarget = 0.11;
 
 	var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.block.h );
 
-	var loader = new THREE.TextureLoader();
-
-	var texture = loader.load( 'media/noise_gs.jpg' , function ( texture ) {
-		texture.generateMipmaps = false;
-		texture.magFilter = THREE.NearestFilter;
-		texture.minFilter = THREE.NearestFilter;
-		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-	} );
-
-
 	var material = new THREE.ShaderMaterial( {
 		uniforms: {
-			texture: { value: texture },
-			time: { value: new THREE.Vector2(0,0) },
+			time: { value : this.time },
 			resolution : { value : new THREE.Vector2( this.block.w, this.block.h ) }
 		},
 		vertexShader: baseVS,
@@ -34,6 +28,29 @@ var Noise1 = function( parent, block ) {
 	
 	this.group = new THREE.Group();
 	this.group.add(plane);
+
+	var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
+	var geometry = new THREE.PlaneBufferGeometry( this.block.w, 4 );
+	var plane = new THREE.Mesh( geometry, material );
+	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1 );
+	this.group.add(plane);
+
+	
+	var plane = new THREE.Mesh( geometry, material );
+	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y - this.block.h, 1  );
+	this.group.add(plane);
+
+	var geometry = new THREE.PlaneBufferGeometry( 4, this.block.h + 4 );
+	var plane = new THREE.Mesh( geometry, material );
+	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
+	this.group.add(plane);
+
+	var plane = new THREE.Mesh( geometry, material );
+	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + this.block.w, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
+	this.group.add(plane);
+
+
+
 	this.parent.parent.scene.add( this.group );
 	
 }
@@ -43,7 +60,11 @@ Noise1.prototype.destroy = function( val ){
 }
 
 Noise1.prototype.step = function( time ) {
-	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(time/100000,time/10000);
+	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
+	else this.timeInc += ( 0 - this.timeInc ) * 0.03;
+	this.time += this.timeInc;
+
+	this.group.children[0].material.uniforms.time.value = this.time;
 };
 
 module.exports = Noise1;

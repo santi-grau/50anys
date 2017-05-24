@@ -2,13 +2,11 @@ var Layers = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
 
-	this.props = {
-		amount : 4
-	}
+	this.amount = Math.floor(Math.random()*10);
 
 	this.group = new THREE.Group();
 
-	for( var i = 0 ; i < this.props.amount; i++ ){
+	for( var i = 0 ; i < this.amount; i++ ){
 	
 		var geometry = new THREE.PlaneBufferGeometry( this.block.w - 2, this.block.h - 2 );
 		var material = new THREE.MeshBasicMaterial( { color : 0xffffff } );
@@ -17,7 +15,10 @@ var Layers = function( parent, block ) {
 		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, 1 + i * 2  );
 		this.group.add(plane);
 
-		var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.block.h );
+		var geometry
+		if( i == 0) geometry = new THREE.PlaneBufferGeometry( this.block.w + 4, this.block.h + 4 );
+		else geometry = new THREE.PlaneBufferGeometry( this.block.w, this.block.h );
+
 		var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
 		var plane = new THREE.Mesh( geometry, material );
 

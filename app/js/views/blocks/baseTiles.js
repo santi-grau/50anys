@@ -12,7 +12,6 @@ BaseTiles.prototype.create = function( reps, tex ) {
 	var reps = reps || 3;
 	var repeat = new THREE.Vector2( reps, reps );
 	var ar = this.block.w / this.block.h;
-	var offset = new THREE.Vector2( Math.random(), Math.random() );
 	var offset = new THREE.Vector2( 0 , 0 );
 	if( ar > 1 ) repeat.x *= ar;
 	else repeat.y *= this.block.h / this.block.w;
@@ -48,9 +47,12 @@ BaseTiles.prototype.create = function( reps, tex ) {
 	this.group = new THREE.Group();
 	this.group.add(plane);
 	this.parent.parent.scene.add( this.group );
+
+	this.twoGroup = this.parent.parent.two.makeGroup( this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h ).linewidth = this.parent.lineWidth );
 };
 
 BaseTiles.prototype.destroy = function( val ){
+	if( this.twoGroup ) this.parent.parent.two.remove( this.twoGroup )
 	this.parent.parent.scene.remove(this.group);
 }
 

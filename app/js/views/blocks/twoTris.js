@@ -1,39 +1,27 @@
-var TwoTris = function( parent, block ) {
-	this.parent = parent;
-	this.block = block;
+var BaseTiles = require('./BaseTiles');
 
-	this.inc = 0.3;
+var BigDot = function( ) {
+	BaseTiles.apply(this, arguments);
+	this.create( 1, this.parent.parent.textures.txtrs.bigDot );
 
-	this.tri1 = [
-		new Two.Anchor(this.block.x, this.block.y),
-		new Two.Anchor(this.block.x + this.block.w, this.block.y),
-		new Two.Anchor(this.block.x , this.block.y + this.block.h)
-	];
+	this.time = 0;
+	this.timeInc = 0;
+	this.timeTarget = 0.03;
 
-
-	this.tri2 = [
-		new Two.Anchor(this.block.x + this.block.w, this.block.y + this.block.h),
-		new Two.Anchor(this.block.x, this.block.y + this.block.h),
-		new Two.Anchor(this.block.x + this.block.w, this.block.y),
-	];
-
-
-	var tri1 = new Two.Path(this.tri1, true, false, false);
-	var tri2 = new Two.Path(this.tri2, true, false, false);
-
-	tri1.fill = '#6B6C6F';
-	tri2.fill = '#C0C2C4';
-
-	this.group = this.parent.parent.two.makeGroup( tri1, tri2 );
-
-
-}
-TwoTris.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group )
-}
-
-TwoTris.prototype.step = function( time ) {
+	var dir = Math.round(Math.random());
+	this.animateDir = new THREE.Vector2( -(this.block.w > this.block.h), (this.block.w < this.block.h) );
+	if( this.block.h == this.block.w ) this.animateDir = new THREE.Vector2( -dir, -!dir );
 	
+}
+
+BigDot.prototype = Object.create(BaseTiles.prototype);
+BigDot.prototype.constructor = BigDot;
+
+BigDot.prototype.step = function( time ) {
+	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
+	else this.timeInc += ( 0 - this.timeInc ) * 0.03;
+	this.time += this.timeInc;
+	this.group.children[0].material.uniforms.time.value = new THREE.Vector2( this.time * this.animateDir.x, this.time * this.animateDir.y );
 };
 
-module.exports = TwoTris;
+module.exports = BigDot;

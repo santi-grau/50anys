@@ -3,6 +3,8 @@ var Block = function( parent, block, id ){
 	this.block = block;
 	this.id = id;
 
+	this.lineWidth = 4;
+
 	this.down = false;
 	this.animateComplete = false;
 	
@@ -20,6 +22,7 @@ var Block = function( parent, block, id ){
 
 	// create instance from block.t
 	this.currentBlock = new this.parent.blockScripts[this.block.t]( this, this.block );
+	this.currentBlock.animate = this.block.a;
 }
 
 Block.prototype.mouseEnter = function( e ){
@@ -93,7 +96,7 @@ Block.prototype.mouseup = function( e ){
 }
 
 Block.prototype.step = function( time ){
-	this.currentBlock.step(time);
+	this.currentBlock.step( time );
 }
 
 module.exports = Block;

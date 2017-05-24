@@ -1,5 +1,6 @@
 window.THREE = require('three');
 window.TweenMax = require('gsap');
+window.BezierEasing = require('bezier-easing');
 window.triangulate = require('delaunay-triangulate');
 window.voronoi = require('voronoi');
 

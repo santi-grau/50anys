@@ -8,6 +8,7 @@ uniform sampler2D texture;
 uniform sampler2D texture2;
 uniform float time;
 uniform vec2 resolution;
+uniform bool animate;
 
 void main( ){
 	vec2 dummy = vUv;
@@ -22,7 +23,6 @@ void main( ){
 	vec2 uv_r = uv, uv_g = uv, uv_b = uv;
 
 	if ( texture2D(texture, uv_noise).r < block_thresh || texture2D(texture, vec2(uv_noise.y, 0.0)).g < line_thresh) {
-
 		vec2 dist = (fract(uv_noise) - 0.5) * 0.3;
 		uv_r += dist * 0.1;
 		uv_g += dist * 0.2;
@@ -50,6 +50,6 @@ void main( ){
 		
 		col.xyz *= mask;
 	}
-
-	gl_FragColor = vec4(col,1.0);
+	if( !animate ) gl_FragColor = vec4(vec3(col.r),1.0);
+	else gl_FragColor = vec4(col,1.0);
 }

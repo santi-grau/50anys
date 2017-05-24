@@ -1,15 +1,24 @@
 var BaseTiles = require('./BaseTiles');
 
-var TrisTras = function( ) {
+var Arrows = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 2, this.parent.parent.textures.txtrs.trisTras );
+	this.create( 0.5, this.parent.parent.textures.txtrs.arrows );
+
+	this.time = 0;
+	this.timeInc = 0;
+	this.timeTarget = 0.01;
+
+	this.animateDir = new THREE.Vector2( -(this.block.w >= this.block.h), (this.block.w < this.block.h) );
 }
 
-TrisTras.prototype = Object.create(BaseTiles.prototype);
-TrisTras.prototype.constructor = TrisTras;
+Arrows.prototype = Object.create(BaseTiles.prototype);
+Arrows.prototype.constructor = Arrows;
 
-TrisTras.prototype.step = function( time ) {
-	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(0,0);
+Arrows.prototype.step = function( time ) {
+	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
+	else this.timeInc += ( 0 - this.timeInc ) * 0.03;
+	this.time += this.timeInc;
+	this.group.children[0].material.uniforms.time.value = new THREE.Vector2( this.time * this.animateDir.x, this.time * this.animateDir.y );
 };
 
-module.exports = TrisTras;
+module.exports = Arrows;

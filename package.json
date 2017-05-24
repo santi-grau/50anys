@@ -16,6 +16,7 @@
   "author": "lct",
   "license": "MIT",
   "dependencies": {
+    "bezier-easing": "^2.0.3",
     "browserify": "*",
     "browserify-middleware": "*",
     "delaunay-triangulate": "^1.1.6",

@@ -1,15 +1,27 @@
 var BaseTiles = require('./BaseTiles');
 
-var tdCubes = function( ) {
+var Sprinkles = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 2, this.parent.parent.textures.txtrs.tdCubes );
+	this.create( 0.4, this.parent.parent.textures.txtrs.sprinkles );
+
+	this.time = 0;
+	this.timeInc = 0;
+	this.timeTarget = 0.03;
+
+	var dir = Math.round(Math.random());
+	this.animateDir = new THREE.Vector2( -(this.block.w > this.block.h), (this.block.w < this.block.h) );
+	if( this.block.h == this.block.w ) this.animateDir = new THREE.Vector2( -dir, -!dir );
+	
 }
 
-tdCubes.prototype = Object.create(BaseTiles.prototype);
-tdCubes.prototype.constructor = tdCubes;
+Sprinkles.prototype = Object.create(BaseTiles.prototype);
+Sprinkles.prototype.constructor = Sprinkles;
 
-tdCubes.prototype.step = function( time ) {
-	this.group.children[0].material.uniforms.time.value = new THREE.Vector2(0,0);
+Sprinkles.prototype.step = function( time ) {
+	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
+	else this.timeInc += ( 0 - this.timeInc ) * 0.03;
+	this.time += this.timeInc;
+	this.group.children[0].material.uniforms.time.value = new THREE.Vector2( this.time * this.animateDir.x, this.time * this.animateDir.y );
 };
 
-module.exports = tdCubes;
+module.exports = Sprinkles;
