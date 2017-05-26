@@ -1,6 +1,6 @@
 var BaseTiles = require('./BaseTiles');
 
-var DotsSolid = function( ) {
+var SolidDots = function( ) {
 	BaseTiles.apply(this, arguments);
 	this.create( 1, this.parent.parent.textures.txtrs.solidDots );
 
@@ -11,10 +11,10 @@ var DotsSolid = function( ) {
 	this.tween = TweenMax.to( this, 0.8, { paused : !this.animate, px : -1, repeat : Infinity, onRepeat: this.onRepeat.bind(this), repeatDelay : 0.5, ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 }
 
-DotsSolid.prototype = Object.create(BaseTiles.prototype);
-DotsSolid.prototype.constructor = DotsSolid;
+SolidDots.prototype = Object.create(BaseTiles.prototype);
+SolidDots.prototype.constructor = SolidDots;
 
-DotsSolid.prototype.onRepeat = function(){
+SolidDots.prototype.onRepeat = function(){
 
 	var dir = [
 		new THREE.Vector2(1,1),
@@ -28,9 +28,9 @@ DotsSolid.prototype.onRepeat = function(){
 	this.px = 0;
 }
 
-DotsSolid.prototype.step = function( time ) {
+SolidDots.prototype.step = function( time ) {
 	if( this.animate && this.tween.paused ) this.tween.play();
 	this.group.children[0].material.uniforms.time.value = new THREE.Vector2( this.px * this.dir.x, this.px * this.dir.y );
 };
 
-module.exports = DotsSolid;
+module.exports = SolidDots;

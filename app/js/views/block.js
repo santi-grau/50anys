@@ -45,7 +45,7 @@ Block.prototype.iterateBlock = function( ){
 	}
 
 	if(!selected) this.block.t = newBlock = Object.keys(this.parent.blockScripts)[0];
-
+	
 	if( this.parent.wsReady ) this.parent.ws.send(  JSON.stringify( { 't' : 'blockTexture', 'id' : this.id, 'blockTexture' : newBlock } ) );
 
 	this.setBlockTexture( newBlock );
@@ -69,7 +69,7 @@ Block.prototype.destroy = function(){
 
 Block.prototype.mousedown = function( e ){
 	this.down = true;
-	this.longPressTimer = setTimeout( this.animateTimerOn.bind(this), 1000 )
+	this.longPressTimer = setTimeout( this.animateTimerOn.bind(this), 500 )
 }
 
 Block.prototype.animateTimerOn = function(){

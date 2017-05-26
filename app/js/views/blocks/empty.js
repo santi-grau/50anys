@@ -12,7 +12,7 @@ Empty.prototype.destroy = function( val ){
 }
 
 Empty.prototype.step = function( time ) {
-	// this.rect.fill = 'rgba( 0, 0, 0, ' + Math.random( ) + ')';
+	
 };
 
 module.exports = Empty;

@@ -16,8 +16,7 @@ Solid.prototype.destroy = function( val ){
 }
 
 Solid.prototype.step = function( time ) {
-	this.timeStep += 0.01;
-	// this.rect.fill = 'rgba( 0, 0, 0,' + ( Math.cos( this.timeStep ) / 2 + 0.5 ) + ')';
+	
 };
 
 module.exports = Solid;

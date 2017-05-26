@@ -1,24 +1,31 @@
 var StepGradient = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
+	this.animate = this.block.a;
 
-	this.props = {
-		steps : 10
-	}
+	this.steps = 3 * this.block.w / Math.min( this.block.w, this.block.h ) * this.block.h / Math.min( this.block.w, this.block.h )
 
-	this.group = this.parent.parent.two.makeGroup();
+	this.time = 0;
+	this.timeInc = 0;
+	this.timeTarget = 0.03;
 
-	for( var i = 0 ; i < this.props.steps ; i++ ){
-		if( this.block.w > this.block.h ){
-			var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2 - this.block.w / 2 + ( this.block.w / this.props.steps / 2 ) + ( this.block.w / this.props.steps * i), this.block.y + this.block.h / 2, this.block.w / this.props.steps, this.block.h );
-		} else {
-			var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2 - this.block.h / 2 + ( this.block.h / this.props.steps / 2	) + ( this.block.h / this.props.steps * i), this.block.w, this.block.h / this.props.steps );
-		}
-		rect.linewidth = 1;
-		var col = parseInt( 255 * 0.1 + 255 * 0.8 * i / this.props.steps );
+	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	rect.linewidth = this.parent.lineWidth;
+	rect.noFill();
+
+	this.rects = this.parent.parent.two.makeGroup();
+	this.group = this.parent.parent.two.makeGroup( this.rects, rect );
+
+	for( var i = 0 ; i < this.steps ; i++ ){
+		var rect;
+		if( this.block.w > this.block.h ) rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2 - this.block.w / 2 + ( this.block.w / this.steps / 2 ) + ( this.block.w / this.steps * i), this.block.y + this.block.h / 2, this.block.w / this.steps, this.block.h );
+		else rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2 - this.block.h / 2 + ( this.block.h / this.steps / 2	) + ( this.block.h / this.steps * i), this.block.w, this.block.h / this.steps );
+
+		rect.linewidth = 2;
+		var col = parseInt( 255 * 0.1 + 255 * 0.8 * i / this.steps );
 		rect.fill = 'rgb('+col+','+col+','+col+')';
 
-		this.group.add( rect );
+		this.rects.add( rect );
 	}
 }
 
@@ -26,9 +33,24 @@ StepGradient.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.group )
 }
 
-
 StepGradient.prototype.step = function() {
+	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
+	else this.timeInc += ( 0 - this.timeInc ) * 0.03;
+	this.time += this.timeInc;
 
+	var currentSegment = this.steps - Math.floor( ( Math.cos( this.time ) * 0.5 + 0.5 ) * this.steps );
+	
+	if( currentSegment == this.oldSegment ) return;
+
+	for( var i = 0 ; i < currentSegment; i++ ){
+		var col = parseInt( 255 * 0.9 - 255 * 0.8 * ( i + 1 ) / currentSegment );
+		this.rects.children[i].fill = 'rgb('+col+','+col+','+col+')';
+	}
+	for( var i = currentSegment ; i < this.rects.children.length ; i++ ){
+		var col = parseInt( 255 * 0.1 + 255 * 0.8 * ( i - currentSegment ) / ( this.rects.children.length - currentSegment ) );
+		this.rects.children[i].fill = 'rgb('+col+','+col+','+col+')';
+	}
+	this.oldSegment = currentSegment;
 };
 
 module.exports = StepGradient;

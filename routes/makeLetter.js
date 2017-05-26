@@ -95,7 +95,7 @@ var settings = {
 		complexity : 1
 	},
 	'gradient' : {
-		complexity : 0
+		complexity : 1
 	},
 	'noise1' : {
 		complexity : 1
@@ -110,7 +110,7 @@ var settings = {
 		complexity : 1
 	},
 	'bigx' : {
-		complexity : 1
+		complexity : 0
 	},
 	'colorGradient' : {
 		complexity : 1

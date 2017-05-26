@@ -13,7 +13,7 @@ var fs = require('fs');
 var wss = new WebSocketServer({port:8080});
 var currentLetter = JSON.parse( fs.readFileSync('./letters/current.json', 'utf8') );
 
-var job = new CronJob({
+var makeLetter = new CronJob({
 	cronTime: '0 0 * * * *',
 	onTick: function() {
 		var totalLetters = 0;
@@ -37,6 +37,14 @@ var job = new CronJob({
 	start: true
 });
 
+var saveLetter = new CronJob({
+	cronTime: '0 * * * * *',
+	onTick: function() {
+		fs.writeFile("./letters/current.json", JSON.stringify( currentLetter )); 
+	},
+	start: true
+});
+
 wss.on('connection', function connection(ws) {
 	var id = 'c' + new Date().getTime();
 	ws.id = id;
@@ -44,6 +52,10 @@ wss.on('connection', function connection(ws) {
 	ws.send( JSON.stringify( { t : 'setup', data : { id : id, currentLetter : JSON.stringify(currentLetter) } } ) );
 
 	ws.on('message', function incoming(data) {
+		var d = JSON.parse(data);
+		if( d.t == 'blockTexture' ) currentLetter.list[d.id].t = d.blockTexture;
+		if( d.t == 'blockAnimate' ) currentLetter.list[d.id].a = d.blockAnimate;
+	
 		wss.clients.forEach(function each(client) {
 			if (client !== ws && client.readyState ) {
 				client.send( data );

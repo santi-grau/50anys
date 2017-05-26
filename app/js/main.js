@@ -1,15 +1,12 @@
 window.THREE = require('three');
 window.TweenMax = require('gsap');
 window.BezierEasing = require('bezier-easing');
-window.triangulate = require('delaunay-triangulate');
-window.voronoi = require('voronoi');
 
 var Block = require('./views/block')
 var Grid = require('./views/grid');
 var Selector = require('./views/selector');
 var Textures = require('./views/textures');
 var SimplexNoise = require('simplex-noise');
-
 
 var blockScripts = {
 	empty : require('./views/blocks/empty'),
@@ -215,9 +212,7 @@ App.prototype.onReady = function( event ){
 
 	// remove sockettimer
 	clearInterval( this.byPassSocketTimer );
-
 	setInterval( this.sendCurrentMouse.bind(this), 2000 );
-
 	this.makeLetter( this.data );
 
 }
@@ -229,7 +224,7 @@ App.prototype.onResize = function(e) {
 	this.camera.right = this.containerThree.offsetWidth / 2;
 	this.camera.top = this.containerThree.offsetHeight / 2;
 	this.camera.bottom = this.containerThree.offsetHeight / - 2;
-	this.camera.position.z = 100;
+	this.camera.position.z = 1000;
 	this.camera.updateProjectionMatrix();
 
 	this.two.width = this.containerThree.offsetWidth;

@@ -1,7 +1,7 @@
 var Gradient = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
-
+	this.animate = this.block.a;
 	this.scale = 0.7;
 
 	var stops = [ 0, this.block.h / 2, 0, -this.block.h / 2 ];
@@ -22,7 +22,7 @@ var Gradient = function( parent, block ) {
 	this.group = this.parent.parent.two.makeGroup( rect );
 	
 	this.px = 0;
-
+	
 	this.tween = TweenMax.to( this, 0.8, { paused : !this.animate, px : this.gradientValue2, repeat : Infinity, yoyo : true, onRepeat: this.onRepeat.bind(this), repeatDelay : (Math.random() + 0.5), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 }
 
