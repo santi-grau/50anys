@@ -56,8 +56,11 @@ var blockScripts = {
 var App = function() {
 
 	this.wsReady = true;
-	this.serverUrl = 
-	this.ws = new WebSocket('ws://localhost:8080');
+	
+	var host = 'ws://54.93.229.125';
+	if( location.origin.indexOf( 'localhost' ) !== -1 ) host = 'ws://localhost:8080';
+
+	this.ws = new WebSocket(host);
 	this.ws.addEventListener('error', this.ws_error.bind(this) );
 
 	this.cursors = new Cursors();
