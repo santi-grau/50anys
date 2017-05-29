@@ -2,8 +2,10 @@ var BaseTiles = require('./BaseTiles');
 
 var DotsHollow = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.dotsHollow );
+	this.create( 1, this.parent.parent.textures.txtrs.hollowdots );
 
+	this.name = 'Dots Hollow';
+	
 	this.group.children[0].material.uniforms.offset.value = new THREE.Vector2( 0.1 , 0.1 );
 
 	this.dir = new THREE.Vector2(0,1);

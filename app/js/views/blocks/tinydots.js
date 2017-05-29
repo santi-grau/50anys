@@ -2,7 +2,9 @@ var BaseTiles = require('./BaseTiles');
 
 var TinyDots = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 2, this.parent.parent.textures.txtrs.tinyDots );
+	this.create( 2, this.parent.parent.textures.txtrs.tinydots );
+
+	this.name = 'Tiny Dots';
 
 	this.px = 0;
 	this.tween = TweenMax.to( this, 0.4, { paused : !this.animate, px : -1, repeat : Infinity, onRepeat: this.onRepeat.bind(this), repeatDelay : 0.5, ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );

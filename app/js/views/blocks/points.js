@@ -3,6 +3,8 @@ var Points = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name = 'Points';
+
 	this.time = 0;
 
 	this.points = this.parent.parent.two.makeGroup();

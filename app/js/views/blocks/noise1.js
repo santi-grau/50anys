@@ -7,6 +7,8 @@ var Noise1 = function( parent, block ) {
 	this.block = block;
 	this.animate = block.a;
 
+	this.name = 'Noise 1';
+
 	this.time = Math.random() * 200;
 	this.timeInc = 0;
 	this.timeTarget = 0.11;

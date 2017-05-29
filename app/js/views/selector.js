@@ -4,14 +4,25 @@ var Selector = function( parent ) {
 
 	this.nameSpan = document.getElementById('name');
 	this.animateSpan = document.getElementById('animate');
+
+	this.textureDescription = document.getElementById('textureDescription');
+	this.animateDescription = document.getElementById('animateDescription');
 }
 
 Selector.prototype.setActive = function( active, block ){
 	clearTimeout( this.removeTimeout );
-	this.nameSpan.innerHTML = block.t;
-	this.animateSpan.innerHTML = block.a;
+	this.nameSpan.innerHTML = block.currentBlock.name || 'N/A';
+	this.animateSpan.innerHTML = ( block.currentBlock.noAnimate ) ? 'N/A' : ( ( block.block.a ) ? 'Yes' : 'No' );
 	this.containerEl.classList.add('active');
-	this.containerEl.setAttribute('style', 'left:' + block.x + 'px;top:' + ( block.y + block.h / 2 ) + 'px;' );
+	this.containerEl.setAttribute('style', 'left:' + ( block.block.x + this.parent.containerEl.offsetLeft ) + 'px;top:' + ( block.block.y + block.block.h / 2 + this.parent.containerEl.offsetTop ) + 'px;' );
+}
+
+Selector.prototype.textureReady = function( ){
+	this.textureDescription.classList.add('ready');
+}
+
+Selector.prototype.animationReady = function( ){
+	this.animateDescription.classList.add('ready');
 }
 
 Selector.prototype.remove = function( ){

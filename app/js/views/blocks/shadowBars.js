@@ -3,6 +3,8 @@ var ShadowBars = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name = 'Shadow Bars';
+
 	this.lines = this.parent.parent.two.makeGroup( );
 	this.group = this.parent.parent.two.makeGroup( this.lines );
 

@@ -1,4 +1,4 @@
-var letter1 = 	'0000000000000000\n';	var letter2 =	'000000000000000000000\n';	var letter3 =	'00000000000000000000\n';
+var letter1 = 	'0000000000000000\n';	var letter2 =	'000000000000000000000\n';	var letter3 =	'00000000000000000000\n';	
 letter1 += 		'0111111111111110\n';	letter2 +=	'011111111000011111000\n';		letter3 +=		'01111111100111111110\n';
 letter1 += 		'0111111111111110\n';	letter2 +=	'011111111000111111100\n';		letter3 +=		'01111111100111111110\n';
 letter1 += 		'0111111111111110\n';	letter2 +=	'011100000001110001110\n';		letter3 +=		'01100000000000110000\n';
@@ -23,129 +23,32 @@ letter1 += 		'0000000000000000';													letter3 +=		'01100111100111111110\n
 																					letter3 +=		'01100001100110000110\n';
 																					letter3 +=		'00000000000000000000';
 
+
+var letter4 = 	'0000000000000000\n';	var letter5 = 	'000000000000000000\n';
+letter4 += 		'0111111111111110\n';	letter5 += 		'011110000000011110\n';
+letter4 += 		'0111111111111110\n';	letter5 += 		'011110000000011110\n';
+letter4 += 		'0111111111111110\n';	letter5 += 		'011111100000011110\n';
+letter4 += 		'0111111111111110\n';	letter5 += 		'011111100000011110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011111111000011110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011111111000011110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011111111100011110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011111111110011110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011111111111011110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011110111111111110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011110011111111110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011110001111111110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011110000111111110\n';
+letter4 += 		'0000001111000000\n';	letter5 += 		'011110000111111110\n';
+letter4 += 		'0111111111111110\n';	letter5 += 		'011110000001111110\n';
+letter4 += 		'0111111111111110\n';	letter5 += 		'011110000001111110\n';
+letter4 += 		'0111111111111110\n';	letter5 += 		'011110000000011110\n';
+letter4 += 		'0111111111111110\n';	letter5 += 		'011110000000011110\n';
+letter4 += 		'0000000000000000\n';	letter5 += 		'000000000000000000\n';
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var blocks = ['empty','solid','checkers','vStripes','hStripes','triangles','plus','gridLines','crissCross','hDashes','dotsSolid','dotsHollow','trisTras','tdCubes','ls','zigZag','morisc','hexagon','crazyLines','tinyDots','dotsDiagonal','glitch','gradient','noise1','noise2','points','layers','bigx','colorGradient','delaunay','voronoi','stepGradient','fiftyFifty','tunel','twoTris','perspective','shadowBars','ascii','bars'];
-
-var settings = {
-	'empty' : {
-		complexity : 0
-	},
-	'solid' : {
-		complexity : 0
-	},
-	'checkers' : {
-		complexity : 1
-	},
-	'vStripes' : {
-		complexity : 1
-	},
-	'hStripes' : {
-		complexity : 1
-	},
-	'triangles' : {
-		complexity : 1
-	},
-	'plus' : {
-		complexity : 1
-	},
-	'gridLines' : {
-		complexity : 1
-	},
-	'crissCross' : {
-		complexity : 1
-	},
-	'hDashes' : {
-		complexity : 1
-	},
-	'dotsSolid' : {
-		complexity : 1
-	},
-	'dotsHollow' : {
-		complexity : 1
-	},
-	'trisTras' : {
-		complexity : 1
-	},
-	'tdCubes' : {
-		complexity : 1
-	},
-	'ls' : {
-		complexity : 1
-	},
-	'zigZag' : {
-		complexity : 1
-	},
-	'morisc' : {
-		complexity : 1
-	},
-	'hexagon' : {
-		complexity : 1
-	},
-	'crazyLines' : {
-		complexity : 1
-	},
-	'tinyDots' : {
-		complexity : 1
-	},
-	'dotsDiagonal' : {
-		complexity : 1
-	},
-	'glitch' : {
-		complexity : 1
-	},
-	'gradient' : {
-		complexity : 1
-	},
-	'noise1' : {
-		complexity : 1
-	},
-	'noise2' : {
-		complexity : 1
-	},
-	'points' : {
-		complexity : 1
-	},
-	'layers' : {
-		complexity : 1
-	},
-	'bigx' : {
-		complexity : 0
-	},
-	'colorGradient' : {
-		complexity : 1
-	},
-	'delaunay' : {
-		complexity : 1
-	},
-	'voronoi' : {
-		complexity : 1
-	},
-	'stepGradient' : {
-		complexity : 1
-	},
-	'fiftyFifty' : {
-		complexity : 1
-	},
-	'tunel' : {
-		complexity : 1
-	},
-	'twoTris' : {
-		complexity : 1
-	},
-	'perspective' : {
-		complexity : 1
-	},
-	'shadowBars' : {
-		complexity : 1
-	},
-	'ascii' : {
-		complexity : 1
-	},
-	'bars' : {
-		complexity : 1
-	}
-};
+var blocks = ['empty','solid','worms','vStripes','hStripes','dStripes1','dStripes2','grid','grid2','crissCross','hDashes','dotsSolid','dotsHollow','waves','arrows','sprinkles','zigZag','dotBig','dotNeg','crosses','tinyDots','spaceDots','glitch','gradient','noise1','noise2','points','layers','bigx','colorGradient','delaunay','voronoi','stepGradient','fiftyFifty','tunel','perspective','shadowBars','ascii','bars'];
+var settings = {'empty' : { complexity : 0 },'solid' : { complexity : 0 },'worms' : { complexity : 1 },'vStripes' : { complexity : 1 },'hStripes' : { complexity : 1 },'dStripes1' : { complexity : 1 },'dStripes2' : { complexity : 1 },'grid' : { complexity : 1 },'grid2' : { complexity : 1 },'crissCross' : { complexity : 1 },'hDashes' : { complexity : 1 },'dotsSolid' : { complexity : 1 },'dotsHollow' : { complexity : 1 },'waves' : { complexity : 1 },'arrows' : { complexity : 1 },'sprinkles' : { complexity : 1 },'zigZag' : { complexity : 1 },'dotBig' : { complexity : 1 },'dotNeg' : { complexity : 1 },'crosses' : { complexity : 1 },'tinyDots' : { complexity : 1 },'spaceDots' : { complexity : 1 },'glitch' : { complexity : 1 },'gradient' : { complexity : 1 },'noise1' : { complexity : 1 },'noise2' : { complexity : 1 },'points' : { complexity : 1 },'layers' : { complexity : 1 },'bigx' : { complexity : 1 },'colorGradient' : { complexity : 1 },'delaunay' : { complexity : 1 },'voronoi' : { complexity : 1 },'stepGradient' : { complexity : 1 },'fiftyFifty' : { complexity : 1 },'tunel' : { complexity : 1 },'perspective' : { complexity : 1 },'shadowBars' : { complexity : 1 },'ascii' : { complexity : 1 },'bars' : { complexity : 1 } };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -222,15 +125,13 @@ App.prototype.testFit = function( dir, length, avails ){
 }
 
 App.prototype.insert = function(dir,length,pos){
-
-
 	if( dir == 0 ){
-		this.blocks.list.push( { x : pos[1], y : pos[0], w : length, h : 1, t : this.blockType(), a : Math.round( Math.random() ) } );
+		this.blocks.list.push( { x : pos[1], y : pos[0], w : length, h : 1, t : this.blockType(), a : ( Math.random() > 0.8 ) } );
 		for( var i = 0 ; i < length ; i++ ) this.data[pos[0]][pos[1]+i] = 0;
 	}
 
 	if( dir == 1 ){
-		this.blocks.list.push( { x : pos[1], y : pos[0], w : 1, h : length, t : this.blockType(), a : Math.round( Math.random() ) } );
+		this.blocks.list.push( { x : pos[1], y : pos[0], w : 1, h : length, t : this.blockType(), a : ( Math.random() > 0.8 ) } );
 		for( var i = 0 ; i < length ; i++ ) this.data[pos[0]+i][pos[1]] = 0;
 	}
 

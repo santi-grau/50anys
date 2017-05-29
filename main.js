@@ -56,7 +56,7 @@ app.listen(port);
 
 figlet.fonts(function(err, fonts) {
 	var font = fonts[Math.floor(Math.random() * fonts.length)];
-	figlet(pckg.name, { font : font},function(err, data) {
+	figlet('EINA 50 ANYS', { font : font},function(err, data) {
 		console.log(data);
 		console.log('└─────> ' + pckg.description);
 		console.log('└─────> v ' + pckg.version);

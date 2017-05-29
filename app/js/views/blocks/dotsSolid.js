@@ -2,7 +2,9 @@ var BaseTiles = require('./BaseTiles');
 
 var SolidDots = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.solidDots );
+	this.create( 1, this.parent.parent.textures.txtrs.soliddots );
+
+	this.name = 'Dots Solid';
 
 	this.group.children[0].material.uniforms.offset.value = new THREE.Vector2( 0.1 , 0.1 );
 

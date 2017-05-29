@@ -5,6 +5,8 @@ var Delaunay = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name  = 'Delaunay';
+
 	this.totalPoints = 10;
 
 	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );

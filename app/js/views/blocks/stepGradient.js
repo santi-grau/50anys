@@ -2,6 +2,8 @@ var StepGradient = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
 	this.animate = this.block.a;
+	
+	this.name = 'Step Gradient';
 
 	this.steps = 3 * this.block.w / Math.min( this.block.w, this.block.h ) * this.block.h / Math.min( this.block.w, this.block.h )
 

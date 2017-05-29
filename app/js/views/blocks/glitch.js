@@ -7,6 +7,8 @@ var Glitch = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 	
+	this.name = 'Glitch';
+
 	var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.block.h );
 
 	var loader = new THREE.TextureLoader();

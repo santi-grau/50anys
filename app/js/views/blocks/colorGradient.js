@@ -3,6 +3,8 @@ var ColorGradient = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name  = 'Color Gradient';
+
 	this.scale = 0.7;
 	this.colCount = 1;
 

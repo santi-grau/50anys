@@ -3,6 +3,8 @@ var Ascii = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 	
+	this.name  = 'ASCII';
+
 	this.time = 0;
 
 	this.rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );

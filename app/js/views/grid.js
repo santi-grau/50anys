@@ -58,8 +58,8 @@ var Grid = function( size ) {
 	this.resize();
 }
 
-Grid.prototype.resize = function(){
-	document.body.style['background-position'] = ( window.innerWidth / 2 - this.modSize ) + 'px ' + ( window.innerHeight / 2 - this.modSize ) + 'px';
+Grid.prototype.resize = function( offset ){
+	document.body.style['background-position'] = ( window.innerWidth / 2 - this.modSize - ( this.modSize * offset / 2 ) ) + 'px ' + ( window.innerHeight / 2 - this.modSize ) + 'px';
 }
 
 module.exports = Grid;

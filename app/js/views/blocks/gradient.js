@@ -2,6 +2,9 @@ var Gradient = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
 	this.animate = this.block.a;
+
+	this.name = 'Gradient';
+
 	this.scale = 0.7;
 
 	var stops = [ 0, this.block.h / 2, 0, -this.block.h / 2 ];

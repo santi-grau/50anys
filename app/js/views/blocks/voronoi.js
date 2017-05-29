@@ -5,6 +5,8 @@ var Voronoi = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name = 'Voronoi';
+
 	this.totalPoints = 2 * this.block.w / Math.min( this.block.w, this.block.h ) * this.block.h / Math.min( this.block.w, this.block.h );
 
 	this.time = 0;

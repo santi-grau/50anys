@@ -3,6 +3,8 @@ var Tunel = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name = 'Tunel';
+
 	this.timeTarget = 0.2;
 	if( this.animate ) this.timeInc = this.timeTarget;
 	else this.timeInc = 0;

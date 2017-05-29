@@ -3,6 +3,8 @@ var FiftyFifty = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name = 'Fifty Fifty';
+
 	if( this.block.w == this.block.h ) this.count = 0;
 	else this.count = 1;
 

@@ -54,7 +54,7 @@ BaseTiles.prototype.create = function( reps, tex ) {
 };
 
 BaseTiles.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.twoGroup )
+	this.parent.parent.two.remove( this.twoGroup );
 	this.parent.parent.scene.remove(this.group);
 }
 

@@ -5,28 +5,31 @@ var Block = function( parent, block, id ){
 
 	this.lineWidth = 4;
 
+	this.longPressTimer = 0;
+
 	this.down = false;
 	this.animateComplete = false;
 	
 	// create dom element for this block
-	this.containerEl = document.createElement('div');
-	this.containerEl.classList.add('block');
-	this.containerEl.setAttribute( 'style', 'width:' + block.w + 'px;height:' + block.h + 'px;left:' + block.x + 'px;top:' + block.y + 'px;' );
-	this.parent.containerOne.append(this.containerEl);
+	if( this.parent.letterId == this.parent.totalLetters ){
+		this.containerEl = document.createElement('div');
+		this.containerEl.classList.add('block');
+		this.containerEl.setAttribute( 'style', 'width:' + block.w + 'px;height:' + block.h + 'px;left:' + block.x + 'px;top:' + block.y + 'px;' );
+		this.parent.containerOne.append(this.containerEl);
 
-	// add Event listeners for dom element
-	this.containerEl.addEventListener('mousedown', this.mousedown.bind(this) );
-	this.containerEl.addEventListener('mouseup', this.mouseup.bind(this) );
-	this.containerEl.addEventListener('mouseenter', this.mouseEnter.bind(this) );
-	this.containerEl.addEventListener('mouseleave', this.mouseLeave.bind(this) );
-
+		// add Event listeners for dom element
+		this.containerEl.addEventListener('mousedown', this.mousedown.bind(this) );
+		this.containerEl.addEventListener('mouseup', this.mouseup.bind(this) );
+		this.containerEl.addEventListener('mouseenter', this.mouseEnter.bind(this) );
+		this.containerEl.addEventListener('mouseleave', this.mouseLeave.bind(this) );
+	}
 	// create instance from block.t
 	this.currentBlock = new this.parent.blockScripts[this.block.t]( this, this.block );
 	this.currentBlock.animate = this.block.a;
 }
 
 Block.prototype.mouseEnter = function( e ){
-	this.parent.selector.setActive( true, this.block );
+	this.parent.selector.setActive( true, this );
 }
 
 Block.prototype.mouseLeave = function( e ){
@@ -52,6 +55,7 @@ Block.prototype.iterateBlock = function( ){
 }
 
 Block.prototype.setBlockTexture = function( block ){
+	this.parent.selector.textureReady( );
 	this.currentBlock.destroy();
 	this.block.t = block;
 	this.currentBlock = new this.parent.blockScripts[block]( this, this.block );
@@ -63,37 +67,50 @@ Block.prototype.setBlockAnimate = function( animate ){
 }
 
 Block.prototype.destroy = function(){
-	this.parent.containerOne.removeChild(this.containerEl);
+	if( this.containerEl ) this.parent.containerOne.removeChild(this.containerEl);
 	this.currentBlock.destroy();
 }
 
 Block.prototype.mousedown = function( e ){
 	this.down = true;
-	this.longPressTimer = setTimeout( this.animateTimerOn.bind(this), 500 )
+	this.longPressTimer = setTimeout( this.animateTimerOn.bind(this), 500 );
+	this.timerInterval = setTimeout( function(){
+		this.containerEl.style.cursor = 'none';
+		this.parent.timer.down = true;
+	}.bind(this), 100);
 }
 
 Block.prototype.animateTimerOn = function(){
 	this.animateComplete = true;
+	this.toggleAnimate();
+	this.parent.timer.down = false;
+	this.parent.timer.completed = true;
+	setTimeout( this.parent.timer.reset.bind( this.parent.timer ), 300 );
 }
 
 Block.prototype.toggleAnimate = function(){
+	this.parent.selector.animationReady( );
 	this.block.a = !this.block.a;
 	this.setBlockAnimate( this.block.a );
 	if( this.parent.wsReady ) this.parent.ws.send(  JSON.stringify( { 't' : 'blockAnimate', 'id' : this.id, 'blockAnimate' : this.block.a } ) );
 }
 
 Block.prototype.mouseup = function( e ){
+	clearTimeout(this.timerInterval);
+	this.containerEl.style.cursor = 'pointer';
+
 	if( !this.down ) return;
 	
-	if( this.animateComplete ) this.toggleAnimate();
-	else this.iterateBlock();
+	if( !this.animateComplete ) this.iterateBlock();
 
-	this.parent.selector.setActive( true, this.block );
+	this.parent.selector.setActive( true, this );
 	this.animateComplete = false;
 	
 	clearTimeout( this.longPressTimer );
 	this.down = false;
+	this.parent.timer.down = false;
 }
+
 
 Block.prototype.step = function( time ){
 	this.currentBlock.step( time );

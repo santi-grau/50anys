@@ -3,6 +3,8 @@ var Layers = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name = 'Layers';
+
 	this.amount = Math.floor(Math.random()*7) + 3;
 
 	this.group = new THREE.Group();

@@ -2,6 +2,9 @@ var Solid = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
 
+	this.name = 'Solid';
+	this.noAnimate = true;
+
 	this.timeStep = Math.random();
 
 	this.rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );

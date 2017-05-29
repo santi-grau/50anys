@@ -10,12 +10,54 @@ body
 	margin 0
 	padding 0
 	font-family Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif
-	#main
+	font-size 12px
+	#nav
 		width 100%
-		height 100%
+		position absolute
+		top 50%
+		margin-top -20px
+		z-index 0
+		.prev
+			margin-left 30px
+			a
+				display none
+				&.active
+					display inline
+		.next
+			float right
+			margin-right 30px
+			a
+				display none
+				&.active
+					display inline
+	#title
+		width 100%
+		position absolute
+		bottom 30px
+		text-align center
+	#timer
+		opacity 0
+		position absolute
+		z-index 3
+		pointer-events none
+		width 30px
+		height 30px
+		transition opacity 0.3s
+		&.active
+			opacity 1
+		canvas
+			width 30px
+			height 30px
+	#main
+		transform scale(1)
+		z-index 1
 		position fixed
 		top 50%
 		left 50%
+		opacity 0
+		transition opacity 0.3s
+		&.active
+			opacity 1
 		.inner
 			width 100%
 			height 100%
@@ -34,75 +76,86 @@ body
 		canvas
 			width 100%
 			height 100%
-		#selector
-			z-index 4
-			opacity 0
-			transition opacity 0.15s
-			position absolute
-			top 0
-			left 0
-			width 150px
-			background #ffffff
-			border solid 2px #000000
-			font-size 10px
-			line-height 12px
-			padding 10px
-			pointer-events none
-			margin-top -25px
-			ul
-				list-style-type none
-				margin 0
-				padding 0
-				li
-					display inline-block
-					margin-right 10px
-					margin-bottom 10px
-
-			#animateToggle
-				.x
+	#selector
+		z-index 4
+		opacity 0
+		transition opacity 0.15s
+		position absolute
+		top 0
+		left 0
+		width 150px
+		background #ffffff
+		border solid 2px #000000
+		font-size 10px
+		line-height 12px
+		padding 10px
+		pointer-events none
+		margin-top -25px
+		> div
+			.help
+				display inline
+			.content
+				display none
+			&.ready
+				.help
 					display none
-				.space
-					display inline
-				&.active
-					.x
-						display inline
-					.space
-						display none
-				> span
-					pointer-events none
+				.content
+					display block
+		ul
+			list-style-type none
+			margin 0
+			padding 0
+			li
+				display inline-block
+				margin-right 10px
+				margin-bottom 10px
+
+		#animateToggle
+			.x
+				display none
+			.space
+				display inline
 			&.active
-				opacity 1
-			&.left
-				margin-left -190px
-				&:after, &:before
-					left 100%
-					top 50%
-				&:after
-					border-left-color #ffffff
-				&:before 
-					border-left-color #000000
-			&.right
-				&:after, &:before
-					right 100%
-					top 50%
-				&:after
-					border-right-color #ffffff
-				&:before 
-					border-right-color #000000
-			&:after, &:before
-				border solid transparent
-				content " "
-				height 0
-				width 0
-				position absolute
+				.x
+					display inline
+				.space
+					display none
+			> span
 				pointer-events none
+		&.active
+			opacity 1
+		&.left
+			margin-left -190px
+			&:after, &:before
+				left 100%
+				top 50%
 			&:after
-				border-width 10px
-				margin-top -10px
+				border-left-color #ffffff
 			&:before 
-				border-width 13px
-				margin-top -13px
+				border-left-color #000000
+		&.right
+			&:after, &:before
+				right 100%
+				top 50%
+			&:after
+				border-right-color #ffffff
+			&:before 
+				border-right-color #000000
+		&:after, &:before
+			border solid transparent
+			content " "
+			height 0
+			width 0
+			position absolute
+			pointer-events none
+		&:after
+			border-width 10px
+			margin-top -10px
+		&:before 
+			border-width 13px
+			margin-top -13px
 	#cursors
+		z-index 2
 		position fixed
 		top 0
 		left 0
@@ -113,6 +166,32 @@ body
 			position absolute
 			top 0
 			left 0
+			width 20px
+			height 20px
+			background url(../media/cursors.png)
+			background-size contain
 			font-size 8px
-			background #ff0000
-			color #ffffff
+	#info
+		opacity 0
+		top 100vh
+		z-index 10
+		line-height 16px
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		position fixed
+		left 0
+		width 100%
+		height 100%
+		background-color rgba(0,0,0,0.8)
+		color #ffffff
+		padding 30px
+		overflow scroll
+		cursor pointer
+		transition opacity 0.4s, top 0.1s 0.5s
+		&.active
+			top 0vh
+			opacity 1
+			transition opacity 0.4s
+		.content
+			width 500px
+			padding-bottom 60px

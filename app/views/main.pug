@@ -9,14 +9,97 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', id='mainStylesheet' href='css/main.css')
   body
-    #main
+    #main.active
         #one.inner
         #two.inner
         #three.inner
-        #selector.left
-            div Texture : <span id='name'>Name</span>
-            div Animate : <span id='animate'>No</span>
+    #selector.left
+        div#textureDescription <span class='help'>Click to change texture</span> <span class='content'>Texture : <span id='name'>Name</span></span>
+        div#animateDescription <span class='help'>Long press to animate</span> <span class='content'>Animate : <span id='animate'>No</span></span>
     #cursors
-            
+
+    #nav
+        span.prev
+            a#prevBut.active(href='javascript:void(0)') ← Prev
+        span.next
+            a#nextBut(href='javascript:void(0)') Next →
+
+    #title(style='white-space:pre;')
+        | ------------------------ ---
+        |  EINA 50 ANYS / ##[span#logoCount 00000 ]   #[a#infoSign(href='javascript:void(0)') ?]
+        | ------------------------ ---
+
+    #timer
+        canvas#circleTimer(width='60',height='60')
+
+    #info
+        .content
+            p(style='white-space:pre;')
+                | --------------------------------------------------------------------
+                |  _____ ___ _   _    _      ____   ___       _    _   ___   ______  
+                | | ____|_ _| \ | |  / \    | ___| / _ \     / \  | \ | \ \ / / ___| 
+                | |  _|  | ||  \| | / _ \   |___ \| | | |   / _ \ |  \| |\ V /\___ \ 
+                | | |___ | || |\  |/ ___ \   ___) | |_| |  / ___ \| |\  | | |  ___) |
+                | |_____|___|_| \_/_/   \_\ |____/ \___/  /_/   \_\_| \_| |_| |____/ 
+                | 
+                | --------------------------------------------------------------------
+                | 
+                | 
+            p
+                THis interactive logo commemorates the 50th Anniversary of Design School Eina in Barcelona. The logo is a system that will auto-genearate a different shape every day at 17:00pm chosen amongst this four:
+            p(style='white-space:pre;')
+                | ########  ########    ########    #####
+                | ########  ########    ########   #######
+                | ##           ##       ###       ###   ###
+                | ##           ##       ###       ###   ###
+                | ########     ##       #######   ###   ###
+                | ########     ##       ########  ###   ###
+                | ##           ##             ### ###   ###
+                | ##           ##             ### ###   ###
+                | ########  ########    ###   ### ###   ###
+                | ########  ########     #######   #######
+                |                         #####     #####
+                | 
+                | ##    ##     ##       ##############
+                | ###   ##    ####      ##############
+                | ####  ##    ####      ##############
+                | ####  ##   ######     ##############
+                | ##### ##   ##  ##     ####
+                | ## #####  ###  ###    ####
+                | ##  ####  ########    ####
+                | ##  ####  ########    ##############
+                | ##   ###  ##    ##    ##############
+                | ##    ##  ##    ##    ##############
+                |                       ##############
+                | ##############        ####
+                | ##############        ####
+                | ##############        ####
+                | ##############        ##############
+                |      ####             ##############
+                |      ####             ##############
+                |      ####             ##############
+                |      ####
+                |      ####             ####        ####
+                |      ####             ####        ####
+                |      ####             #####       ####
+                |      ####             ######      ####
+                |      ####             ######      ####
+                |      ####             #######     ####
+                | ##############        #### ###    ####
+                | ##############        ####  ##    ####
+                | ##############        ####  ###   ####
+                | ##############        ####   ###  ####
+                |                       ####    ##  ####
+                |                       ####    ### ####
+                |                       ####     #######
+                |                       ####      ######
+                |                       ####      ######
+                |                       ####       #####
+                |                       ####        ####
+                |                       ####        ####
+
+            p
+                Aenean hendrerit, ex ut volutpat viverra, nulla ligula dignissim elit, id interdum odio diam ut felis. Ut in nibh vel arcu accumsan egestas sed at elit. Donec egestas massa at ipsum eleifend venenatis. Vestibulum hendrerit egestas scelerisque. Vestibulum finibus porta lacus, et dignissim est ultrices vel. In in sapien condimentum, fermentum purus eu, sodales leo. Fusce cursus vestibulum tellus. Ut maximus diam viverra, ultrices nibh sed, mollis magna. Cras mattis condimentum est. Quisque ultrices odio dolor, vitae tristique metus mattis rutrum. Morbi eget congue leo. Aenean non risus non lectus commodo blandit. Sed ultrices leo at ullamcorper congue. Phasellus vel arcu tincidunt augue tincidunt fringilla eu condimentum quam. Phasellus eros ex, auctor ac tortor non, interdum finibus ante. Duis sit amet nulla eget neque laoreet accumsan nec a enim.
+
     script(src='scripts/two.js')
     script(src='js/main.js')

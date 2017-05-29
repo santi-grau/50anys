@@ -2,6 +2,9 @@ var Perspective = function( parent, block ) {
 	this.parent = parent;
 	this.block = block;
 	this.animate = this.block.a;
+
+	this.name = 'Perspective';
+
 	this.inc = 0.2;
 
 	this.tri1 = [

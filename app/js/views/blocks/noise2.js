@@ -1,11 +1,13 @@
 var baseVS = require('./../../../shaders/baseVS.glsl');
 var noise2FS = require('./../../../shaders/noise2FS.glsl');
 
-var Noise1 = function( parent, block ) {
+var Noise2 = function( parent, block ) {
 
 	this.parent = parent;
 	this.block = block;
 	this.animate = block.a;
+
+	this.name = 'Noise 2';
 
 	this.time = Math.random() * 200;
 	this.timeInc = 0;
@@ -55,11 +57,11 @@ var Noise1 = function( parent, block ) {
 	
 }
 
-Noise1.prototype.destroy = function( val ){
+Noise2.prototype.destroy = function( val ){
 	this.parent.parent.scene.remove(this.group);
 }
 
-Noise1.prototype.step = function( time ) {
+Noise2.prototype.step = function( time ) {
 	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
 	else this.timeInc += ( 0 - this.timeInc ) * 0.03;
 	this.time += this.timeInc;
@@ -67,4 +69,4 @@ Noise1.prototype.step = function( time ) {
 	this.group.children[0].material.uniforms.time.value = this.time;
 };
 
-module.exports = Noise1;
+module.exports = Noise2;

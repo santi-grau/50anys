@@ -2,7 +2,9 @@ window.THREE = require('three');
 window.TweenMax = require('gsap');
 window.BezierEasing = require('bezier-easing');
 
-var Block = require('./views/block')
+var Block = require('./views/block');
+var Timer = require('./views/timer');
+var Cursors = require('./views/cursors');
 var Grid = require('./views/grid');
 var Selector = require('./views/selector');
 var Textures = require('./views/textures');
@@ -11,25 +13,26 @@ var SimplexNoise = require('simplex-noise');
 var blockScripts = {
 	empty : require('./views/blocks/empty'),
 	solid : require('./views/blocks/solid'),
-	checkers : require('./views/blocks/checkers'),
+	worms : require('./views/blocks/worms'),
 	vStripes : require('./views/blocks/vStripes'),
 	hStripes : require('./views/blocks/hStripes'),
-	triangles : require('./views/blocks/triangles'),
-	plus : require('./views/blocks/plus'),
-	gridLines : require('./views/blocks/gridLines'),
+	dStripes1 : require('./views/blocks/dStripes1'),
+	dStripes2 : require('./views/blocks/dStripes2'),
+	grid : require('./views/blocks/grid'),
+	grid2 : require('./views/blocks/grid2'),
 	crissCross : require('./views/blocks/crissCross'),
 	hDashes : require('./views/blocks/hDashes'),
 	dotsSolid : require('./views/blocks/dotsSolid'),
 	dotsHollow : require('./views/blocks/dotsHollow'),
-	trisTras : require('./views/blocks/trisTras'),
-	tdCubes : require('./views/blocks/tdCubes'),
-	ls : require('./views/blocks/ls'),
+	waves : require('./views/blocks/waves'),
+	arrows : require('./views/blocks/arrows'),
+	sprinkles : require('./views/blocks/sprinkles'),
 	zigZag : require('./views/blocks/zigZag'),
-	morisc : require('./views/blocks/morisc'),
-	hexagon : require('./views/blocks/hexagon'),
-	crazyLines : require('./views/blocks/crazyLines'),
+	dotBig : require('./views/blocks/dotBig'),
+	dotNeg : require('./views/blocks/dotNeg'),
+	crosses : require('./views/blocks/crosses'),
 	tinyDots : require('./views/blocks/tinyDots'),
-	dotsDiagonal : require('./views/blocks/dotsDiagonal'),
+	spaceDots : require('./views/blocks/spaceDots'),
 	glitch : require('./views/blocks/glitch'),
 	gradient : require('./views/blocks/gradient'),
 	noise1 : require('./views/blocks/noise1'),
@@ -43,50 +46,21 @@ var blockScripts = {
 	stepGradient : require('./views/blocks/stepGradient'),
 	fiftyFifty : require('./views/blocks/fiftyFifty'),
 	tunel : require('./views/blocks/tunel'),
-	twoTris : require('./views/blocks/twoTris'),
 	perspective : require('./views/blocks/perspective'),
 	shadowBars : require('./views/blocks/shadowBars'),
 	ascii : require('./views/blocks/ascii'),
 	bars : require('./views/blocks/bars')
 }
 
-var Cursors = function(){
-	this.containerEl = document.getElementById('cursors');
-	this.oldPos = [];
-	this.data = {}
-}
-Cursors.prototype.add = function( id, pos ){
-	var div = document.createElement('div');
-	div.classList.add('cursor');
-	div.id = id;
-	div.innerHTML = id;
-
-	this.data[id] = {};
-	this.data[id].el = div;
-	this.data[id].pos = pos;
-	this.data[id].oldPos = pos;
-	this.containerEl.appendChild(div);
-}
-
-Cursors.prototype.remove = function( id ){
-	var element = document.getElementById(id);
-	element.parentNode.removeChild(element);
-}
-
-Cursors.prototype.step = function( ){
-	for ( var key in this.data ){
-		this.data[key].el.style.transform = 'translate3d(' + ( this.containerEl.offsetWidth / 2 + this.data[key].pos[0] ) + 'px, ' + ( this.containerEl.offsetHeight / 2 + this.data[key].pos[1] ) + 'px, 0)';	
-		this.data[key].oldPos = this.data[key].pos;
-	}
-}
-
 var App = function() {
 
 	this.wsReady = true;
+	this.serverUrl = 
 	this.ws = new WebSocket('ws://localhost:8080');
 	this.ws.addEventListener('error', this.ws_error.bind(this) );
 
 	this.cursors = new Cursors();
+	this.timer = new Timer();
 
 	this.blockScripts = blockScripts;
 
@@ -95,7 +69,9 @@ var App = function() {
 		ws : false
 	}
 
-	this.moduleSize = 30;
+	this.logos = [];
+
+	this.moduleSize = 25;
 
 	this.blocks = [];
 	this.active = null;
@@ -116,6 +92,14 @@ var App = function() {
 	this.containerOne = document.getElementById('one');
 	this.containerTwo = document.getElementById('two');
 	this.containerThree = document.getElementById('three');
+	this.info = document.getElementById('info');
+	this.infoSign = document.getElementById('infoSign');
+	this.prevBut = document.getElementById('prevBut');
+	this.nextBut = document.getElementById('nextBut');
+	this.logoCount = document.getElementById('logoCount');
+	
+	this.prevBut.addEventListener('click', this.prevLogo.bind(this) );
+	this.nextBut.addEventListener('click', this.nextLogo.bind(this) );
 
 	this.two = new Two( { width : this.containerTwo.offsetWidth, height : this.containerTwo.offsetHeight, autostart : true, type : Two.Types.canvas } ).appendTo( this.containerTwo );
 
@@ -142,7 +126,58 @@ var App = function() {
 	window.addEventListener('resize', this.onResize.bind(this) );
 	window.addEventListener('mousemove', this.mouseMove.bind(this) );
 
+	this.infoSign.addEventListener('mousedown', this.infoShow.bind(this) );
+	this.info.addEventListener('mousedown', this.infoHide.bind(this) );
+
 	this.step();
+}
+
+App.prototype.updateLogo = function( ){
+	this.containerEl.classList.remove('active');
+	if( this.logos[ this.letterId ] ){
+		setTimeout( function(){  this.makeLetter( this.logos[ this.letterId ] ); }.bind(this), 500 );
+		return;
+	}
+	var oReq = new XMLHttpRequest();
+	oReq.addEventListener('load', this.loadLetter.bind(this));
+	oReq.open('GET', 'https://s3.eu-central-1.amazonaws.com/eina50/' + this.letterId + '.json');
+	oReq.send();
+}
+
+App.prototype.updateLogoCount = function( ){
+	var tt = String(this.letterId).split('');
+	var ttt = '';
+	for( var i = 0 ; i < 5 - tt.length ; i++ ) ttt += '0';
+	for( var i =0 ; i < tt.length ; i++ ) ttt += tt[i];
+	this.logoCount.innerHTML = ttt;
+}
+
+App.prototype.prevLogo = function( ){
+	if( this.letterId > 0 ) this.letterId--;
+	if( this.letterId == 0 ) this.prevBut.classList.remove('active');
+	this.nextBut.classList.add('active');
+	this.updateLogo();
+}
+
+App.prototype.nextLogo = function( ){
+	if( this.letterId < this.totalLetters ) this.letterId++;
+	if( this.letterId == this.totalLetters ) this.nextBut.classList.remove('active');
+	this.prevBut.classList.add('active');
+	this.updateLogo();
+}
+
+App.prototype.loadLetter = function( e ){
+	var data = JSON.parse(e.currentTarget.responseText);
+	this.logos[ this.letterId ] = data;
+	this.makeLetter( data );
+}
+
+App.prototype.infoShow = function(  ){
+	this.info.classList.add('active');
+}
+
+App.prototype.infoHide = function(  ){
+	this.info.classList.remove('active');
 }
 
 App.prototype.ws_error = function( d ){
@@ -162,12 +197,21 @@ App.prototype.ws_removeCursor = function( d ){
 }
 
 App.prototype.ws_updateLetter = function( d ){
+	this.totalLetters ++;
+	this.logos.push(d.data);
 	this.makeLetter( d.data );
 }
 
 App.prototype.ws_setup = function( d ){
 	this.id = d.data.id;
 	this.data = JSON.parse(d.data.currentLetter);
+	this.letterId = d.data.letterId;
+	this.totalLetters = d.data.letterId;
+
+	for( var i = 0 ; i < this.totalLetters ; i++ ) this.logos.push( null );
+	this.logos.push( this.data );
+
+	
 	this.onReady('ws');
 }
 
@@ -179,42 +223,44 @@ App.prototype.ws_blockAnimate = function( d ){
 	this.blocks[d.id].setBlockAnimate(d.blockAnimate);
 }
 
-
 App.prototype.mouseMove = function(e){
 	this.cursor = [ event.clientX - window.innerWidth / 2, event.clientY - window.innerHeight / 2 ];
+	this.timer.setPosition( { x : event.clientX, y : event.clientY } );
 }
 
 App.prototype.sendCurrentMouse = function(){
 	if( this.wsReady ) this.ws.send(  JSON.stringify( { 't' : 'cursor', 'id' : this.id, 'cursor' : this.cursor } ) );
 }
 
-
 App.prototype.makeLetter = function( data ){
 	if( this.blocks ) for( var i = 0 ; i < this.blocks.length ; i++ ) this.blocks[i].destroy();
-
+	for( var i = 0 ; i < this.two.scene.children.length ; i++ ){
+		this.two.remove( this.two.scene.children[i] );
+	}
+	this.data = data;
 	this.blocks = [];
 
 	this.containerEl.style.width = data.viewBox[0] * this.moduleSize + 'px';
 	this.containerEl.style.height = data.viewBox[1] * this.moduleSize + 'px';
 
 	this.containerEl.style['margin-left'] = data.viewBox[0] / -2 * this.moduleSize - this.moduleSize / 2 + 'px';
-	this.containerEl.style['margin-top'] = data.viewBox[1] / -2 * this.moduleSize + 'px';
+	this.containerEl.style['margin-top'] = data.viewBox[1] / -2 * this.moduleSize - this.moduleSize + 'px';
 
 	for( var i = 0 ; i < data.list.length ; i++ ) this.blocks.push( new Block( this, { x : data.list[i].x * this.moduleSize, y : data.list[i].y * this.moduleSize, w : data.list[i].w * this.moduleSize, h : data.list[i].h * this.moduleSize, t : data.list[i].t, a : data.list[i].a }, i ) );
+	this.updateLogoCount();
+	this.containerEl.classList.add('active');
+
 	this.onResize();
 }
 
 App.prototype.onReady = function( event ){
 	this.loadStates[event] = true;
 
-	// wait until all loadstates are true
 	for ( var key in this.loadStates ) if( !this.loadStates[key] ) return;
 
-	// remove sockettimer
 	clearInterval( this.byPassSocketTimer );
 	setInterval( this.sendCurrentMouse.bind(this), 2000 );
 	this.makeLetter( this.data );
-
 }
 
 App.prototype.onResize = function(e) {
@@ -230,7 +276,9 @@ App.prototype.onResize = function(e) {
 	this.two.width = this.containerThree.offsetWidth;
 	this.two.height = this.containerThree.offsetHeight;
 
-	this.grid.resize();
+	if( this.data ) var offset = ( 1 - (this.data.viewBox[0]%2));
+	
+	this.grid.resize( offset );
 	clearTimeout( this.resizeStart );
 	if( !this.firstResize ) this.resizeStart = setTimeout( this.onResizeEnd.bind(this), 400 );
 	this.firstResize = false;
@@ -243,6 +291,7 @@ App.prototype.step = function( time ) {
 	this.renderer.render( this.scene, this.camera );
 	for( var i = 0 ; i < this.blocks.length ; i++ ) this.blocks[i].step(time);
 	this.cursors.step();
+	this.timer.step();
 };
 
 var app = new App();

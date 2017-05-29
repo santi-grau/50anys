@@ -2,7 +2,9 @@ var BaseTiles = require('./BaseTiles');
 
 var hDashes = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.hDashes );
+	this.create( 1, this.parent.parent.textures.txtrs.hdashes );
+
+	this.name = 'Dashes';
 
 	this.py = 0;
 	this.tween = TweenMax.to( this, 0.4, { paused : !this.animate, py : -1, repeat : Infinity, onRepeat: this.onRepeat.bind(this), repeatDelay : 0.5, ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );

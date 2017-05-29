@@ -3,6 +3,8 @@ var Bars = function( parent, block ) {
 	this.block = block;
 	this.animate = this.block.a;
 
+	this.name  = 'Bars';
+
 	this.time = Math.random()*10;
 	this.timeInc = 0;
 	this.timeTarget = 0.01;
@@ -121,7 +123,7 @@ var Bars = function( parent, block ) {
 
 Bars.prototype.destroy = function( val ){
 	this.parent.parent.scene.remove(this.group);
-	this.parent.parent.two.remove( this.group )
+	this.parent.parent.two.remove( this.group );
 }
 
 Bars.prototype.step = function( time ) {

@@ -2,7 +2,9 @@ var BaseTiles = require('./BaseTiles');
 
 var vStripes = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.vLines );
+	this.create( 1, this.parent.parent.textures.txtrs.vlines );
+
+	this.name = 'V. Stripes';
 
 	this.px = 0;
 	this.tween = TweenMax.to( this, 0.4, { paused : !this.animate, px : -1, repeat : Infinity, onRepeat: this.onRepeat.bind(this), repeatDelay : 0.5, ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );

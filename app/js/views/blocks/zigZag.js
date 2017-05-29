@@ -4,6 +4,8 @@ var Sprinkles = function( ) {
 	BaseTiles.apply(this, arguments);
 	this.create( 3, this.parent.parent.textures.txtrs.zigzag );
 
+	this.name = 'ZigZag';
+
 	this.time = 0;
 	this.timeInc = 0;
 	this.timeTarget = 0.02;
