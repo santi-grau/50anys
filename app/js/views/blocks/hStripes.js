@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var hStripes = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.hlines );
+	this.create( 1, this.parent.parent.textures.txtrs.hlines, 'hlines' );
 
 	this.name = 'H. Stripes';
 

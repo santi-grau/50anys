@@ -1,4 +1,5 @@
-var Timer = function(){
+var Timer = function(parent){
+	this.parent = parent;
 	this.containerEl = document.getElementById('timer');
 	this.canvas = document.getElementById('circleTimer');
 	this.radius = 30;

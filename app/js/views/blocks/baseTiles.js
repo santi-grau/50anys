@@ -8,7 +8,9 @@ var BaseTiles = function( parent, block ) {
 	this.animate = block.a;
 }
 
-BaseTiles.prototype.create = function( reps, tex ) {
+BaseTiles.prototype.create = function( reps, tex, texName ) {
+	this.texName = texName;
+	this.reps = reps;
 	var reps = reps || 3;
 	var repeat = new THREE.Vector2( reps, reps );
 	var ar = this.block.w / this.block.h;
@@ -52,6 +54,38 @@ BaseTiles.prototype.create = function( reps, tex ) {
 	rect.linewidth = this.parent.lineWidth;
 	this.twoGroup = this.parent.parent.two.makeGroup( rect );
 };
+
+// BaseTiles.prototype.export = function( block, snap, scale, strokeWidth, frame ){
+	
+
+
+
+
+// 	// displays to screen, rasterizes pattern
+// 	var s = Snap();
+// 	var p = Snap.parse( '<svg xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">' + this.parent.parent.textures.txtrsSvg[ this.texName ] + '</svg>' );
+// 	var defs = snap.node.getElementsByTagName('defs')[0]
+// 	var pattern = document.createElementNS('http://www.w3.org/2000/svg','pattern');
+// 	pattern.setAttribute( 'id', this.texName );
+// 	pattern.setAttribute( 'width', '512' );
+// 	pattern.setAttribute( 'height', '512' );
+// 	pattern.setAttribute( 'patternTransform', 'scale(' + scale/this.reps/512 + ')' );
+// 	pattern.setAttribute( 'patternUnits', 'userSpaceOnUse' );
+// 	pattern.innerHTML = p.node.innerHTML;
+// 	defs.appendChild(pattern);
+// 	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
+// 	r.attr({ fill: 'url(#'+this.texName+')', stroke: '#000000', strokeWidth: strokeWidth });
+// }
+
+BaseTiles.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	var w = scale;
+	var fitX = Math.round( block.w / w );
+	var fitY = Math.round( block.h / w );
+
+	for( var i = 0 ; i < fitX; i++ ) for( var j = 0 ; j < fitY; j++ ) doc.save().translate(block.x + w * i, block.y + w * j).scale(scale/512).path(patterns[this.texName]).fill('black').restore();
+	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).strokeColor('#000000').lineWidth(strokeWidth).stroke().restore();
+	
+}
 
 BaseTiles.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.twoGroup );

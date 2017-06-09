@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var BigDotInv = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.dotbiginv );
+	this.create( 1, this.parent.parent.textures.txtrs.dotbiginv, 'dotbiginv' );
 
 	this.name = 'Dot Inv.';
 	

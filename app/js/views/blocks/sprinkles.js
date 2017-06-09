@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var Sprinkles = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 0.4, this.parent.parent.textures.txtrs.sprinkles );
+	this.create( 0.4, this.parent.parent.textures.txtrs.sprinkles, 'sprinkles' );
 
 	this.name = 'Sprinkles';
 

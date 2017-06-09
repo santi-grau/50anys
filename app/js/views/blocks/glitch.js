@@ -1,5 +1,6 @@
 var baseVS = require('./../../../shaders/baseVS.glsl');
 var glitchFS = require('./../../../shaders/glitchFS.glsl');
+var imgGlitch = require('img-glitch');
 
 var Glitch = function( parent, block ) {
 
@@ -68,6 +69,37 @@ var Glitch = function( parent, block ) {
 	this.parent.parent.scene.add( this.group );
 	
 }
+
+Glitch.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
+	var canvas = document.createElement('canvas');
+	canvas.width = block.w / scale * 100;
+	canvas.height = block.h / scale * 100;
+	var ctx = canvas.getContext('2d');
+	for ( x = 0; x < canvas.width; x++ ) {
+		for ( y = 0; y < canvas.height; y++ ) {
+			number =  Math.round( Math.random() ) * 255 ;
+			ctx.fillStyle = "rgba(" + number + "," + number + "," + number + "," + 1 + ")";
+			ctx.fillRect(x, y, 1, 1);
+		}
+	}
+
+	var imageData = ctx.getImageData( 0, 0, canvas.width, canvas.height );
+
+	var glitchParams = {
+		seed : 25,
+		quality : 90,
+		amount : 35,
+		iterations : 20
+	};
+
+	var glitched = glitch(glitchParams)
+		.fromImageData( imageData )
+		.toDataURL()
+		.then( function( dataURL ) {
+			doc.save().image( dataURL, block.x, block.y, { width : block.w } ).translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
+		} );
+}
+
 
 Glitch.prototype.destroy = function( val ){
 	this.parent.parent.scene.remove(this.group);

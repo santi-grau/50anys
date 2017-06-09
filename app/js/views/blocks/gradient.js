@@ -33,6 +33,25 @@ Gradient.prototype.onRepeat = function( val ){
 	if(!this.animate) this.tween.pause();
 }
 
+Gradient.prototype.export = function( block, snap, scale, strokeWidth, frame ){
+	var direction = '0, 1, 0, 0';
+	if( block.w > block.h ) direction = '0, 0, 1, 0';
+	var g = snap.gradient('l('+direction+')rgba(0,0,0,1)-rgba('+this.gradientValue2+','+this.gradientValue2+','+this.gradientValue2+',1)');
+	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
+	r.attr({ fill : g, stroke: '#000000', strokeWidth: strokeWidth });
+}
+
+
+Gradient.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	var d = [ 0, block.h, 0, 0 ];
+	if( block.w > block.h ) d = [ 0, 0, block.w, 0 ];
+	var grad = doc.linearGradient(d[0], d[1], d[2], d[3]);
+	grad.stop(0, '#000000').stop(0.5, '#000000').stop(1, '#444444')
+
+	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke(grad, '#000000').restore();
+}
+
+
 Gradient.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.group );
 }

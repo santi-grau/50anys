@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var Worms = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 0.5, this.parent.parent.textures.txtrs.worms );
+	this.create( 0.5, this.parent.parent.textures.txtrs.worms, 'worms' );
 
 	this.name = 'Worms';
 

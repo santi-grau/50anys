@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var Grid2 = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.grid2 );
+	this.create( 1, this.parent.parent.textures.txtrs.grid2, 'grid2' );
 
 	this.name = 'Grid 2';
 

@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var Waves = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.waves );
+	this.create( 1, this.parent.parent.textures.txtrs.waves, 'waves' );
 
 	this.name = 'Waves';
 

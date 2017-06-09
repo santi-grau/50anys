@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var SolidDots = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.soliddots );
+	this.create( 1, this.parent.parent.textures.txtrs.soliddots, 'soliddots' );
 
 	this.name = 'Dots Solid';
 

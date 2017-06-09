@@ -30,6 +30,15 @@ var FiftyFifty = function( parent, block ) {
 	this.group.add( this.rect2 );
 }
 
+
+FiftyFifty.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	var count = Math.round( Math.random()  * Math.max( block.w / scale, block.h / scale) );
+	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).fill('#ffffff').restore();
+	if( block.w > block.h ) doc.save().translate( block.x, block.y ).rect( 0, 0, block.w * (count / (block.w / scale)), block.h ).fill('#000000').restore();
+	else doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h * (count / (block.h / scale)) ).fill('#000000').restore();
+	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
+}
+
 FiftyFifty.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.group );
 }

@@ -26,7 +26,7 @@ Selector.prototype.animationReady = function( ){
 }
 
 Selector.prototype.remove = function( ){
-	this.removeTimeout = setTimeout( function(){ this.containerEl.classList.remove('active') }.bind(this), 1000 );
+	this.removeTimeout = setTimeout( function(){ this.containerEl.classList.remove('active') }.bind(this), 100 );
 }
 
 module.exports = Selector;

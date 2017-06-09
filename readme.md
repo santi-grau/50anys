@@ -2,9 +2,15 @@
 
 ### TODO
 
-- [ ] Make exporter
-- [ ] Clean up code PLEASE
+- [ ] Make exporter sizes
 - [ ] Resolutions and browsers
-- [ ] Analytics
+- [ ] Clean up code PLEASE, separate download, separate main.js
 
-- [ ] bars overlay
+- [ ] Add more letters
+
+- [ ] Fix layer
+- [ ] Fix tunnel
+- [ ] better fade between letters
+- [ ] Fix crash on letter creation
+- [ ] check loading sequence, server and ws reliability
+- [ ] add analytics

@@ -15,7 +15,7 @@ var Layers = function( parent, block ) {
 		var material = new THREE.MeshBasicMaterial( { color : 0xffffff } );
 		var plane = new THREE.Mesh( geometry, material );
 
-		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, 1 + i * 2  );
+		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, 1 + i * 2 + 10  );
 		this.group.add(plane);
 
 		var geometry
@@ -25,7 +25,7 @@ var Layers = function( parent, block ) {
 		var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
 		var plane = new THREE.Mesh( geometry, material );
 
-		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, i * 2  );
+		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, i * 2 + 10  );
 		this.group.add(plane);
 	}
 
@@ -33,6 +33,12 @@ var Layers = function( parent, block ) {
 	this.tween = TweenMax.to( this, 0.4, { paused : !this.animate, py : 1, repeat : Infinity, yoyo : true, repeatDelay : 0.5, onRepeat: this.onRepeat.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 
 	this.parent.parent.scene.add( this.group );
+}
+
+Layers.prototype.exportPDF = function( block, doc, scale, strokeWidth, layer ){
+	var sw = strokeWidth;
+	if( layer > 0 ) sw = strokeWidth * 0.25;
+	doc.save().translate( block.x + layer * strokeWidth * 0.5, block.y - layer * strokeWidth * 0.5 ).rect( 0, 0, block.w, block.h ).lineWidth(sw).fillAndStroke('#ffffff', '#000000').restore();
 }
 
 Layers.prototype.onRepeat = function( ){

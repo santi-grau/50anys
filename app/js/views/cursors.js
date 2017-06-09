@@ -1,4 +1,5 @@
-var Cursors = function(){
+var Cursors = function(parent){
+	this.parent = parent;
 	this.containerEl = document.getElementById('cursors');
 	this.data = {};
 	this.pos = {};

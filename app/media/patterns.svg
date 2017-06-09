@@ -8,11 +8,8 @@
 	.st2{display:inline;fill:#231F20;}
 </style>
 <g id="zigzag" class="st0">
-	<polygon class="st1" points="0,341.4 0,492 256,321 512,492 512,341.4 256,170.4 	"/>
-	<polygon class="st1" points="256,-85.6 127.9,0 384.1,0 	"/>
-	<polygon class="st1" points="127.9,0 0,85.4 0,236 256,65 512,236 512,85.4 384.1,0 	"/>
-	<polygon class="st1" points="0,597.4 0,748 256,577 512,748 512,597.4 384.1,512 127.9,512 	"/>
-	<polygon class="st1" points="127.9,512 384.1,512 256,426.4 	"/>
+	<path class="st1" d="M0,341.4V492l256-171l256,171V341.4l-256-171L0,341.4z M127.9,0L0,85.4V236L256,65l256,171V85.4L384.1,0H127.9
+		z M127.9,512h256.2L256,426.4L127.9,512z"/>
 </g>
 <g id="worms" class="st0">
 	<path class="st1" d="M186.4,135c-7.8-3.6-17.4-2.5-27,3c-9.2,5.3-15.4,6.8-19.6,4.9c-4.3-2-7.5-8.1-9.4-18.3
@@ -937,8 +934,8 @@
 	<path class="st1" d="M346.6,17.4c0.7,0,1.4-0.2,2-0.5c2-1.1,2.7-3.6,1.6-5.5L343.8,0h-9.3l8.6,15.3
 		C343.8,16.6,345.2,17.4,346.6,17.4z"/>
 </g>
-<g id="dotbig" class="st0">
-	<circle id="bigdot" class="st1" cx="256" cy="256" r="204"/>
+<g id="dotbig">
+	<circle cx="256" cy="256" r="204"/>
 </g>
 <g id="dotbiginv" class="st0">
 	<path id="dot" class="st1" d="M0,0v512h512V0H0z M256,460c-112.7,0-204-91.3-204-204S143.3,52,256,52s204,91.3,204,204
@@ -946,21 +943,21 @@
 </g>
 <g id="crosses" class="st0">
 	
-		<rect x="240" y="433.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -287.0584 330.9766)" class="st1" width="32" height="156.8"/>
+		<rect x="240" y="433.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -287.0541 330.9784)" class="st1" width="32" height="156.8"/>
 	
-		<rect x="177.6" y="496" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -287.0679 330.9773)" class="st1" width="156.8" height="32"/>
+		<rect x="177.6" y="496" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -287.05 330.9797)" class="st1" width="156.8" height="32"/>
 	
-		<rect x="240" y="-78.4" transform="matrix(0.7071 -0.7071 0.7071 0.7071 74.9787 181.0191)" class="st1" width="32" height="156.8"/>
+		<rect x="240" y="-78.4" transform="matrix(0.7071 -0.7071 0.7071 0.7071 74.9807 181.0172)" class="st1" width="32" height="156.8"/>
 	
-		<rect x="177.6" y="-16" transform="matrix(0.7071 -0.7071 0.7071 0.7071 74.9804 181.0148)" class="st1" width="156.8" height="32"/>
+		<rect x="177.6" y="-16" transform="matrix(0.7071 -0.7071 0.7071 0.7071 74.9792 181.0187)" class="st1" width="156.8" height="32"/>
 	
-		<rect x="496" y="177.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -31.0623 437.0173)" class="st1" width="32" height="156.8"/>
+		<rect x="496" y="177.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -31.0554 437.015)" class="st1" width="32" height="156.8"/>
 	
-		<rect x="433.6" y="240" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -31.0609 437.0161)" class="st1" width="156.8" height="32"/>
+		<rect x="433.6" y="240" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -31.0563 437.0153)" class="st1" width="156.8" height="32"/>
 	
-		<rect x="-16" y="177.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -181.0183 74.979)" class="st1" width="32" height="156.8"/>
+		<rect x="-16" y="177.6" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -181.0175 74.9805)" class="st1" width="32" height="156.8"/>
 	
-		<rect x="-78.4" y="240" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -181.0226 74.9772)" class="st1" width="156.8" height="32"/>
+		<rect x="-78.4" y="240" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -181.016 74.9819)" class="st1" width="156.8" height="32"/>
 </g>
 <g id="tinydots" class="st0">
 	<circle class="st1" cx="128" cy="128" r="48.8"/>

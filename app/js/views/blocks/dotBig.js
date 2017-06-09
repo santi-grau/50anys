@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var BigDot = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.dotbig );
+	this.create( 1, this.parent.parent.textures.txtrs.dotbig, 'dotbig' );
 
 	this.name  = 'Dot Big';
 

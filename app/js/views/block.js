@@ -111,7 +111,6 @@ Block.prototype.mouseup = function( e ){
 	this.parent.timer.down = false;
 }
 
-
 Block.prototype.step = function( time ){
 	this.currentBlock.step( time );
 }

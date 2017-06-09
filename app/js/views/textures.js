@@ -3,6 +3,7 @@ var texs = require('./../../media/patterns.svg');
 var Textures = function( parent ){
 	this.parent = parent;
 	this.txtrs = {};
+	this.txtrsSvg = {};
 	var textures = new DOMParser().parseFromString(texs, "image/svg+xml");
 	var layers = textures.getElementsByTagName('g');
 	var totalTexs = layers.length;
@@ -17,6 +18,9 @@ var Textures = function( parent ){
 Textures.prototype.makeCanvas = function( id, content, ctx, totalTexs ){
 	var _this = this;
 	var svg = new Blob(['<svg xmlns="http://www.w3.org/2000/svg" >' + content + '</svg>'], {type:"image/svg+xml;charset=utf-8"});
+	
+	this.txtrsSvg[id] = content;
+	
 	var domURL = self.URL || self.webkitURL || self;
 	var url = domURL.createObjectURL(svg);
 	var img = new Image;
@@ -29,7 +33,7 @@ Textures.prototype.makeCanvas = function( id, content, ctx, totalTexs ){
 		var c = 0;
 		for(var key in _this.txtrs) {
 			c++;
-			if( c == totalTexs ) window.dispatchEvent(_this.parent.event);;
+			if( c == totalTexs ) window.dispatchEvent(_this.parent.event);
 		}
     };
     img.src = url;

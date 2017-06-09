@@ -27,6 +27,34 @@ var Points = function( parent, block ) {
 	this.group = this.parent.parent.two.makeGroup( rect, this.points );
 }
 
+Points.prototype.export = function( block, snap, scale, strokeWidth, frame ){
+	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
+	r.attr({ fill: '#000000', stroke: '#000000', strokeWidth: strokeWidth });
+
+	var radius = strokeWidth * 0.75;
+	var amount = ( block.w * block.h ) * 10;
+
+	for( var i = 0 ; i < amount ; i++ ){
+		var circle = snap.circle( block.x * scale + radius + Math.random() * ( block.w * scale - radius * 2 ), block.y * scale + radius + Math.random() * ( block.h * scale - radius * 2 ), radius  ).attr({ fill: '#ffffff', stroke: 'none' });
+	}
+
+	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
+	r.attr({ fill: 'none', stroke: '#000000', strokeWidth: strokeWidth });
+}
+
+Points.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#000000', '#000000').restore();
+
+	var radius = strokeWidth * 0.3;
+	var amount = ( block.w / scale * block.h / scale ) * 10;
+
+	for( var i = 0 ; i < amount ; i++ ){
+		var r = Math.random() * radius + radius;
+		doc.circle( block.x + r + Math.random() * ( block.w - r * 2 ), block.y + r + Math.random() * ( block.h - r * 2 ), r ).fill('#ffffff');
+	}
+}
+
+
 Points.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.group );
 }

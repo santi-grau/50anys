@@ -51,10 +51,32 @@ var Noise2 = function( parent, block ) {
 	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + this.block.w, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
 
+	this.parent.parent.scene.add( this.group );	
+}
 
-
-	this.parent.parent.scene.add( this.group );
+Noise2.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fill('#ffffff').restore();
 	
+	var s = block.h;
+	if( block.w > block.h ) s = block.w;
+
+	var vals = [];
+	
+	var p = Math.random();
+	var noiseScale = 2;
+
+	doc.save().moveTo( block.x, block.y );
+
+	for( var i = 0 ; i < s ; i+= noiseScale ){
+		var n = ( this.parent.parent.simplexNoise.noise2D( p, i/ 15 ) + 1 ) / 2 ;
+		if( block.w > block.h ) doc.lineTo( block.x + i, block.y + n * block.h );
+		else  doc.lineTo( block.x + n * block.w, block.y + i );
+	}
+	if( block.w > block.h ) doc.lineTo( block.x + block.w, block.y ).fill('#000000');
+	else doc.lineTo( block.x, block.y + block.h ).fill('#000000');
+
+	
+	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
 }
 
 Noise2.prototype.destroy = function( val ){

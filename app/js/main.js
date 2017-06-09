@@ -4,6 +4,7 @@ window.BezierEasing = require('bezier-easing');
 
 var Block = require('./views/block');
 var Timer = require('./views/timer');
+var Download = require('./views/download');
 var Cursors = require('./views/cursors');
 var Grid = require('./views/grid');
 var Selector = require('./views/selector');
@@ -62,8 +63,9 @@ var App = function() {
 	this.ws = new WebSocket(host);
 	this.ws.addEventListener('error', this.ws_error.bind(this) );
 
-	this.cursors = new Cursors();
-	this.timer = new Timer();
+	this.cursors = new Cursors( this );
+	this.timer = new Timer( this );
+	this.download = new Download( this );
 
 	this.blockScripts = blockScripts;
 
@@ -97,6 +99,8 @@ var App = function() {
 	this.containerThree = document.getElementById('three');
 	this.info = document.getElementById('info');
 	this.infoSign = document.getElementById('infoSign');
+	this.downloadSign = document.getElementById('downloadSign');
+	
 	this.prevBut = document.getElementById('prevBut');
 	this.nextBut = document.getElementById('nextBut');
 	this.logoCount = document.getElementById('logoCount');
@@ -129,8 +133,11 @@ var App = function() {
 	window.addEventListener('resize', this.onResize.bind(this) );
 	window.addEventListener('mousemove', this.mouseMove.bind(this) );
 
-	this.infoSign.addEventListener('mousedown', this.infoShow.bind(this) );
+	this.infoSign.addEventListener('click', this.infoShow.bind(this) );
+	this.downloadSign.addEventListener('click', this.download.show.bind(this.download) );
+	
 	this.info.addEventListener('mousedown', this.infoHide.bind(this) );
+	// this.download.addEventListener('mousedown', this.downloadHide.bind(this) );
 
 	this.step();
 }
@@ -254,6 +261,7 @@ App.prototype.makeLetter = function( data ){
 	this.containerEl.classList.add('active');
 
 	this.onResize();
+	this.download.exportImage();
 }
 
 App.prototype.onReady = function( event ){
@@ -262,7 +270,7 @@ App.prototype.onReady = function( event ){
 	for ( var key in this.loadStates ) if( !this.loadStates[key] ) return;
 
 	clearInterval( this.byPassSocketTimer );
-	setInterval( this.sendCurrentMouse.bind(this), 2000 );
+	setInterval( this.sendCurrentMouse.bind(this), 250 );
 	this.makeLetter( this.data );
 }
 
@@ -282,12 +290,8 @@ App.prototype.onResize = function(e) {
 	if( this.data ) var offset = ( 1 - (this.data.viewBox[0]%2));
 	
 	this.grid.resize( offset );
-	clearTimeout( this.resizeStart );
-	if( !this.firstResize ) this.resizeStart = setTimeout( this.onResizeEnd.bind(this), 400 );
-	this.firstResize = false;
+	
 }
-
-App.prototype.onResizeEnd = function(e) { }
 
 App.prototype.step = function( time ) {
 	window.requestAnimationFrame( this.step.bind( this ) );
