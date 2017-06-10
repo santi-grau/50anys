@@ -1,6 +1,6 @@
 var Grid = function( size ) {
 	this.modSize = size;
-	this.subDivisions = 10;
+	this.subDivisions = 4;
 	this.lineWidth = 2;
 	this.bgColor = '#ffffff';
 	this.thickLineColor = '#dfdfdf';
@@ -14,7 +14,7 @@ var Grid = function( size ) {
 	ctx.lineWidth= this.lineWidth;
 	ctx.fillRect(0,0,this.modSize * 2,this.modSize * 2);
 	
-	ctx.strokeStyle= this.thinLineColor;
+	ctx.strokeStyle= this.thickLineColor;
 	for( var i = 1 ; i < this.subDivisions ; i++ ){
 		var m = ( this.modSize * 2 ) * i / this.subDivisions;
 		ctx.beginPath();
@@ -59,7 +59,7 @@ var Grid = function( size ) {
 }
 
 Grid.prototype.resize = function( offset ){
-	document.body.style['background-position'] = ( window.innerWidth / 2 - this.modSize - ( this.modSize * offset / 2 ) ) + 'px ' + ( window.innerHeight / 2 - this.modSize ) + 'px';
+	document.body.style['background-position'] = ( window.innerWidth / 2 - this.modSize  ) + 'px ' + ( window.innerHeight / 2 - this.modSize ) + 'px';
 }
 
 module.exports = Grid;

@@ -1,9 +1,9 @@
-var Block = function( parent, block, id ){
+var Block = function( parent, block, id, lineWidth ){
 	this.parent = parent;
 	this.block = block;
 	this.id = id;
 
-	this.lineWidth = 4;
+	this.lineWidth = lineWidth;
 
 	this.longPressTimer = 0;
 

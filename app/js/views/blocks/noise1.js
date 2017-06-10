@@ -13,6 +13,9 @@ var Noise1 = function( parent, block ) {
 	this.timeInc = 0;
 	this.timeTarget = 0.11;
 
+	// var bg = new THREE.Mesh( new THREE.PlaneBufferGeometry( this.block.w, this.block.h ), new THREE.MeshBasicMaterial({ color : 0xffffff }) );
+	// this.group.add(bg);
+
 	var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.block.h );
 
 	var material = new THREE.ShaderMaterial( {
@@ -32,7 +35,7 @@ var Noise1 = function( parent, block ) {
 	this.group.add(plane);
 
 	var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
-	var geometry = new THREE.PlaneBufferGeometry( this.block.w, 4 );
+	var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.parent.lineWidth );
 	var plane = new THREE.Mesh( geometry, material );
 	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1 );
 	this.group.add(plane);
@@ -41,7 +44,7 @@ var Noise1 = function( parent, block ) {
 	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y - this.block.h, 1  );
 	this.group.add(plane);
 
-	var geometry = new THREE.PlaneBufferGeometry( 4, this.block.h + 4 );
+	var geometry = new THREE.PlaneBufferGeometry( this.parent.lineWidth, this.block.h + this.parent.lineWidth );
 	var plane = new THREE.Mesh( geometry, material );
 	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
@@ -51,42 +54,6 @@ var Noise1 = function( parent, block ) {
 	this.group.add(plane);
 
 	this.parent.parent.scene.add( this.group );
-}
-
-Noise1.prototype.export = function( block, snap, scale, strokeWidth ){
-	
-	var s = block.h * scale;
-	if( block.w > block.h ) s = block.w * scale;
-
-	var vals = [];
-	var v = null;
-	var t = Math.random() * s;
-	var noiseScale = 4;
-	for( var i = 0 ; i < s * noiseScale ; i++ ){
-		var n = Math.round( ( this.parent.parent.simplexNoise.noise2D( 0.5, t + i / 50 ) + 1 ) / 2 );
-		if( v !== n ) vals.push( i );
-		v = n;
-	}
-	vals.push( s * noiseScale );
-	console.log(vals)
-
-	var c = true;
-	for( var i = 0 ; i < vals.length - 1 ; i++ ){
-		var v0 = vals[i] / noiseScale;
-		var v1 = vals[i+1] / noiseScale;
-
-		var x = block.x * scale + v0, y = block.y * scale, w = v1 - v0, h = block.h * scale;
-		if( block.h > block.w ) var x = block.x * scale, y = block.y * scale + v0, w = block.w * scale, h = v1 - v0;
-
-		c = !c;
-		if( c ) col = '#ffffff';
-		else col = '#000000';
-		
-		snap.rect( x, y, w, h ).attr({ fill: col, stroke: 'none' });
-	}
-
-	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
-	r.attr({ fill: 'none', stroke: '#000000', strokeWidth: strokeWidth });
 }
 
 Noise1.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){

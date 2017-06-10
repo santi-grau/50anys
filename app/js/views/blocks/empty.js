@@ -14,11 +14,6 @@ Empty.prototype.destroy = function( val ){
 	this.parent.parent.two.remove( this.group );
 }
 
-Empty.prototype.export = function( block, snap, scale, strokeWidth, frame ) {
-	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
-	r.attr({ fill: '#ffffff', stroke: '#000000', strokeWidth: strokeWidth });
-};
-
 Empty.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();
 }

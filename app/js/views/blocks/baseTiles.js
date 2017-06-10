@@ -55,28 +55,6 @@ BaseTiles.prototype.create = function( reps, tex, texName ) {
 	this.twoGroup = this.parent.parent.two.makeGroup( rect );
 };
 
-// BaseTiles.prototype.export = function( block, snap, scale, strokeWidth, frame ){
-	
-
-
-
-
-// 	// displays to screen, rasterizes pattern
-// 	var s = Snap();
-// 	var p = Snap.parse( '<svg xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">' + this.parent.parent.textures.txtrsSvg[ this.texName ] + '</svg>' );
-// 	var defs = snap.node.getElementsByTagName('defs')[0]
-// 	var pattern = document.createElementNS('http://www.w3.org/2000/svg','pattern');
-// 	pattern.setAttribute( 'id', this.texName );
-// 	pattern.setAttribute( 'width', '512' );
-// 	pattern.setAttribute( 'height', '512' );
-// 	pattern.setAttribute( 'patternTransform', 'scale(' + scale/this.reps/512 + ')' );
-// 	pattern.setAttribute( 'patternUnits', 'userSpaceOnUse' );
-// 	pattern.innerHTML = p.node.innerHTML;
-// 	defs.appendChild(pattern);
-// 	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
-// 	r.attr({ fill: 'url(#'+this.texName+')', stroke: '#000000', strokeWidth: strokeWidth });
-// }
-
 BaseTiles.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	var w = scale;
 	var fitX = Math.round( block.w / w );

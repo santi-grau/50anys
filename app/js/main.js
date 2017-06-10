@@ -115,8 +115,6 @@ var App = function() {
 	this.scene = new THREE.Scene();
 	this.camera = new THREE.OrthographicCamera();
 
-	this.grid = new Grid( this.moduleSize );
-
 	this.seed = Math.random;
 	this.simplexNoise = new SimplexNoise( this.seed );
 
@@ -221,7 +219,6 @@ App.prototype.ws_setup = function( d ){
 	for( var i = 0 ; i < this.totalLetters ; i++ ) this.logos.push( null );
 	this.logos.push( this.data );
 
-	
 	this.onReady('ws');
 }
 
@@ -243,30 +240,50 @@ App.prototype.sendCurrentMouse = function(){
 }
 
 App.prototype.makeLetter = function( data ){
+
 	if( this.blocks ) for( var i = 0 ; i < this.blocks.length ; i++ ) this.blocks[i].destroy();
-	for( var i = 0 ; i < this.two.scene.children.length ; i++ ){
-		this.two.remove( this.two.scene.children[i] );
-	}
+	for( var i = 0 ; i < this.two.scene.children.length ; i++ ) this.two.remove( this.two.scene.children[i] );
+	
 	this.data = data;
 	this.blocks = [];
+
+	var screenAr = ( window.innerHeight * 0.6 ) / window.innerWidth;
+	var logoAr = data.viewBox[1] / data.viewBox[0];
+
+	if( screenAr < logoAr ){
+		if( data.viewBox[1] * 35 < window.innerHeight * 0.5 ) this.moduleSize = 35;
+		else if( data.viewBox[1] * 25 < window.innerHeight * 0.5 ) this.moduleSize = 25;
+		else this.moduleSize = 15;
+	} else {
+		if( data.viewBox[0] * 35 < window.innerWidth * 0.75 ) this.moduleSize = 35;
+		else if( data.viewBox[0] * 25 < window.innerWidth * 0.75 ) this.moduleSize = 25;
+		else this.moduleSize = 15;
+	}
+
+
+	var lineWidth;
+	if( this.moduleSize == 15 ) lineWidth = 2;
+	if( this.moduleSize == 25 ) lineWidth = 4;
+	if( this.moduleSize == 35 ) lineWidth = 6;
+
+	console.log(this.moduleSize)
 
 	this.containerEl.style.width = data.viewBox[0] * this.moduleSize + 'px';
 	this.containerEl.style.height = data.viewBox[1] * this.moduleSize + 'px';
 
-	this.containerEl.style['margin-left'] = data.viewBox[0] / -2 * this.moduleSize - this.moduleSize / 2 + 'px';
+	this.containerEl.style['margin-left'] = data.viewBox[0] / -2 * this.moduleSize + 'px';
 	this.containerEl.style['margin-top'] = data.viewBox[1] / -2 * this.moduleSize - this.moduleSize + 'px';
 
-	for( var i = 0 ; i < data.list.length ; i++ ) this.blocks.push( new Block( this, { x : data.list[i].x * this.moduleSize, y : data.list[i].y * this.moduleSize, w : data.list[i].w * this.moduleSize, h : data.list[i].h * this.moduleSize, t : data.list[i].t, a : data.list[i].a }, i ) );
+	for( var i = 0 ; i < data.list.length ; i++ ) this.blocks.push( new Block( this, { x : data.list[i].x * this.moduleSize, y : data.list[i].y * this.moduleSize, w : data.list[i].w * this.moduleSize, h : data.list[i].h * this.moduleSize, t : data.list[i].t, a : data.list[i].a }, i, lineWidth ) );
 	this.updateLogoCount();
 	this.containerEl.classList.add('active');
 
 	this.onResize();
-	this.download.exportImage();
+	// this.download.exportImage();
 }
 
 App.prototype.onReady = function( event ){
 	this.loadStates[event] = true;
-
 	for ( var key in this.loadStates ) if( !this.loadStates[key] ) return;
 
 	clearInterval( this.byPassSocketTimer );
@@ -287,10 +304,9 @@ App.prototype.onResize = function(e) {
 	this.two.width = this.containerThree.offsetWidth;
 	this.two.height = this.containerThree.offsetHeight;
 
-	if( this.data ) var offset = ( 1 - (this.data.viewBox[0]%2));
+	this.grid = new Grid( this.moduleSize );
 	
-	this.grid.resize( offset );
-	
+	this.grid.resize( );
 }
 
 App.prototype.step = function( time ) {

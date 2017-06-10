@@ -15,7 +15,7 @@ var Voronoi = function( parent, block ) {
 
 	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.linewidth = this.parent.lineWidth;
-	rect.noFill();
+	rect.fill = '#ffffff'
 
 	this.group = this.parent.parent.two.makeGroup( rect );
 
@@ -27,18 +27,6 @@ var Voronoi = function( parent, block ) {
 
 	this.countFrame = 0;
 	this.compute();
-}
-
-Voronoi.prototype.export = function( block, snap, scale, strokeWidth, frame ){
-
-	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
-	r.attr({ fill: '#ffffff', stroke: '#000000', strokeWidth: strokeWidth });
-	
-	for( var i = 0 ; i < this.diagram.edges.length ; i++ ){
-		var line = snap.line( this.diagram.edges[i].va.x, this.diagram.edges[i].va.y, this.diagram.edges[i].vb.x, this.diagram.edges[i].vb.y );
-		line.attr({ fill: 'none', stroke: '#000000', strokeWidth: strokeWidth / 2 });
-	}
-
 }
 
 Voronoi.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){

@@ -52,5 +52,5 @@ void main( ){
 
 	float a = 0.0;
 	if(noise > 0.1) a = 1.0;
-	gl_FragColor = vec4(vec3(0.0),a);
+	gl_FragColor = vec4(vec3(a),1.0);
 }

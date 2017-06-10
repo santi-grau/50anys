@@ -17,18 +17,12 @@ var Textures = function( parent ){
 
 Textures.prototype.makeCanvas = function( id, content, ctx, totalTexs ){
 	var _this = this;
-	var svg = new Blob(['<svg xmlns="http://www.w3.org/2000/svg" >' + content + '</svg>'], {type:"image/svg+xml;charset=utf-8"});
-	
-	this.txtrsSvg[id] = content;
-	
-	var domURL = self.URL || self.webkitURL || self;
-	var url = domURL.createObjectURL(svg);
-	var img = new Image;
+
+	var img = new Image();
 
 	img.onload = function () {
 		ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
 		ctx.drawImage(this, 0, 0);     
-		domURL.revokeObjectURL(url);
 		_this.txtrs[id] = ctx.canvas.toDataURL();
 		var c = 0;
 		for(var key in _this.txtrs) {
@@ -36,7 +30,8 @@ Textures.prototype.makeCanvas = function( id, content, ctx, totalTexs ){
 			if( c == totalTexs ) window.dispatchEvent(_this.parent.event);
 		}
     };
-    img.src = url;
+
+    img.src = 'data:image/svg+xml,' + '<svg xmlns="http://www.w3.org/2000/svg" width = "512" height = "512" >' + content + '</svg>';
 }
 
 module.exports = Textures;

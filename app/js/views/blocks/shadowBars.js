@@ -6,9 +6,13 @@ var ShadowBars = function( parent, block ) {
 	this.name = 'Shadow Bars';
 
 	this.lines = this.parent.parent.two.makeGroup( );
-	this.group = this.parent.parent.two.makeGroup( this.lines );
+	
 
 	this.countInc = 0.9;
+
+	var bg = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	bg.noStroke();
+	bg.fill = '#ffffff';
 
 	for( var i = 0 ; i < Math.max( this.block.h, this.block.w ) ; i+=5 ){
 		var line;
@@ -25,7 +29,7 @@ var ShadowBars = function( parent, block ) {
 	rect.linewidth = this.parent.lineWidth;
 	rect.noFill();
 
-	this.group.add(rect);
+	this.group = this.parent.parent.two.makeGroup( bg, this.lines, rect );
 
 	this.px = 1;
 

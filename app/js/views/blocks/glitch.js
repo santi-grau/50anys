@@ -47,7 +47,7 @@ var Glitch = function( parent, block ) {
 	this.group.add(plane);
 
 	var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
-	var geometry = new THREE.PlaneBufferGeometry( this.block.w, 4 );
+	var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.parent.lineWidth );
 	var plane = new THREE.Mesh( geometry, material );
 	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
@@ -57,7 +57,7 @@ var Glitch = function( parent, block ) {
 	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y - this.block.h, 1  );
 	this.group.add(plane);
 
-	var geometry = new THREE.PlaneBufferGeometry( 4, this.block.h + 4 );
+	var geometry = new THREE.PlaneBufferGeometry( this.parent.lineWidth, this.block.h + this.parent.lineWidth );
 	var plane = new THREE.Mesh( geometry, material );
 	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
@@ -99,7 +99,6 @@ Glitch.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
 			doc.save().image( dataURL, block.x, block.y, { width : block.w } ).translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
 		} );
 }
-
 
 Glitch.prototype.destroy = function( val ){
 	this.parent.parent.scene.remove(this.group);

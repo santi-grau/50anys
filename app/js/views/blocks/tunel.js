@@ -33,31 +33,7 @@ var Tunel = function( parent, block ) {
 
 		this.squares.add( sq );
 	}
-	
 }
-
-Tunel.prototype.export = function( block, snap, scale, strokeWidth, frame ){
-	
-	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
-	r.attr({ fill: '#ffffff', stroke: '#000000', strokeWidth: strokeWidth });
-
-	var totalSquares = 4;
-	for( var i = 0 ; i < totalSquares; i++ ){
-		var inc = i/(totalSquares-1);
-		var points = [];
-		points.push(
-			(block.x + Math.min( block.w , block.h ) / 2 * inc) * scale, (block.y + Math.min( block.w , block.h ) / 2 * inc) * scale ,
-			(block.x + block.w - Math.min( block.w , block.h ) / 2 * inc) * scale, (block.y + Math.min( block.w , block.h ) / 2 * inc) * scale,
-			(block.x + block.w - Math.min( block.w , block.h ) / 2 * inc) * scale, (block.y + block.h - Math.min( block.w , block.h ) / 2 * inc) * scale,
-			(block.x + Math.min( block.w , block.h ) / 2 * inc) * scale, (block.y + block.h - Math.min( block.w , block.h ) / 2 * inc) * scale
-		);
-
-		var poly = snap.polygon(points);
-		poly.attr({ fill: 'none', stroke: '#000000', strokeWidth: strokeWidth / 2 });
-	}
-
-}
-
 
 Tunel.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();

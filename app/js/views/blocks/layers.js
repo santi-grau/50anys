@@ -11,21 +11,21 @@ var Layers = function( parent, block ) {
 
 	for( var i = 0 ; i < this.amount; i++ ){
 	
-		var geometry = new THREE.PlaneBufferGeometry( this.block.w - 2, this.block.h - 2 );
+		var geometry = new THREE.PlaneBufferGeometry( this.block.w - this.parent.lineWidth / 2, this.block.h - this.parent.lineWidth / 2 );
 		var material = new THREE.MeshBasicMaterial( { color : 0xffffff } );
 		var plane = new THREE.Mesh( geometry, material );
 
-		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, 1 + i * 2 + 10  );
+		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * this.parent.lineWidth * 0.5, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * this.parent.lineWidth * 0.5, 1 + i * 2 + 10  );
 		this.group.add(plane);
 
 		var geometry
-		if( i == 0) geometry = new THREE.PlaneBufferGeometry( this.block.w + 4, this.block.h + 4 );
+		if( i == 0) geometry = new THREE.PlaneBufferGeometry( this.block.w + this.parent.lineWidth, this.block.h + this.parent.lineWidth );
 		else geometry = new THREE.PlaneBufferGeometry( this.block.w, this.block.h );
 
 		var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
 		var plane = new THREE.Mesh( geometry, material );
 
-		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * 2, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * 2, i * 2 + 10  );
+		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * this.parent.lineWidth * 0.5, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * this.parent.lineWidth * 0.5, i * 2 + 10  );
 		this.group.add(plane);
 	}
 

@@ -55,5 +55,5 @@ void main( ){
 	if( resolution.x > resolution.y ) if( vUv.y > noise + 0.5 ) a = 1.0;
 	if( resolution.y > resolution.x ) if( vUv.x > noise + 0.5 ) a = 1.0;
 
-	gl_FragColor = vec4(vec3(0.0),a);
+	gl_FragColor = vec4(vec3(a),1.0);
 }

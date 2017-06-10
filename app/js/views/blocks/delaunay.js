@@ -11,7 +11,7 @@ var Delaunay = function( parent, block ) {
 
 	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.linewidth = this.parent.lineWidth;
-	rect.noFill();
+	rect.fill = '#ffffff';
 
 	this.group = this.parent.parent.two.makeGroup( rect );
 
@@ -52,22 +52,6 @@ Delaunay.prototype.triangulate = function( ){
 	this.group.add( this.tris );
 }
 
-Delaunay.prototype.export = function( block, snap, scale, strokeWidth, frame ){
-
-	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
-	r.attr({ fill: '#ffffff', stroke: '#000000', strokeWidth: strokeWidth });
-	
-	for( var i = 0 ; i < this.triangles.length ; i++ ){
-		var points = [];
-		points.push(
-			this.points[ this.triangles[i][0] ][0] , this.points[ this.triangles[i][0] ][1],
-			this.points[ this.triangles[i][1] ][0] , this.points[ this.triangles[i][1] ][1],
-			this.points[ this.triangles[i][2] ][0] , this.points[ this.triangles[i][2] ][1]
-		);
-		var poly = snap.polyline(points);
-		poly.attr({ fill: 'none', stroke: '#000000', strokeWidth: strokeWidth / 2 });
-	}
-}
 
 Delaunay.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();

@@ -28,14 +28,6 @@ var ColorGradient = function( parent, block ) {
 	this.group = this.parent.parent.two.makeGroup( rect );
 }
 
-ColorGradient.prototype.export = function( block, snap, scale, strokeWidth, frame ){
-	var direction = '0, 1, 0, 0';
-	if( block.w > block.h ) direction = '0, 0, 1, 0';
-	var g = snap.gradient('l('+direction+')rgba('+this.c1.r+','+this.c1.g+','+this.c1.b+',1)-rgba('+this.c2.r+','+this.c2.g+','+this.c2.b+',1)');
-	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
-	r.attr({ fill : g, stroke: '#000000', strokeWidth: strokeWidth });
-}
-
 ColorGradient.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	var d = [ 0, block.h, 0, 0 ];
 	if( block.w > block.h ) d = [ 0, 0, block.w, 0 ];

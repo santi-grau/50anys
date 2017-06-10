@@ -19,7 +19,7 @@ var Gradient = function( parent, block ) {
 	);
 
 	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
-	rect.linewidth = 4;
+	rect.linewidth = this.parent.lineWidth;
 	rect.fill = this.linearGradient;
 
 	this.group = this.parent.parent.two.makeGroup( rect );
@@ -32,15 +32,6 @@ var Gradient = function( parent, block ) {
 Gradient.prototype.onRepeat = function( val ){
 	if(!this.animate) this.tween.pause();
 }
-
-Gradient.prototype.export = function( block, snap, scale, strokeWidth, frame ){
-	var direction = '0, 1, 0, 0';
-	if( block.w > block.h ) direction = '0, 0, 1, 0';
-	var g = snap.gradient('l('+direction+')rgba(0,0,0,1)-rgba('+this.gradientValue2+','+this.gradientValue2+','+this.gradientValue2+',1)');
-	var r = snap.rect( block.x * scale, block.y * scale, block.w * scale, block.h * scale);
-	r.attr({ fill : g, stroke: '#000000', strokeWidth: strokeWidth });
-}
-
 
 Gradient.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	var d = [ 0, block.h, 0, 0 ];

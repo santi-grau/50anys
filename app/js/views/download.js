@@ -56,7 +56,10 @@ Download.prototype.exportImage = function( e ){
 		}
 	}
 
-	console.log(maxLayers)
+	// doc.font('media/mnl.ttc', 'Menlo-Regular')
+ //   .text('This is Good Dog!')
+ //   .moveDown(0.5)
+		
 
 	setTimeout( function(){
 		doc.end();
