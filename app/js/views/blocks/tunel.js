@@ -29,7 +29,7 @@ var Tunel = function( parent, block ) {
 
 		var sq = new Two.Path(this['sq'+i], true, false, false);
 		sq.noFill();
-		sq.linewidth = 2;
+		sq.linewidth = this.parent.lineWidth / 2;
 
 		this.squares.add( sq );
 	}

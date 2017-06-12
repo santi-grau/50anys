@@ -22,8 +22,7 @@ Selector.prototype.setActive = function( active, block ){
 		this.containerEl.classList.remove('right');
 		this.containerEl.classList.add('left');
 		this.containerEl.setAttribute('style', 'left:' + ( block.block.x + this.parent.containerEl.offsetLeft ) + 'px;top:' + ( block.block.y + block.block.h / 2 + this.parent.containerEl.offsetTop ) + 'px;' );
-	}
-	
+	}	
 }
 
 Selector.prototype.textureReady = function( ){

@@ -55,6 +55,10 @@ var blockScripts = {
 
 var App = function() {
 
+	var language = window.navigator.userLanguage || window.navigator.language;
+	if( language == 'en-US') document.body.classList.add('en');
+	
+
 	this.wsReady = true;
 	
 	var host = 'ws://54.93.229.125';
@@ -76,7 +80,7 @@ var App = function() {
 
 	this.logos = [];
 
-	this.moduleSize = 25;
+	this.moduleSize = null;
 
 	this.blocks = [];
 	this.active = null;
@@ -99,7 +103,7 @@ var App = function() {
 	this.containerThree = document.getElementById('three');
 	this.info = document.getElementById('info');
 	this.infoSign = document.getElementById('infoSign');
-	this.downloadSign = document.getElementById('downloadSign');
+	// this.downloadSign = document.getElementById('downloadSign');
 	
 	this.prevBut = document.getElementById('prevBut');
 	this.nextBut = document.getElementById('nextBut');
@@ -132,7 +136,7 @@ var App = function() {
 	window.addEventListener('mousemove', this.mouseMove.bind(this) );
 
 	this.infoSign.addEventListener('click', this.infoShow.bind(this) );
-	this.downloadSign.addEventListener('click', this.download.show.bind(this.download) );
+	// this.downloadSign.addEventListener('click', this.download.show.bind(this.download) );
 	
 	this.info.addEventListener('mousedown', this.infoHide.bind(this) );
 	// this.download.addEventListener('mousedown', this.downloadHide.bind(this) );
@@ -250,23 +254,23 @@ App.prototype.makeLetter = function( data ){
 	var screenAr = ( window.innerHeight * 0.6 ) / window.innerWidth;
 	var logoAr = data.viewBox[1] / data.viewBox[0];
 
-	if( screenAr < logoAr ){
-		if( data.viewBox[1] * 35 < window.innerHeight * 0.5 ) this.moduleSize = 35;
-		else if( data.viewBox[1] * 25 < window.innerHeight * 0.5 ) this.moduleSize = 25;
-		else this.moduleSize = 15;
-	} else {
-		if( data.viewBox[0] * 35 < window.innerWidth * 0.75 ) this.moduleSize = 35;
-		else if( data.viewBox[0] * 25 < window.innerWidth * 0.75 ) this.moduleSize = 25;
-		else this.moduleSize = 15;
+	if( !this.moduleSize ){
+		if( screenAr < logoAr ){
+			if( data.viewBox[1] * 35 < window.innerHeight * 0.7 ) this.moduleSize = 35;
+			else if( data.viewBox[1] * 25 < window.innerHeight * 0.7 ) this.moduleSize = 25;
+			else this.moduleSize = 15;
+		} else {
+			if( data.viewBox[0] * 35 < window.innerWidth * 0.75 ) this.moduleSize = 35;
+			else if( data.viewBox[0] * 25 < window.innerWidth * 0.75 ) this.moduleSize = 25;
+			else this.moduleSize = 15;
+		}
+
+		this.lineWidth;
+		if( this.moduleSize == 15 ) this.lineWidth = 2;
+		if( this.moduleSize == 25 ) this.lineWidth = 4;
+		if( this.moduleSize == 35 ) this.lineWidth = 6;
 	}
-
-
-	var lineWidth;
-	if( this.moduleSize == 15 ) lineWidth = 2;
-	if( this.moduleSize == 25 ) lineWidth = 4;
-	if( this.moduleSize == 35 ) lineWidth = 6;
-
-	console.log(this.moduleSize)
+	// console.log(this.moduleSize)
 
 	this.containerEl.style.width = data.viewBox[0] * this.moduleSize + 'px';
 	this.containerEl.style.height = data.viewBox[1] * this.moduleSize + 'px';
@@ -274,7 +278,7 @@ App.prototype.makeLetter = function( data ){
 	this.containerEl.style['margin-left'] = data.viewBox[0] / -2 * this.moduleSize + 'px';
 	this.containerEl.style['margin-top'] = data.viewBox[1] / -2 * this.moduleSize - this.moduleSize + 'px';
 
-	for( var i = 0 ; i < data.list.length ; i++ ) this.blocks.push( new Block( this, { x : data.list[i].x * this.moduleSize, y : data.list[i].y * this.moduleSize, w : data.list[i].w * this.moduleSize, h : data.list[i].h * this.moduleSize, t : data.list[i].t, a : data.list[i].a }, i, lineWidth ) );
+	for( var i = 0 ; i < data.list.length ; i++ ) this.blocks.push( new Block( this, { x : data.list[i].x * this.moduleSize, y : data.list[i].y * this.moduleSize, w : data.list[i].w * this.moduleSize, h : data.list[i].h * this.moduleSize, t : data.list[i].t, a : data.list[i].a }, i, this.lineWidth ) );
 	this.updateLogoCount();
 	this.containerEl.classList.add('active');
 

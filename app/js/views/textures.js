@@ -17,9 +17,7 @@ var Textures = function( parent ){
 
 Textures.prototype.makeCanvas = function( id, content, ctx, totalTexs ){
 	var _this = this;
-
 	var img = new Image();
-
 	img.onload = function () {
 		ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
 		ctx.drawImage(this, 0, 0);     

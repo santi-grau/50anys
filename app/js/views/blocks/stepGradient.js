@@ -23,7 +23,7 @@ var StepGradient = function( parent, block ) {
 		if( this.block.w > this.block.h ) rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2 - this.block.w / 2 + ( this.block.w / this.steps / 2 ) + ( this.block.w / this.steps * i), this.block.y + this.block.h / 2, this.block.w / this.steps, this.block.h );
 		else rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2 - this.block.h / 2 + ( this.block.h / this.steps / 2	) + ( this.block.h / this.steps * i), this.block.w, this.block.h / this.steps );
 
-		rect.linewidth = 2;
+		rect.linewidth = this.parent.lineWidth / 2;
 		var col = parseInt( 255 * 0.1 + 255 * 0.8 * i / this.steps );
 		rect.fill = 'rgb('+col+','+col+','+col+')';
 

@@ -11,8 +11,8 @@ var Bigx = function( parent, block ) {
 
 	this.line1 = this.parent.parent.two.makeLine( this.block.x, this.block.y, this.block.x + this.block.w, this.block.y + this.block.h );
 	this.line2 = this.parent.parent.two.makeLine( this.block.x + this.block.w, this.block.y, this.block.x, this.block.y + this.block.h );
-	this.line1.linewidth = 2;
-	this.line2.linewidth = 2;
+	this.line1.linewidth = this.parent.lineWidth / 2;
+	this.line2.linewidth = this.parent.lineWidth / 2;
 	
 	this.rectStroke = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	this.rectStroke.linewidth = this.parent.lineWidth;

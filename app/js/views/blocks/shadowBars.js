@@ -20,7 +20,7 @@ var ShadowBars = function( parent, block ) {
 		else line = this.parent.parent.two.makeLine( this.block.x + i, this.block.y + this.block.h, this.block.x + i, this.block.y + this.block.h - this.block.h * this.countInc );
 		
 		line.l = this.countInc;
-		line.linewidth = 2;
+		line.linewidth = this.parent.lineWidth / 2;
 		this.countInc *= 0.9;
 		this.lines.add(line);
 	}

@@ -73,7 +73,7 @@ Voronoi.prototype.step = function( time ) {
 
 	for( var i = 0 ; i < this.diagram.edges.length ; i++ ){
 		var line = this.parent.parent.two.makeLine(this.diagram.edges[i].va.x, this.diagram.edges[i].va.y, this.diagram.edges[i].vb.x, this.diagram.edges[i].vb.y);
-		line.linewidth = 2;
+		line.linewidth = this.parent.lineWidth / 2;
 		this.lines.add( line );
 	}
 	this.group.add( this.lines );

@@ -1,4 +1,4 @@
-var Timer = function(parent){
+var Timer = function( parent ){
 	this.parent = parent;
 	this.containerEl = document.getElementById('timer');
 	this.canvas = document.getElementById('circleTimer');
@@ -23,7 +23,6 @@ Timer.prototype.step = function( ){
 		if( this.degrees < 360 ) this.degrees += 12;
 		this.containerEl.classList.add('active');
 	} else {
-		Math.round( this.degrees -= this.degrees * 0.1 );
 		this.containerEl.classList.remove('active');
 	}
 

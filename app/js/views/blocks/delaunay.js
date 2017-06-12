@@ -25,11 +25,11 @@ Delaunay.prototype.triangulate = function( ){
 
 	this.points = [];
 
-	this.points.push( [ 2, 2 ], [ this.block.w - 2, 2 ], [ 2, this.block.h - 2 ], [ this.block.w - 2, this.block.h - 2 ] );
+	this.points.push( [ 0, 0 ], [ this.block.w, 0 ], [ 0, this.block.h ], [ this.block.w, this.block.h ] );
 
-	for( var i = 0 ; i < this.totalPoints * 2 ; i++ ) this.points.push( [ 2 + Math.random() * (this.block.w - 4) , 2 ], [ 2 + Math.random() * ( this.block.w -4) , this.block.h -2 ] );
-	for( var i = 0 ; i < this.totalPoints ; i++ ) this.points.push( [ 2 , 2 + Math.random() * (this.block.h-4) ], [ (this.block.w-2) , 2 + Math.random() * (this.block.h-4) ] );
-	for( var i = 0 ; i < this.totalPoints ; i++ ) this.points.push( [ 2 + Math.random() * (this.block.w-4) , 2 + Math.random() * (this.block.h-4) ] );
+	for( var i = 0 ; i < this.totalPoints * 2 ; i++ ) this.points.push( [ Math.random() * (this.block.w) , 0 ], [ Math.random() * ( this.block.w) , this.block.h ] );
+	for( var i = 0 ; i < this.totalPoints ; i++ ) this.points.push( [ 0 , Math.random() * (this.block.h) ], [ (this.block.w) , Math.random() * (this.block.h) ] );
+	for( var i = 0 ; i < this.totalPoints ; i++ ) this.points.push( [ Math.random() * (this.block.w) , Math.random() * (this.block.h) ] );
 
 	for( var i = 0 ; i < this.points.length ; i++ ){
 		this.points[i][0] += this.block.x;
@@ -46,7 +46,7 @@ Delaunay.prototype.triangulate = function( ){
 			false
 		);
 		tris.noFill();
-		tris.linewidth = 1.5;
+		tris.linewidth = this.parent.lineWidth * 0.4;
 		this.tris.add( tris );
 	}
 	this.group.add( this.tris );

@@ -178,11 +178,11 @@ body
 		opacity 0
 		top 100vh
 		z-index 10
-		line-height 16px
+		line-height 18px
 		backdrop-filter: blur(10px);
 		-webkit-backdrop-filter: blur(10px);
 		position fixed
-		left 0
+		eft 0
 		width 100%
 		height 100%
 		background-color rgba(0,0,0,0.8)
@@ -198,6 +198,14 @@ body
 		.content
 			width 500px
 			padding-bottom 60px
+			&.en
+				display none
+
+body.en
+	.content.en
+		display block !important
+	.content.cat
+		display none !important
 
 #snapSVG
 	display none
