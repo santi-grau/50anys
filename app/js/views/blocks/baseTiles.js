@@ -39,20 +39,36 @@ BaseTiles.prototype.create = function( reps, tex, texName ) {
 			col2 : { value : new THREE.Vector4( 0, 0, 0, 0 ) }
 		},
 		vertexShader: tileVS,
-		fragmentShader: tileFS
+		fragmentShader: tileFS,
+		transparent : true
 	} );
 
 	var plane = new THREE.Mesh( geometry, material );
 
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0  );
+	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 2 );
 	
 	this.group = new THREE.Group();
 	this.group.add(plane);
 	this.parent.parent.scene.add( this.group );
 
-	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
-	rect.linewidth = this.parent.lineWidth;
-	this.twoGroup = this.parent.parent.two.makeGroup( rect );
+
+	var geometry = new THREE.PlaneBufferGeometry( this.block.w + this.parent.lineWidth, this.block.h + this.parent.lineWidth );
+	var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
+	var plane = new THREE.Mesh( geometry, material );
+	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0 );
+
+	this.group.add(plane)
+
+	var geometry = new THREE.PlaneBufferGeometry( this.block.w - this.parent.lineWidth, this.block.h - this.parent.lineWidth );
+	var material = new THREE.MeshBasicMaterial( { color : 0xffffff } );
+	var plane = new THREE.Mesh( geometry, material );
+	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0 );
+
+	this.group.add(plane)
+
+	// var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	// rect.linewidth = this.parent.lineWidth;
+	// this.twoGroup = this.parent.parent.two.makeGroup( rect );
 };
 
 BaseTiles.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
@@ -66,7 +82,7 @@ BaseTiles.prototype.exportPDF = function( block, doc, scale, strokeWidth, patter
 }
 
 BaseTiles.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.twoGroup );
+	// this.parent.parent.two.remove( this.twoGroup );
 	this.parent.parent.scene.remove(this.group);
 }
 

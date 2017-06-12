@@ -4,7 +4,7 @@ window.BezierEasing = require('bezier-easing');
 
 var Block = require('./views/block');
 var Timer = require('./views/timer');
-var Download = require('./views/download');
+// var Download = require('./views/download');
 var Cursors = require('./views/cursors');
 var Grid = require('./views/grid');
 var Selector = require('./views/selector');
@@ -69,7 +69,7 @@ var App = function() {
 
 	this.cursors = new Cursors( this );
 	this.timer = new Timer( this );
-	this.download = new Download( this );
+	// this.download = new Download( this );
 
 	this.blockScripts = blockScripts;
 

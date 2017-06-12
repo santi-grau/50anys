@@ -26,6 +26,8 @@ var Block = function( parent, block, id, lineWidth ){
 	// create instance from block.t
 	this.currentBlock = new this.parent.blockScripts[this.block.t]( this, this.block );
 	this.currentBlock.animate = this.block.a;
+
+	// console.log(this.currentBlock.group);
 }
 
 Block.prototype.mouseEnter = function( e ){
