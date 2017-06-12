@@ -8,7 +8,7 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "grunt build && mkdir -p docs/js && ./node_modules/browserify/bin/cmd.js  -t [ stringify --extensions [.obj .svg .glsl] ]  app/js/main.js > docs/js/main.js",
+    "build": "grunt build && mkdir -p docs/js && ./node_modules/browserify/bin/cmd.js  -t [ stringify --extensions [.obj .svg .glsl] ]  app/js/main.js | uglifyjs --compress --mangle -- > docs/js/main.js",
     "start": "node main.js",
     "server": "node server.js"
   },
@@ -33,6 +33,7 @@
     "stylus": "*",
     "svg2pdf.js": "^1.0.6",
     "three": "^0.85.2",
+    "uglify-js": "^3.0.15",
     "voronoi": "^1.0.0",
     "ws": "^2.3.1"
   },
