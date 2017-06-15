@@ -22,6 +22,8 @@ var Gradient = function( parent, block ) {
 	rect.linewidth = this.parent.lineWidth;
 	rect.fill = this.linearGradient;
 
+	this.parent.parent.two.scene.remove(this.linearGradient)
+	
 	this.group = this.parent.parent.two.makeGroup( rect );
 	
 	this.px = 0;
@@ -40,11 +42,6 @@ Gradient.prototype.exportPDF = function( block, doc, scale, strokeWidth, pattern
 	grad.stop(0, '#000000').stop(0.5, '#000000').stop(1, '#444444')
 
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke(grad, '#000000').restore();
-}
-
-
-Gradient.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
 }
 
 Gradient.prototype.step = function() {

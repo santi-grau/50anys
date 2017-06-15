@@ -46,15 +46,12 @@ ShadowBars.prototype.exportPDF = function( block, doc, scale, strokeWidth, patte
 	}
 }
 
-ShadowBars.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group )
-}
-
 ShadowBars.prototype.switchBars = function(){
 	this.tween = TweenMax.to( this, 0.6, { px : 1 - this.px, ease : Elastic.easeOut.config(1, 1) } );
 }
 
 ShadowBars.prototype.step = function( time ) {
+	if( !this.parent.active ) clearInterval( this.switchInterval );
 	if( this.animate && !this.switchInterval ) this.switchInterval = setInterval( this.switchBars.bind(this), 1000 );
 	if( !this.animate && this.switchInterval ) clearInterval( this.switchInterval );
 	

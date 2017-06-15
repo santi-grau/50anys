@@ -39,10 +39,6 @@ FiftyFifty.prototype.exportPDF = function( block, doc, scale, strokeWidth, patte
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
 }
 
-FiftyFifty.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
-}
-
 FiftyFifty.prototype.switch = function( val ){
 	var mods = Math.max( this.block.w, this.block.h ) /  Math.min( this.block.w, this.block.h );
 	var count;
@@ -68,6 +64,7 @@ FiftyFifty.prototype.switch = function( val ){
 }
 
 FiftyFifty.prototype.step = function() {
+	if( !this.parent.active ) clearInterval( this.switchInterval );
 	if( this.animate && !this.switchInterval ) {
 		this.switch();
 		this.switchInterval = setInterval( this.switch.bind(this), 2000 );

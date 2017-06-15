@@ -74,11 +74,8 @@ Delaunay.prototype.exportPDF = function( block, doc, scale, strokeWidth, pattern
 	for( var i = 0 ; i < tris.length ; i++ ) doc.path('M '+ps[ tris[i][0] ][0]+','+ps[ tris[i][0] ][1]+' L '+ps[ tris[i][1] ][0]+','+ps[ tris[i][1] ][1]+' L '+ps[ tris[i][2] ][0]+','+ps[ tris[i][2] ][1] + ' Z' ).lineJoin('round').lineWidth(strokeWidth*0.3).stroke();
 }
 
-Delaunay.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group )
-}
-
 Delaunay.prototype.step = function( time ) {
+	if( !this.parent.active ) clearInterval( this.switchInterval );
 	if( this.animate && !this.switchInterval ) this.switchInterval = setInterval( this.triangulate.bind(this), 100 );
 	if( !this.animate && this.switchInterval ) clearInterval( this.switchInterval );
 };

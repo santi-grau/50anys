@@ -1,4 +1,4 @@
-var Block = function( parent, block, id, lineWidth ){
+var Block = function( parent, block, id, lineWidth, makeDom ){
 	this.parent = parent;
 	this.block = block;
 	this.id = id;
@@ -6,12 +6,13 @@ var Block = function( parent, block, id, lineWidth ){
 	this.lineWidth = lineWidth;
 
 	this.longPressTimer = 0;
+	this.active = true;
 
 	this.down = false;
 	this.animateComplete = false;
 	
 	// create dom element for this block
-	if( this.parent.letterId == this.parent.totalLetters ){
+	if( makeDom ){
 		this.containerEl = document.createElement('div');
 		this.containerEl.classList.add('block');
 		this.containerEl.setAttribute( 'style', 'width:' + block.w + 'px;height:' + block.h + 'px;left:' + block.x + 'px;top:' + block.y + 'px;' );
@@ -58,19 +59,25 @@ Block.prototype.iterateBlock = function( ){
 
 Block.prototype.setBlockTexture = function( block ){
 	this.parent.selector.textureReady( );
-	this.currentBlock.destroy();
+
+	this.destroy();
+
 	this.block.t = block;
 	this.currentBlock = new this.parent.blockScripts[block]( this, this.block );
+
+	if(this.currentBlock.group.type) this.parent.logoList[this.parent.letterId].threeGroup.add( this.currentBlock.group );
+	else this.parent.logoList[this.parent.letterId].twoGroup.add( this.currentBlock.group );
+
+}
+
+Block.prototype.destroy = function(  ){
+	if(this.currentBlock.group.type) this.parent.logoList[this.parent.letterId].threeGroup.remove( this.currentBlock.group );
+	else this.parent.logoList[this.parent.letterId].twoGroup.remove( this.currentBlock.group );
 }
 
 Block.prototype.setBlockAnimate = function( animate ){
 	this.block.a = animate;
 	this.currentBlock.animate = animate;
-}
-
-Block.prototype.destroy = function(){
-	if( this.containerEl ) this.parent.containerOne.removeChild(this.containerEl);
-	this.currentBlock.destroy();
 }
 
 Block.prototype.mousedown = function( e ){

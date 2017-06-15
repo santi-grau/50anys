@@ -16,10 +16,6 @@ var Ascii = function( parent, block ) {
 	this.refresh()
 }
 
-Ascii.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
-}
-
 Ascii.prototype.refresh = function(  ){
 	if( this.lines ) this.group.remove( this.lines );
 	this.lines = this.parent.parent.two.makeGroup( );

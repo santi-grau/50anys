@@ -3,7 +3,6 @@ html
 	height 100%
 	padding 0
 	margin 0
-
 body
 	width 100%
 	height 100%
@@ -16,7 +15,7 @@ body
 		position absolute
 		top 50%
 		margin-top -20px
-		z-index 0
+		z-index 4
 		.prev
 			margin-left 30px
 			a
@@ -36,6 +35,7 @@ body
 		position absolute
 		bottom 30px
 		text-align center
+		z-index 4
 		a
 			text-decoration none
 	#timer
@@ -55,12 +55,10 @@ body
 		transform scale(1)
 		z-index 1
 		position fixed
-		top 50%
-		left 50%
-		opacity 0
-		transition opacity 0.3s
-		&.active
-			opacity 1
+		top 0
+		left 0
+		width 100%
+		height 100%
 		.inner
 			width 100%
 			height 100%
@@ -68,7 +66,12 @@ body
 			top 0
 			left 0
 			&#one
+				left 50%
+				top 50%
 				z-index 3
+				display none
+				&.active
+					display block
 				.block
 					position absolute
 					cursor pointer
@@ -182,7 +185,6 @@ body
 		backdrop-filter: blur(10px);
 		-webkit-backdrop-filter: blur(10px);
 		position fixed
-		eft 0
 		width 100%
 		height 100%
 		background-color rgba(0,0,0,0.8)

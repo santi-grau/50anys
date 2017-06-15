@@ -62,10 +62,6 @@ Perspective.prototype.exportPDF = function( block, doc, scale, strokeWidth, patt
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
 }
 
-Perspective.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group )
-}
-
 Perspective.prototype.onRepeat = function(){
 	if(!this.animate) this.tween.pause();
 	this.px = 0.2;

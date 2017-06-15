@@ -66,9 +66,6 @@ BaseTiles.prototype.create = function( reps, tex, texName ) {
 
 	this.group.add(plane)
 
-	// var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
-	// rect.linewidth = this.parent.lineWidth;
-	// this.twoGroup = this.parent.parent.two.makeGroup( rect );
 };
 
 BaseTiles.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
@@ -79,11 +76,6 @@ BaseTiles.prototype.exportPDF = function( block, doc, scale, strokeWidth, patter
 	for( var i = 0 ; i < fitX; i++ ) for( var j = 0 ; j < fitY; j++ ) doc.save().translate(block.x + w * i, block.y + w * j).scale(scale/512).path(patterns[this.texName]).fill('black').restore();
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).strokeColor('#000000').lineWidth(strokeWidth).stroke().restore();
 	
-}
-
-BaseTiles.prototype.destroy = function( val ){
-	// this.parent.parent.two.remove( this.twoGroup );
-	this.parent.parent.scene.remove(this.group);
 }
 
 module.exports = BaseTiles;

@@ -48,11 +48,6 @@ Tunel.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns )
 			.restore();
 	}
 }
-
-Tunel.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
-}
-
 Tunel.prototype.step = function() {
 	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
 	else this.timeInc += ( 0 - this.timeInc ) * 0.03;

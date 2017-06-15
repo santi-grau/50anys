@@ -25,6 +25,8 @@ var ColorGradient = function( parent, block ) {
 	rect.linewidth = this.parent.lineWidth;
 	rect.fill = this.linearGradient;
 
+	this.parent.parent.two.scene.remove(this.linearGradient)
+
 	this.group = this.parent.parent.two.makeGroup( rect );
 }
 
@@ -35,11 +37,6 @@ ColorGradient.prototype.exportPDF = function( block, doc, scale, strokeWidth, pa
 	grad.stop(0, [this.c1.r,this.c1.g,this.c1.b]).stop(1, [this.c2.r,this.c2.g,this.c2.b]);
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke(grad, '#000000').restore();
 }
-
-ColorGradient.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
-}
-
 ColorGradient.prototype.switchColor = function(){
 	( this.colCount < 2 ) ? this.colCount++ : this.colCount = 0;
 	TweenMax.to( this.c1, 0.8, { paused : !this.animate, r : this.pairs[this.colCount][0][0], g : this.pairs[this.colCount][0][1], b : this.pairs[this.colCount][0][2], ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
@@ -47,6 +44,7 @@ ColorGradient.prototype.switchColor = function(){
 }
 
 ColorGradient.prototype.step = function() {
+	if( !this.parent.active ) clearInterval( this.switchInterval );
 	if( this.animate && !this.switchInterval ) this.switchInterval = setInterval( this.switchColor.bind(this), 1000 );
 	if( !this.animate && this.switchInterval ) clearInterval( this.switchInterval );
 	this.linearGradient.stops[0].color = 'rgba('+Math.round(this.c1.r)+','+Math.round(this.c1.g)+','+Math.round(this.c1.b)+',1)';

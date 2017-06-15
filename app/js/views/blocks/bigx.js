@@ -20,9 +20,6 @@ var Bigx = function( parent, block ) {
 
 	this.group = this.parent.parent.two.makeGroup( this.rect, this.line1, this.line2, this.rectStroke );
 }
-Bigx.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group )
-}
 
 Bigx.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();

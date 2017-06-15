@@ -10,9 +10,6 @@ var Empty = function( parent, block ) {
 
 	this.group = this.parent.parent.two.makeGroup( this.rect );
 }
-Empty.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
-}
 
 Empty.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();

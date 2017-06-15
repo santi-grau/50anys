@@ -79,10 +79,6 @@ Noise2.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns 
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
 }
 
-Noise2.prototype.destroy = function( val ){
-	this.parent.parent.scene.remove(this.group);
-}
-
 Noise2.prototype.step = function( time ) {
 	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
 	else this.timeInc += ( 0 - this.timeInc ) * 0.03;

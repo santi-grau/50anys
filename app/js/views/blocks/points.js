@@ -39,12 +39,9 @@ Points.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns 
 	}
 }
 
-
-Points.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
-}
-
 Points.prototype.step = function() {
+	
+	if( !this.parent.active ) return;
 	if( !this.animate ) return;
 	this.seqCount++;
 	if( this.seqCount % this.seq !== 0 ) return;

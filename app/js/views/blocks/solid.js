@@ -14,10 +14,6 @@ var Solid = function( parent, block ) {
 	this.group = this.parent.parent.two.makeGroup( this.rect );
 }
 
-Solid.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
-}
-
 Solid.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#000000', '#000000').restore();
 }

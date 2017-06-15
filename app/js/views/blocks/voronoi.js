@@ -52,10 +52,6 @@ Voronoi.prototype.compute = function( val ){
 	this.diagram = new voronoi().compute(this.points, this.bbox);
 }
 
-Voronoi.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group )
-}
-
 Voronoi.prototype.step = function( time ) {
 	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
 	else this.timeInc += ( 0 - this.timeInc ) * 0.03;

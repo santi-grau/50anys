@@ -100,10 +100,6 @@ Glitch.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
 		} );
 }
 
-Glitch.prototype.destroy = function( val ){
-	this.parent.parent.scene.remove(this.group);
-}
-
 Glitch.prototype.step = function( time ) {
 	if( this.animate ){
 		this.group.children[0].material.uniforms.time.value = Math.random() * 1000;

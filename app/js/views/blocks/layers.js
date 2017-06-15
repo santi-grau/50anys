@@ -45,10 +45,6 @@ Layers.prototype.onRepeat = function( ){
 	if(!this.animate) this.tween.pause();
 }
 
-Layers.prototype.destroy = function( val ){
-	this.parent.parent.scene.remove(this.group);
-}
-
 Layers.prototype.updateLayers = function( n ){
 	for( var i = 0 ; i < this.group.children.length ; i++ ){
 		if( i < n * 2 ) this.group.children[i].visible = true;

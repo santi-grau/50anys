@@ -14,14 +14,14 @@ Selector.prototype.setActive = function( active, block ){
 	this.nameSpan.innerHTML = block.currentBlock.name || 'N/A';
 	this.animateSpan.innerHTML = ( block.currentBlock.noAnimate ) ? 'N/A' : ( ( block.block.a ) ? 'Yes' : 'No' );
 	this.containerEl.classList.add('active');
-	if( block.block.x < this.parent.containerEl.offsetWidth / 2 ){
+	if( block.block.x < this.parent.containerOne.offsetWidth / 2 ){
 		this.containerEl.classList.remove('left');
 		this.containerEl.classList.add('right');
-		this.containerEl.setAttribute('style', 'left:' + (  this.parent.containerEl.offsetLeft + block.block.x + block.block.w + this.parent.moduleSize * 0.6 ) + 'px;top:' + ( block.block.y + block.block.h / 2 + this.parent.containerEl.offsetTop ) + 'px;' );
+		this.containerEl.setAttribute('style', 'left:' + (  this.parent.containerOne.offsetLeft + block.block.x + block.block.w + this.parent.moduleSize * 0.6 ) + 'px;top:' + ( block.block.y + block.block.h / 2 + this.parent.containerOne.offsetTop ) + 'px;' );
 	} else {
 		this.containerEl.classList.remove('right');
 		this.containerEl.classList.add('left');
-		this.containerEl.setAttribute('style', 'left:' + ( block.block.x + this.parent.containerEl.offsetLeft ) + 'px;top:' + ( block.block.y + block.block.h / 2 + this.parent.containerEl.offsetTop ) + 'px;' );
+		this.containerEl.setAttribute('style', 'left:' + ( block.block.x + this.parent.containerOne.offsetLeft ) + 'px;top:' + ( block.block.y + block.block.h / 2 + this.parent.containerOne.offsetTop ) + 'px;' );
 	}	
 }
 

@@ -58,7 +58,6 @@ var App = function() {
 	var language = window.navigator.userLanguage || window.navigator.language;
 	if( language == 'en-US') document.body.classList.add('en');
 	
-
 	this.wsReady = true;
 	
 	var host = 'ws://54.93.229.125';
@@ -72,13 +71,14 @@ var App = function() {
 	// this.download = new Download( this );
 
 	this.blockScripts = blockScripts;
-
+	this.bufferOld = 4;
 	this.loadStates = {
 		textures : false,
 		ws : false
 	}
 
 	this.logos = [];
+	this.logoList = [];
 
 	this.moduleSize = null;
 
@@ -93,7 +93,6 @@ var App = function() {
 
 	this.event = new Event('textures');
 	window.addEventListener('textures', function(){ this.onReady('textures') }.bind(this), false);
-
 
 	this.textures = new Textures( this );
 
@@ -144,15 +143,15 @@ var App = function() {
 	this.step();
 }
 
-App.prototype.updateLogo = function( ){
-	this.containerEl.classList.remove('active');
-	if( this.logos[ this.letterId ] ){
-		setTimeout( function(){  this.makeLetter( this.logos[ this.letterId ] ); }.bind(this), 500 );
-		return;
-	}
+App.prototype.updateLogo = function( id ){
+	var _this = this;
 	var oReq = new XMLHttpRequest();
-	oReq.addEventListener('load', this.loadLetter.bind(this));
-	oReq.open('GET', 'https://s3.eu-central-1.amazonaws.com/eina50/' + this.letterId + '.json');
+	oReq.addEventListener('load', function(data){
+		var data = JSON.parse( data.currentTarget.responseText );
+		_this.logos[ id ] = data;
+		_this.makeLetter( data, id );
+	});
+	oReq.open('GET', 'https://s3.eu-central-1.amazonaws.com/eina50/' + id + '.json');
 	oReq.send();
 }
 
@@ -167,21 +166,48 @@ App.prototype.updateLogoCount = function( ){
 App.prototype.prevLogo = function( ){
 	if( this.letterId > 0 ) this.letterId--;
 	if( this.letterId == 0 ) this.prevBut.classList.remove('active');
+
+	if(this.logoList[this.letterId]) this.logoList[this.letterId].build();
+
+	var toLoadId = this.letterId - ( this.bufferOld - 1 );
+	if( !this.logos[ toLoadId ] ) this.updateLogo( toLoadId );
+	
+	// TweenMax.to( this.scene.position, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.cameraMoveEnd.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+	// TweenMax.to( this.two.scene.translation, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+	
+	this.scene.position.x = window.innerWidth * ( this.totalLetters - this.letterId );
+	this.two.scene.translation.x = window.innerWidth * ( this.totalLetters - this.letterId );
+	this.cameraMoveEnd();
+
+	this.containerOne.classList.remove('active');
+	
 	this.nextBut.classList.add('active');
-	this.updateLogo();
+	this.updateLogoCount();
+}
+
+App.prototype.cameraMoveEnd = function( ){
+	if(this.logoList[this.letterId + 1]) this.logoList[this.letterId + 1].destroy();
+	if(this.logoList[this.letterId - 1]) this.logoList[this.letterId - 1].destroy();
 }
 
 App.prototype.nextLogo = function( ){
 	if( this.letterId < this.totalLetters ) this.letterId++;
-	if( this.letterId == this.totalLetters ) this.nextBut.classList.remove('active');
-	this.prevBut.classList.add('active');
-	this.updateLogo();
-}
+	if( this.letterId == this.totalLetters ){
+		this.nextBut.classList.remove('active');
+		this.containerOne.classList.add('active');
+	}
+	
+	if(this.logoList[this.letterId]) this.logoList[this.letterId].build();
 
-App.prototype.loadLetter = function( e ){
-	var data = JSON.parse(e.currentTarget.responseText);
-	this.logos[ this.letterId ] = data;
-	this.makeLetter( data );
+	this.scene.position.x = window.innerWidth * ( this.totalLetters - this.letterId );
+	this.two.scene.translation.x = window.innerWidth * ( this.totalLetters - this.letterId );
+	this.cameraMoveEnd();
+
+	// TweenMax.to( this.scene.position, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.cameraMoveEnd.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+	// TweenMax.to( this.two.scene.translation, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+
+	this.prevBut.classList.add('active');
+	this.updateLogoCount();
 }
 
 App.prototype.infoShow = function(  ){
@@ -211,7 +237,7 @@ App.prototype.ws_removeCursor = function( d ){
 App.prototype.ws_updateLetter = function( d ){
 	this.totalLetters ++;
 	this.logos.push(d.data);
-	this.makeLetter( d.data );
+	this.makeLetter( d.data, this.totalLetters );
 }
 
 App.prototype.ws_setup = function( d ){
@@ -221,9 +247,17 @@ App.prototype.ws_setup = function( d ){
 	this.totalLetters = d.data.letterId;
 
 	for( var i = 0 ; i < this.totalLetters ; i++ ) this.logos.push( null );
+	for( var i = 0 ; i < this.totalLetters ; i++ ) this.logoList.push( null );
 	this.logos.push( this.data );
+	
+	this.updateLogoCount();
 
 	this.onReady('ws');
+
+	for( var i = 1 ; i < this.bufferOld ; i++ ) this.updateLogo(this.letterId-i);
+	if(this.logoList[this.letterId])  this.logoList[this.letterId].build();
+
+
 }
 
 App.prototype.ws_blockTexture = function( d ){
@@ -243,47 +277,81 @@ App.prototype.sendCurrentMouse = function(){
 	if( this.wsReady ) this.ws.send(  JSON.stringify( { 't' : 'cursor', 'id' : this.id, 'cursor' : this.cursor } ) );
 }
 
-App.prototype.makeLetter = function( data ){
-
-	if( this.blocks ) for( var i = 0 ; i < this.blocks.length ; i++ ) this.blocks[i].destroy();
-	for( var i = 0 ; i < this.two.scene.children.length ; i++ ) this.two.remove( this.two.scene.children[i] );
-	
+var Logo = function( parent, id, data ){
+	this.parent = parent;
+	this.id = id;
 	this.data = data;
 	this.blocks = [];
+}
 
-	var screenAr = ( window.innerHeight * 0.6 ) / window.innerWidth;
-	var logoAr = data.viewBox[1] / data.viewBox[0];
+Logo.prototype.build = function(){
+	if(!this.data) return;
+	this.threeGroup = new THREE.Group();
+	this.parent.scene.add(this.threeGroup);
+	this.twoGroup = new Two.Group();
+	this.parent.two.add( this.twoGroup );
+
+	var makeDom = ( this.parent.totalLetters == this.id ) ? true : false;
+	for( var i = 0 ; i < this.data.list.length ; i++ ){
+		this.blocks.push( new Block( this.parent, { x : this.data.list[i].x * this.parent.moduleSize, y : this.data.list[i].y * this.parent.moduleSize, w : this.data.list[i].w * this.parent.moduleSize, h : this.data.list[i].h * this.parent.moduleSize, t : this.data.list[i].t, a : this.data.list[i].a }, i, this.parent.lineWidth, makeDom ) );
+		if(this.blocks[i].currentBlock.group.type) this.threeGroup.add( this.blocks[i].currentBlock.group );
+		else this.twoGroup.add( this.blocks[i].currentBlock.group );
+	}
+
+	if(makeDom){
+		this.parent.containerOne.style.width = this.data.viewBox[0] * this.parent.moduleSize + 'px';
+		this.parent.containerOne.style.height = this.data.viewBox[1] * this.parent.moduleSize + 'px';
+
+		this.parent.containerOne.style['margin-left'] = this.data.viewBox[0] / -2 * this.parent.moduleSize + 'px';
+		this.parent.containerOne.style['margin-top'] = this.data.viewBox[1] / -2 * this.parent.moduleSize + 'px';
+	}
+	this.resize();
+}
+
+Logo.prototype.destroy = function(){
+	console.log(this.parent.two.scene.children)
+
+
+	this.parent.scene.remove(this.threeGroup);
+	this.parent.two.remove(this.twoGroup);
+	for( var i = 0 ; i < this.blocks.length ; i++ ){
+		this.blocks[i].active = false;
+		this.blocks[i].destroy();
+	}
+	this.blocks = [];
+
+}
+
+Logo.prototype.resize = function(){
+	this.threeGroup.position.x = this.parent.containerEl.offsetWidth / 2 - ( this.data.viewBox[0] * this.parent.moduleSize ) / 2 - window.innerWidth * ( this.parent.totalLetters - this.id );
+	this.threeGroup.position.y = -this.parent.containerEl.offsetHeight / 2 + ( this.data.viewBox[1] * this.parent.moduleSize ) / 2;
+
+	this.twoGroup.translation.set( this.parent.containerEl.offsetWidth / 2 - ( this.data.viewBox[0] * this.parent.moduleSize ) / 2 - window.innerWidth * ( this.parent.totalLetters - this.id ), this.parent.containerEl.offsetHeight / 2 - ( this.data.viewBox[1] * this.parent.moduleSize ) / 2 );
+}
+
+App.prototype.makeLetter = function( data, id ){
 
 	if( !this.moduleSize ){
+		var screenAr = ( window.innerHeight * 0.6 ) / window.innerWidth;
+		var logoAr = data.viewBox[1] / data.viewBox[0];
 		if( screenAr < logoAr ){
-			if( data.viewBox[1] * 35 < window.innerHeight * 0.7 ) this.moduleSize = 35;
+			if( data.viewBox[1] * 30 < window.innerHeight * 0.7 ) this.moduleSize = 30;
 			else if( data.viewBox[1] * 25 < window.innerHeight * 0.7 ) this.moduleSize = 25;
 			else this.moduleSize = 15;
 		} else {
-			if( data.viewBox[0] * 35 < window.innerWidth * 0.75 ) this.moduleSize = 35;
+			if( data.viewBox[0] * 30 < window.innerWidth * 0.75 ) this.moduleSize = 30;
 			else if( data.viewBox[0] * 25 < window.innerWidth * 0.75 ) this.moduleSize = 25;
 			else this.moduleSize = 15;
 		}
 
-		this.lineWidth;
 		if( this.moduleSize == 15 ) this.lineWidth = 2;
 		if( this.moduleSize == 25 ) this.lineWidth = 4;
-		if( this.moduleSize == 35 ) this.lineWidth = 6;
+		if( this.moduleSize == 30 ) this.lineWidth = 5;
 	}
-	// console.log(this.moduleSize)
 
-	this.containerEl.style.width = data.viewBox[0] * this.moduleSize + 'px';
-	this.containerEl.style.height = data.viewBox[1] * this.moduleSize + 'px';
-
-	this.containerEl.style['margin-left'] = data.viewBox[0] / -2 * this.moduleSize + 'px';
-	this.containerEl.style['margin-top'] = data.viewBox[1] / -2 * this.moduleSize - this.moduleSize + 'px';
-
-	for( var i = 0 ; i < data.list.length ; i++ ) this.blocks.push( new Block( this, { x : data.list[i].x * this.moduleSize, y : data.list[i].y * this.moduleSize, w : data.list[i].w * this.moduleSize, h : data.list[i].h * this.moduleSize, t : data.list[i].t, a : data.list[i].a }, i, this.lineWidth ) );
-	this.updateLogoCount();
-	this.containerEl.classList.add('active');
+	this.logoList[id] = new Logo( this, id, data );
 
 	this.onResize();
-	// this.download.exportImage();
 }
 
 App.prototype.onReady = function( event ){
@@ -292,7 +360,8 @@ App.prototype.onReady = function( event ){
 
 	clearInterval( this.byPassSocketTimer );
 	setInterval( this.sendCurrentMouse.bind(this), 250 );
-	this.makeLetter( this.data );
+
+	this.makeLetter( this.data, this.letterId );
 }
 
 App.prototype.onResize = function(e) {
@@ -316,7 +385,7 @@ App.prototype.onResize = function(e) {
 App.prototype.step = function( time ) {
 	window.requestAnimationFrame( this.step.bind( this ) );
 	this.renderer.render( this.scene, this.camera );
-	for( var i = 0 ; i < this.blocks.length ; i++ ) this.blocks[i].step(time);
+	if( this.logoList[ this.letterId ] ) for( var i = 0 ; i < this.logoList[this.letterId].blocks.length ; i++ ) this.logoList[this.letterId].blocks[i].step(time);
 	this.cursors.step();
 	this.timer.step();
 };

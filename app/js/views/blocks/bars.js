@@ -56,10 +56,6 @@ Bars.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
 }
 
-Bars.prototype.destroy = function( val ){
-	this.parent.parent.two.remove( this.group );
-}
-
 Bars.prototype.step = function( time ) {
 	if( this.animate ) this.timeInc += ( this.timeTarget - this.timeInc ) * 0.03;
 	else this.timeInc += ( 0 - this.timeInc ) * 0.03;
