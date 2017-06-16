@@ -4,12 +4,10 @@ html
     meta(charset='utf-8')
     meta(http-equiv="Content-Type",content="text/html; charset=utf-8")
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0')
     title Eina 50 anys
-    meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', id='mainStylesheet' href='css/main.css')
   body
-
     #main.active
         #one.inner.active
         #two.inner
@@ -21,9 +19,9 @@ html
 
     #nav
         span.prev
-            a#prevBut.active(href='javascript:void(0)') ← Prev
+            a#prevBut.active(href='javascript:void(0)') ← #[span.copy Prev ]
         span.next
-            a#nextBut(href='javascript:void(0)') Next →
+            a#nextBut(href='javascript:void(0)') #[span.copy Next ] →
 
     #title(style='white-space:pre;')
         | ------------------------ ---
@@ -73,9 +71,9 @@ html
     #info
         .content.en
             p(style='white-space:pre;')
-                | ┌────────────────────────────────────────────────────────────────────┐
-                | | Eina 50 Anys                                                       |
-                | └────────────────────────────────────────────────────────────────────┘
+                | ┌────────────────────────────────────────────────┐
+                | | Eina 50 Anys                                   |
+                | └────────────────────────────────────────────────┘
             p
                 | This is an interactive logo to commemorate the 50th Anniversary of Eina's Design Foundation in Barcelona:
             p
@@ -93,19 +91,22 @@ html
             p
                 | 5. Each logo version can be exported for print clicking the top-right button ( desktop only )
 
-            p(style='white-space:pre;')
+            p
                 | The goals of this experience are:
+            p
                 |   1. Make design a col.laborative experience at everyone's reach
+            p
                 |   2. Create an evolutionary logo that expresses and shows how time passes
+            p
                 |   3. Commemorate Eina's 50 year anniversary emphasizing it's diversity and plurality.
 
         .content.cat
             p(style='white-space:pre;')
-                | ┌────────────────────────────────────────────────────────────────────┐
-                | | Eina 50 Anys                                                       |
-                | └────────────────────────────────────────────────────────────────────┘
+                | ┌────────────────────────────────────────────────┐
+                | | Eina 50 Anys                                   |
+                | └────────────────────────────────────────────────┘
             p
-                | Logotip interactiu pel 50 aniversari de la Fundació Eina::
+                | Logotip interactiu pel 50 aniversari de la Fundació Eina:
             p
                 | 1. Cada dia a les 00h 00m 00s es genera un nou logotip mitjançant una sèrie de blocs distribuïts de forma aleatòria. 
                 | Cada bloc conté una textura que pot ser, (o no), animada.
@@ -118,15 +119,18 @@ html
                 | 3. Al final del dia, a les 23h 59m 59s, el logotip es guardarà i es generarà un de nou.
             p
                 | 4. Els logos generats quedaran enmagatzemats i es podran visitar per tal de veure la seva evolució.
-                | Es pot navegar pels logos clicant als botons anterior / següent ( o fent swipe al mòbil ).   
+                | Es pot navegar pels logos clicant als botons anterior / següent.   
             p
                 | 5. Totes les versions del logo es poden exportar per imprimir
                 | fent click al boto de dalt a la dreta ( només versio desktop ).
 
-            p(style='white-space:pre;')
+            p
                 | Els objectius d'aquesta experiència són:
+            p
                 |   1. Fer del disseny una experiència col.laborativa, a l’abast de tothom.
+            p
                 |   2. Fer un logo evolutiu que mostri el pas del temps.
+            p
                 |   3. Enfatitzar la diversitat i pluralitat que ha fet d’Eina una escola de referència.
            
 

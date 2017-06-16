@@ -10,6 +10,20 @@ body
 	padding 0
 	font-family Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif
 	font-size 12px
+	overflow hidden
+	#scroller
+		display none
+		width 400vw
+		height 50%
+		position absolute
+		top 0
+		left 0
+		background #ff0000;
+		z-index 5
+		.inner
+			width 100vw
+			height 100vh
+			float left
 	#nav
 		width 100%
 		position absolute
@@ -32,7 +46,7 @@ body
 					display inline
 	#title
 		width 100%
-		position absolute
+		position fixed
 		bottom 30px
 		text-align center
 		z-index 4
@@ -189,8 +203,8 @@ body
 		height 100%
 		background-color rgba(0,0,0,0.8)
 		color #ffffff
-		padding 30px
-		overflow scroll
+		overflow-x scroll
+		overflow-y scroll
 		cursor pointer
 		transition opacity 0.4s, top 0.1s 0.5s
 		&.active
@@ -198,6 +212,7 @@ body
 			opacity 1
 			transition opacity 0.4s
 		.content
+			padding 30px
 			width 500px
 			padding-bottom 60px
 			&.en
@@ -213,12 +228,60 @@ body.en
 	display none
 
 @media only screen and (min-device-width : 414px) and (max-device-width : 736px)
-	#selector, #nav
+	body
+		#info, #download
+			font-size 10px
+			-webkit-overflow-scrolling: touch;
+			.content
+				padding 10px
+				width calc( 100% - 20px )
+		#nav
+			z-index 6
+			top auto
+			margin-top auto
+			bottom 45px
+			.copy
+				display none
+			
+	#selector
 		display none
+	
+
 @media only screen and (min-device-width : 375px) and (max-device-width : 667px)
-	#selector, #nav
+	body
+		#info, #download
+			font-size 10px
+			-webkit-overflow-scrolling: touch;
+			.content
+				padding 10px
+				width calc( 100% - 20px )
+		#nav
+			z-index 6
+			top auto
+			margin-top auto
+			bottom 45px
+			.copy
+				display none
+			
+	#selector
 		display none
 @media only screen and (min-device-width : 320px) and (max-device-width : 568px)
-	#selector, #nav
+	body
+		#info, #download
+			font-size 10px
+			-webkit-overflow-scrolling: touch;
+			.content
+				padding 10px
+				width calc( 100% - 20px )
+		#nav
+			z-index 6
+			top auto
+			margin-top auto
+			bottom 45px
+			.copy
+				display none
+			
+	#selector
 		display none
+
 	

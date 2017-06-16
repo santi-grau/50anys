@@ -58,7 +58,7 @@ Voronoi.prototype.step = function( time ) {
 	this.time += this.timeInc;
 
 	this.countFrame++;
-	if( this.countFrame == 2 ) this.countFrame = 0;
+	if( this.countFrame == 6 ) this.countFrame = 0;
 	else return;
 	
 	this.group.remove( this.lines );

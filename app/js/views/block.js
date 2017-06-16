@@ -20,7 +20,9 @@ var Block = function( parent, block, id, lineWidth, makeDom ){
 
 		// add Event listeners for dom element
 		this.containerEl.addEventListener('mousedown', this.mousedown.bind(this) );
+		this.containerEl.addEventListener('touchstart', this.mousedown.bind(this) );
 		this.containerEl.addEventListener('mouseup', this.mouseup.bind(this) );
+		this.containerEl.addEventListener('touchend', this.mouseup.bind(this) );
 		this.containerEl.addEventListener('mouseenter', this.mouseEnter.bind(this) );
 		this.containerEl.addEventListener('mouseleave', this.mouseLeave.bind(this) );
 	}
@@ -81,6 +83,7 @@ Block.prototype.setBlockAnimate = function( animate ){
 }
 
 Block.prototype.mousedown = function( e ){
+	e.preventDefault();
 	this.down = true;
 	this.longPressTimer = setTimeout( this.animateTimerOn.bind(this), 500 );
 	this.timerInterval = setTimeout( function(){

@@ -68,6 +68,8 @@ var App = function() {
 
 	this.cursors = new Cursors( this );
 	this.timer = new Timer( this );
+
+	this.camPosition = 0;
 	// this.download = new Download( this );
 
 	this.blockScripts = blockScripts;
@@ -150,6 +152,7 @@ App.prototype.updateLogo = function( id ){
 		var data = JSON.parse( data.currentTarget.responseText );
 		_this.logos[ id ] = data;
 		_this.makeLetter( data, id );
+		if( id == _this.letterId - 1 ) _this.logoList[_this.letterId].build();
 	});
 	oReq.open('GET', 'https://s3.eu-central-1.amazonaws.com/eina50/' + id + '.json');
 	oReq.send();
@@ -166,28 +169,33 @@ App.prototype.updateLogoCount = function( ){
 App.prototype.prevLogo = function( ){
 	if( this.letterId > 0 ) this.letterId--;
 	if( this.letterId == 0 ) this.prevBut.classList.remove('active');
-
+	
 	if(this.logoList[this.letterId]) this.logoList[this.letterId].build();
 
 	var toLoadId = this.letterId - ( this.bufferOld - 1 );
 	if( !this.logos[ toLoadId ] ) this.updateLogo( toLoadId );
 	
-	// TweenMax.to( this.scene.position, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.cameraMoveEnd.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
-	// TweenMax.to( this.two.scene.translation, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+	TweenMax.to( this.scene.position, 0.4, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.sortScene.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+	TweenMax.to( this.two.scene.translation, 0.4, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 	
-	this.scene.position.x = window.innerWidth * ( this.totalLetters - this.letterId );
-	this.two.scene.translation.x = window.innerWidth * ( this.totalLetters - this.letterId );
-	this.cameraMoveEnd();
+	// this.scene.position.x = window.innerWidth * ( this.totalLetters - this.letterId );
+	// this.two.scene.translation.x = window.innerWidth * ( this.totalLetters - this.letterId );
+	// this.sortScene();
 
 	this.containerOne.classList.remove('active');
 	
 	this.nextBut.classList.add('active');
 	this.updateLogoCount();
+
+	setTimeout( this.sortScene.bind(this), 1000 );
 }
 
-App.prototype.cameraMoveEnd = function( ){
-	if(this.logoList[this.letterId + 1]) this.logoList[this.letterId + 1].destroy();
-	if(this.logoList[this.letterId - 1]) this.logoList[this.letterId - 1].destroy();
+App.prototype.sortScene = function( ){
+	// if(this.logoList[this.letterId + 1]) this.logoList[this.letterId + 1].destroy();
+	// if(this.logoList[this.letterId - 1]) this.logoList[this.letterId - 1].destroy();
+	for( var i = 0 ; i < this.logoList.length ; i++ ){
+		if( this.logoList[i] && this.logoList[i].active && ( i !== this.letterId ) ) this.logoList[i].destroy()
+	}
 }
 
 App.prototype.nextLogo = function( ){
@@ -196,18 +204,22 @@ App.prototype.nextLogo = function( ){
 		this.nextBut.classList.remove('active');
 		this.containerOne.classList.add('active');
 	}
-	
 	if(this.logoList[this.letterId]) this.logoList[this.letterId].build();
 
-	this.scene.position.x = window.innerWidth * ( this.totalLetters - this.letterId );
-	this.two.scene.translation.x = window.innerWidth * ( this.totalLetters - this.letterId );
-	this.cameraMoveEnd();
+	// this.scene.position.x = window.innerWidth * ( this.totalLetters - this.letterId );
+	// this.two.scene.translation.x = window.innerWidth * ( this.totalLetters - this.letterId );
+	// this.sortScene();
 
-	// TweenMax.to( this.scene.position, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.cameraMoveEnd.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+	TweenMax.to( this.scene.position, 0.4, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.sortScene.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+	TweenMax.to( this.two.scene.translation, 0.4, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+
+	// TweenMax.to( this.scene.position, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.sortScene.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 	// TweenMax.to( this.two.scene.translation, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
+	// TweenMax.to( this, 0.6, { camPosition : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.sortScene.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 
 	this.prevBut.classList.add('active');
 	this.updateLogoCount();
+	setTimeout( this.sortScene.bind(this), 1000 );
 }
 
 App.prototype.infoShow = function(  ){
@@ -255,7 +267,8 @@ App.prototype.ws_setup = function( d ){
 	this.onReady('ws');
 
 	for( var i = 1 ; i < this.bufferOld ; i++ ) this.updateLogo(this.letterId-i);
-	if(this.logoList[this.letterId])  this.logoList[this.letterId].build();
+
+	// if(this.logoList[this.letterId])  this.logoList[this.letterId].build();
 
 
 }
@@ -286,6 +299,7 @@ var Logo = function( parent, id, data ){
 
 Logo.prototype.build = function(){
 	if(!this.data) return;
+	this.active = true;
 	this.threeGroup = new THREE.Group();
 	this.parent.scene.add(this.threeGroup);
 	this.twoGroup = new Two.Group();
@@ -305,20 +319,27 @@ Logo.prototype.build = function(){
 		this.parent.containerOne.style['margin-left'] = this.data.viewBox[0] / -2 * this.parent.moduleSize + 'px';
 		this.parent.containerOne.style['margin-top'] = this.data.viewBox[1] / -2 * this.parent.moduleSize + 'px';
 	}
+
 	this.resize();
 }
 
+Logo.prototype.ping = function(){
+	// if( this.id = this.letterId && !this.active ) this.build();
+}
+
 Logo.prototype.destroy = function(){
-	console.log(this.parent.two.scene.children)
-
-
+	
+	this.active = false;
 	this.parent.scene.remove(this.threeGroup);
 	this.parent.two.remove(this.twoGroup);
 	for( var i = 0 ; i < this.blocks.length ; i++ ){
+		if( this.blocks[i].containerEl ) this.blocks[i].containerEl.remove()
 		this.blocks[i].active = false;
 		this.blocks[i].destroy();
 	}
 	this.blocks = [];
+
+	console.log(this.parent.two.scene.children)
 
 }
 
@@ -350,7 +371,6 @@ App.prototype.makeLetter = function( data, id ){
 	}
 
 	this.logoList[id] = new Logo( this, id, data );
-
 	this.onResize();
 }
 
@@ -377,13 +397,16 @@ App.prototype.onResize = function(e) {
 	this.two.width = this.containerThree.offsetWidth;
 	this.two.height = this.containerThree.offsetHeight;
 
-	this.grid = new Grid( this.moduleSize );
+	this.grid = new Grid( this, this.moduleSize );
 	
 	this.grid.resize( );
 }
 
 App.prototype.step = function( time ) {
 	window.requestAnimationFrame( this.step.bind( this ) );
+
+	// this.scene.position.x = this.camPosition
+	// this.two.scene.translation.x = this.camPosition;
 	this.renderer.render( this.scene, this.camera );
 	if( this.logoList[ this.letterId ] ) for( var i = 0 ; i < this.logoList[this.letterId].blocks.length ; i++ ) this.logoList[this.letterId].blocks[i].step(time);
 	this.cursors.step();

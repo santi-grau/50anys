@@ -1,4 +1,5 @@
-var Grid = function( size ) {
+var Grid = function( parent, size ) {
+	this.parent = parent;
 	this.modSize = size;
 	this.subDivisions = 4;
 	this.lineWidth = 2;
@@ -52,14 +53,14 @@ var Grid = function( size ) {
 
 	var dt = canvas.toDataURL('image/png');
 
-	document.body.style.background = 'url('+dt+')';
-	document.body.style['background-size'] = this.modSize+'px ' + this.modSize+'px';
+	this.parent.containerEl.style.background = 'url('+dt+')';
+	this.parent.containerEl.style['background-size'] = this.modSize+'px ' + this.modSize+'px';
 
 	this.resize();
 }
 
 Grid.prototype.resize = function( offset ){
-	document.body.style['background-position'] = ( window.innerWidth / 2 - this.modSize  ) + 'px ' + ( window.innerHeight / 2 - this.modSize ) + 'px';
+	this.parent.containerEl.style['background-position'] = ( window.innerWidth / 2 - this.modSize  ) + 'px ' + ( window.innerHeight / 2 - this.modSize ) + 'px';
 }
 
 module.exports = Grid;

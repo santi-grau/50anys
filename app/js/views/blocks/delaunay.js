@@ -76,7 +76,7 @@ Delaunay.prototype.exportPDF = function( block, doc, scale, strokeWidth, pattern
 
 Delaunay.prototype.step = function( time ) {
 	if( !this.parent.active ) clearInterval( this.switchInterval );
-	if( this.animate && !this.switchInterval ) this.switchInterval = setInterval( this.triangulate.bind(this), 100 );
+	if( this.animate && !this.switchInterval ) this.switchInterval = setInterval( this.triangulate.bind(this), 400 );
 	if( !this.animate && this.switchInterval ) clearInterval( this.switchInterval );
 };
 
