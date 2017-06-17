@@ -1,30 +1,35 @@
+var Block = require('./block');
+
+
 var patterns = require('../../media/patterns2.svg');
 var PDFDocument = require('pdfkit');
 var blobStream  = require('blob-stream');
 
-var Download = function( parent ){
+var Download = function( parent, data, id ){
 	this.parent = parent;
-	this.containerEl = document.getElementById('download');
-	this.exportImageBut = document.getElementsByClassName('exportImage');
-	
-	for(var i = 0 ; i < this.exportImageBut.length ; i++ ) this.exportImageBut[i].addEventListener('click', this.exportImage.bind(this) );
+	this.data = data;
+	this.id = id;
+
 	this.patterns = {};
 	var ps = new DOMParser().parseFromString(patterns, "image/svg+xml").getElementsByTagName('path');
 	for( var i = 0 ; i < ps.length ; i++ ) this.patterns[ps[i].getAttribute('id')] = ps[i].getAttribute('d');
-}
 
-Download.prototype.exportImage = function( e ){
+	var tt = String(this.id).split('');
+	var ttt = '';
+	for( var i = 0 ; i < 5 - tt.length ; i++ ) ttt += '0';
+	for( var i =0 ; i < tt.length ; i++ ) ttt += tt[i];
+
 	var doc = new PDFDocument({
 		size : 'A5',
 		info: {
-			Title: '50 Anys Eina | Logo 321',
+			Title: '50 Anys Eina | Logo #' + ttt,
 			Author: 'Santi Grau'
 		}
 	});
 
 	var stream = doc.pipe(blobStream());
 	
-	var viewBox = this.parent.logos[ this.parent.letterId ].viewBox;
+	var viewBox = this.data.viewBox;
 	var scale = doc.page.width / ( viewBox[0] + 2 );
 
 	doc.page.margins.top = scale;
@@ -32,9 +37,14 @@ Download.prototype.exportImage = function( e ){
 	doc.page.margins.bottom = scale;
 	doc.page.margins.left = scale;
 	
-	var blocks = this.parent.logos[ this.parent.letterId ].list;
+	var blocks = this.data.list;
 
 	var layerBlocks = [];
+	this.blocks = [];
+
+	for( var i = 0 ; i < blocks.length ; i++ ){
+		this.blocks.push( new Block( this.parent, { x : this.data.list[i].x * this.parent.moduleSize, y : this.data.list[i].y * this.parent.moduleSize, w : this.data.list[i].w * this.parent.moduleSize, h : this.data.list[i].h * this.parent.moduleSize, t : this.data.list[i].t, a : this.data.list[i].a }, i, this.parent.lineWidth, false ) );
+	}
 
 	for( var i = 0 ; i < blocks.length ; i++ ){
 		blocks[i].x *= scale;
@@ -43,16 +53,16 @@ Download.prototype.exportImage = function( e ){
 		blocks[i].h *= scale;
 		blocks[i].x += doc.page.margins.left;
 		blocks[i].y += doc.page.margins.top;
-		if( this.parent.blocks[i].currentBlock.exportPDF && blocks[i].t !== 'layers' ) this.parent.blocks[i].currentBlock.exportPDF( blocks[i], doc, scale, 3, this.patterns );
+		if( this.blocks[i].currentBlock.exportPDF && blocks[i].t !== 'layers' ) this.blocks[i].currentBlock.exportPDF( blocks[i], doc, scale, 3, this.patterns );
 		if( blocks[i].t == 'layers' ) layerBlocks.push( i );
 	}
 
 	var maxLayers = 0;
-	for( var i = 0 ; i < layerBlocks.length ; i++ ) maxLayers = Math.max( maxLayers, this.parent.blocks[layerBlocks[i]].currentBlock.amount );
+	for( var i = 0 ; i < layerBlocks.length ; i++ ) maxLayers = Math.max( maxLayers, this.blocks[layerBlocks[i]].currentBlock.amount );
 
 	for( var i = 0 ; i < maxLayers ; i++ ){
 		for( var j = 0 ; j < layerBlocks.length ; j++ ){
-			if( i < this.parent.blocks[layerBlocks[j]].currentBlock.amount ) this.parent.blocks[layerBlocks[j]].currentBlock.exportPDF( blocks[layerBlocks[j]], doc, scale, 3, i );
+			if( i < this.blocks[layerBlocks[j]].currentBlock.amount ) this.blocks[layerBlocks[j]].currentBlock.exportPDF( blocks[layerBlocks[j]], doc, scale, 3, i );
 		}
 	}
 
@@ -68,30 +78,9 @@ Download.prototype.exportImage = function( e ){
 			var csvUrl = URL.createObjectURL(blob);
 			var element = document.createElement('a');
 			element.setAttribute('href', csvUrl);
-
-			// open
-			var w = window.open(csvUrl);
-
-			// download
-			// element.setAttribute('download', 'SVGexport');
-			// element.style.display = 'none';
-			// document.body.appendChild(element);
-			// element.click();
-			// document.body.removeChild(element);
+			var w = window.open(csvUrl,"_self");
 		})
 	}, 1000)
-	
-}
-
-
-
-Download.prototype.show = function( show ){
-	this.exportImage();
-	// console.log(this.parent.textures.txtrsSvg)
-	this.containerEl.classList.add('active')
-}
-
-Download.prototype.step = function( ){
 	
 }
 
