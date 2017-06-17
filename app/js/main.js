@@ -4,7 +4,6 @@ window.BezierEasing = require('bezier-easing');
 
 var Block = require('./views/block');
 var Timer = require('./views/timer');
-// var Download = require('./views/download');
 var Cursors = require('./views/cursors');
 var Grid = require('./views/grid');
 var Selector = require('./views/selector');
@@ -69,9 +68,6 @@ var App = function() {
 	this.cursors = new Cursors( this );
 	this.timer = new Timer( this );
 
-	this.camPosition = 0;
-	// this.download = new Download( this );
-
 	this.blockScripts = blockScripts;
 	this.bufferOld = 4;
 	this.loadStates = {
@@ -104,8 +100,7 @@ var App = function() {
 	this.containerThree = document.getElementById('three');
 	this.info = document.getElementById('info');
 	this.infoSign = document.getElementById('infoSign');
-	// this.downloadSign = document.getElementById('downloadSign');
-	
+
 	this.prevBut = document.getElementById('prevBut');
 	this.nextBut = document.getElementById('nextBut');
 	this.logoCount = document.getElementById('logoCount');
@@ -137,10 +132,8 @@ var App = function() {
 	window.addEventListener('mousemove', this.mouseMove.bind(this) );
 
 	this.infoSign.addEventListener('click', this.infoShow.bind(this) );
-	// this.downloadSign.addEventListener('click', this.download.show.bind(this.download) );
 	
 	this.info.addEventListener('mousedown', this.infoHide.bind(this) );
-	// this.download.addEventListener('mousedown', this.downloadHide.bind(this) );
 
 	this.step();
 }
@@ -177,10 +170,6 @@ App.prototype.prevLogo = function( ){
 	
 	TweenMax.to( this.scene.position, 0.4, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.sortScene.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 	TweenMax.to( this.two.scene.translation, 0.4, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
-	
-	// this.scene.position.x = window.innerWidth * ( this.totalLetters - this.letterId );
-	// this.two.scene.translation.x = window.innerWidth * ( this.totalLetters - this.letterId );
-	// this.sortScene();
 
 	this.containerOne.classList.remove('active');
 	
@@ -191,11 +180,7 @@ App.prototype.prevLogo = function( ){
 }
 
 App.prototype.sortScene = function( ){
-	// if(this.logoList[this.letterId + 1]) this.logoList[this.letterId + 1].destroy();
-	// if(this.logoList[this.letterId - 1]) this.logoList[this.letterId - 1].destroy();
-	for( var i = 0 ; i < this.logoList.length ; i++ ){
-		if( this.logoList[i] && this.logoList[i].active && ( i !== this.letterId ) ) this.logoList[i].destroy()
-	}
+	for( var i = 0 ; i < this.logoList.length ; i++ ) if( this.logoList[i] && this.logoList[i].active && ( i !== this.letterId ) ) this.logoList[i].destroy()
 }
 
 App.prototype.nextLogo = function( ){
@@ -206,16 +191,8 @@ App.prototype.nextLogo = function( ){
 	}
 	if(this.logoList[this.letterId]) this.logoList[this.letterId].build();
 
-	// this.scene.position.x = window.innerWidth * ( this.totalLetters - this.letterId );
-	// this.two.scene.translation.x = window.innerWidth * ( this.totalLetters - this.letterId );
-	// this.sortScene();
-
 	TweenMax.to( this.scene.position, 0.4, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.sortScene.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 	TweenMax.to( this.two.scene.translation, 0.4, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
-
-	// TweenMax.to( this.scene.position, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.sortScene.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
-	// TweenMax.to( this.two.scene.translation, 0.6, { x : window.innerWidth * ( this.totalLetters - this.letterId ), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
-	// TweenMax.to( this, 0.6, { camPosition : window.innerWidth * ( this.totalLetters - this.letterId ), onComplete : this.sortScene.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 
 	this.prevBut.classList.add('active');
 	this.updateLogoCount();
@@ -404,9 +381,6 @@ App.prototype.onResize = function(e) {
 
 App.prototype.step = function( time ) {
 	window.requestAnimationFrame( this.step.bind( this ) );
-
-	// this.scene.position.x = this.camPosition
-	// this.two.scene.translation.x = this.camPosition;
 	this.renderer.render( this.scene, this.camera );
 	if( this.logoList[ this.letterId ] ) for( var i = 0 ; i < this.logoList[this.letterId].blocks.length ; i++ ) this.logoList[this.letterId].blocks[i].step(time);
 	this.cursors.step();

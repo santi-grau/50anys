@@ -1,4 +1,3 @@
-# EINA 50 ANYS
 
 ### TODO
 

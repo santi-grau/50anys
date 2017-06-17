@@ -30,44 +30,6 @@ html
 
     #timer
         canvas#circleTimer(width='60',height='60')
-
-    #download
-        .content
-            p(style='white-space:pre;')
-                | --------------------------------------------------------------------
-                |  _______      ___    ___ ________  ________  ________  _________   
-                | |\  ___ \    |\  \  /  /|\   __  \|\   __  \|\   __  \|\___   ___\ 
-                | \ \   __/|   \ \  \/  / | \  \|\  \ \  \|\  \ \  \|\  \|___ \  \_| 
-                |  \ \  \_|/__  \ \    / / \ \   ____\ \  \\\  \ \   _  _\   \ \  \  
-                |   \ \  \_|\ \  /     \/   \ \  \___|\ \  \\\  \ \  \\  \|   \ \  \ 
-                |    \ \_______\/  /\   \    \ \__\    \ \_______\ \__\\ _\    \ \__\
-                |     \|_______/__/ /\ __\    \|__|     \|_______|\|__|\|__|    \|__|
-                |              |__|/ \|__|     
-                | 
-                | --------------------------------------------------------------------
-            p
-                | Export logo to SVG. Choose size:
-            ul
-                li
-                    a.exportImage(href='javascript:void(0)', data-size = '10' ) 10x15cm
-                li
-                    a.exportImage(href='javascript:void(0)', data-size = '15' ) 15x20cm
-                li
-                    a.exportImage(href='javascript:void(0)', data-size = '20' ) 20x30cm
-                li
-                    a.exportImage(href='javascript:void(0)', data-size = '50' ) 50x70cm
-                li 
-                    a.exportImage(href='javascript:void(0)', data-size = '70' ) 70x100cm
-            p
-                | Export to video. Choose duration:
-            ul
-                li
-                    a.exportVideo(href='javascript:void(0)', data-time = '5' ) 5sec
-                li
-                    a.exportVideo(href='javascript:void(0)', data-time = '10' ) 10sec
-                li
-                    a.exportVideo(href='javascript:void(0)', data-time = '20' ) 20sec
-
     #info
         .content.en
             p(style='white-space:pre;')

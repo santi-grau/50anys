@@ -44,7 +44,8 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          "docs/index.html": "app/views/main.pug"
+          "docs/index.html": "app/views/main.pug",
+          "docs/export.html": "app/views/export.pug"
         }
       }
     },
