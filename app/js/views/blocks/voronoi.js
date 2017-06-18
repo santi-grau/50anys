@@ -7,7 +7,7 @@ var Voronoi = function( parent, block ) {
 
 	this.name = 'Voronoi';
 
-	this.totalPoints = 2 * this.block.w / Math.min( this.block.w, this.block.h ) * this.block.h / Math.min( this.block.w, this.block.h );
+	this.totalPoints = 2 * this.block.w / Math.min( this.block.w, this.block.h ) * this.block.h / Math.min( this.block.w, this.block.h ) + 2;
 
 	this.time = 0;
 	this.timeInc = 0;
@@ -30,13 +30,17 @@ var Voronoi = function( parent, block ) {
 }
 
 Voronoi.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.lineJoin('miter');
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();
 	var points = [];
 	var bbox = { xl: block.x, xr: block.x + block.w, yt: block.y, yb: block.y + block.h };
-	for( var i = 0 ; i < this.totalPoints ; i++ ) points.push( { x: block.x + block.w * Math.random(), y: block.y + block.h * Math.random() } );
+	
+	var ps = [32, 16, 8, 4, 2, 1];
+
+	for( var i = 0 ; i < this.totalPoints * ps[this.parent.parent.size] ; i++ ) points.push( { x: block.x + block.w * Math.random(), y: block.y + block.h * Math.random() } );
 	var diagram = new voronoi().compute( points, bbox );
 	var es = diagram.edges;
-	for( var i = 0 ; i < es.length ; i++ ) doc.path('M '+ ( es[i].va.x  ) +','+( es[i].va.y )+' L '+( es[i].vb.x  )+','+( es[i].vb.y  ) ).lineWidth(strokeWidth*0.5).stroke();
+	for( var i = 0 ; i < es.length ; i++ ) doc.path('M '+ ( es[i].va.x  ) +','+( es[i].va.y )+' L '+( es[i].vb.x  )+','+( es[i].vb.y  ) ).lineWidth(strokeWidth*0.3).stroke();
 }
 
 

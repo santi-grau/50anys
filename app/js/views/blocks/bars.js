@@ -43,13 +43,15 @@ Bars.prototype.shade = function( val ){
 Bars.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).fill('#ffffff').restore();
 	
-	var amount = 4;
+	var bs = [14,12,10,8,6,4];
+	var amount = bs[this.parent.parent.size];
+
 	var size = Math.min( block.w, block.h ) / amount;
 
-	for( var i = 0 ; i < block.w; i+= size ){
-		for( var j = 0 ; j < block.h ; j+= size ){
+	for( var i = 0 ; i < block.w-1; i+= size ){
+		for( var j = 0 ; j < block.h-1 ; j+= size ){
 			var n = Math.round( ( this.parent.parent.simplexNoise.noise2D( block.x + i / 100 + this.time, block.y + j / 100 ) + 1) / 2 ) * 200 + 50;
-			doc.save().translate( block.x + i , block.y + j  ).rect( 0, 0, size, size ).lineWidth(strokeWidth*0.25).fillAndStroke([n,n,n],'#000000').restore();
+			doc.save().translate( block.x + i , block.y + j  ).rect( 0, 0, size, size ).lineWidth(1).fillAndStroke([n,n,n],'#000000').restore();
 		}
 	}
 

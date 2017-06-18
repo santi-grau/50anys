@@ -15,6 +15,7 @@ var Solid = function( parent, block ) {
 }
 
 Solid.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
+	doc.lineJoin('miter');
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#000000', '#000000').restore();
 }
 

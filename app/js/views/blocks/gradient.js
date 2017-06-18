@@ -36,6 +36,7 @@ Gradient.prototype.onRepeat = function( val ){
 }
 
 Gradient.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.lineJoin('miter');
 	var d = [ 0, block.h, 0, 0 ];
 	if( block.w > block.h ) d = [ 0, 0, block.w, 0 ];
 	var grad = doc.linearGradient(d[0], d[1], d[2], d[3]);

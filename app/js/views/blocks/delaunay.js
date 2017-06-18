@@ -54,15 +54,19 @@ Delaunay.prototype.triangulate = function( ){
 
 
 Delaunay.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();
 
 	var ps = [];
 
-	ps.push( [ 2, 2 ], [ block.w - 2, 2 ], [ 2, block.h - 2 ], [ block.w - 2, block.h - 2 ] );
 
-	for( var i = 0 ; i < this.totalPoints * 2 ; i++ ) ps.push( [ 2 + Math.random() * (block.w - 4) , 2 ], [ 2 + Math.random() * ( block.w -4) , block.h -2 ] );
-	for( var i = 0 ; i < this.totalPoints ; i++ ) ps.push( [ 2 , 2 + Math.random() * (block.h-4) ], [ (block.w-2) , 2 + Math.random() * (block.h-4) ] );
-	for( var i = 0 ; i < this.totalPoints ; i++ ) ps.push( [ 2 + Math.random() * (block.w-4) , 2 + Math.random() * (block.h-4) ] );
+	var points = [32, 16, 8, 4, 2, 1];
+
+	ps.push( [ 0, 0 ], [ block.w, 0 ], [ 0, block.h ], [ block.w, block.h ] );
+
+	for( var i = 0 ; i < this.totalPoints * 2 ; i++ ) ps.push( [ Math.random() * (block.w ) , 0 ], [ Math.random() * ( block.w) , block.h ] );
+	for( var i = 0 ; i < this.totalPoints ; i++ ) ps.push( [ 0 , Math.random() * (block.h) ], [ (block.w) , Math.random() * (block.h) ] );
+	for( var i = 0 ; i < this.totalPoints * points[this.parent.parent.size] ; i++ ) ps.push( [ Math.random() * (block.w) , Math.random() * (block.h) ] );
 
 	for( var i = 0 ; i < ps.length ; i++ ){
 		ps[i][0] += block.x;
@@ -72,6 +76,7 @@ Delaunay.prototype.exportPDF = function( block, doc, scale, strokeWidth, pattern
 	var tris = triangulate( ps );
 	
 	for( var i = 0 ; i < tris.length ; i++ ) doc.path('M '+ps[ tris[i][0] ][0]+','+ps[ tris[i][0] ][1]+' L '+ps[ tris[i][1] ][0]+','+ps[ tris[i][1] ][1]+' L '+ps[ tris[i][2] ][0]+','+ps[ tris[i][2] ][1] + ' Z' ).lineJoin('round').lineWidth(strokeWidth*0.3).stroke();
+	doc.lineJoin('miter');
 }
 
 Delaunay.prototype.step = function( time ) {

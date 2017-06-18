@@ -32,6 +32,7 @@ var FiftyFifty = function( parent, block ) {
 
 
 FiftyFifty.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.lineJoin('miter');
 	var count = Math.round( Math.random()  * Math.max( block.w / scale, block.h / scale) );
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).fill('#ffffff').restore();
 	if( block.w > block.h ) doc.save().translate( block.x, block.y ).rect( 0, 0, block.w * (count / (block.w / scale)), block.h ).fill('#000000').restore();

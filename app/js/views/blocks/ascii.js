@@ -37,9 +37,13 @@ Ascii.prototype.refresh = function(  ){
 }
 
 Ascii.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#000000', '#000000').restore();
 	
-	var lineHeight = Math.min( block.w, block.h ) / 6;
+	var bs = [16,14,12,10,8,6];
+	var amount = bs[this.parent.parent.size];
+
+	var lineHeight = Math.min( block.w, block.h ) / amount;
 	var totalLines = block.h / lineHeight;
 
 	for( var i = 1 ; i < totalLines ; i++ ){

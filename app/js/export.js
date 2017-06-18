@@ -52,6 +52,8 @@ var Export = function(){
 	this.id = hash[0];
 	this.size = hash[1];
 
+	console.log(this.id)
+
 	this.moduleSize = 35;
 	this.blockScripts = blockScripts;
 	this.two = new Two( { autostart : true, type : Two.Types.canvas } );
@@ -64,10 +66,8 @@ var Export = function(){
 
 	this.seed = Math.random;
 	this.simplexNoise = new SimplexNoise( this.seed );
-	
-	this.event = new Event('textures');
-	// window.addEventListener('textures', function(){ this.onReady('textures') }.bind(this), false);
 
+	this.event = new Event('textures');
 	this.textures = new Textures( this );
 
 	var _this = this;

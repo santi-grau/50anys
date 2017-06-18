@@ -43,6 +43,7 @@ var Perspective = function( parent, block ) {
 }
 
 Perspective.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.lineJoin('miter');
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).fill('#ffffff').restore();
 	var inc = Math.random() * 0.6 + 0.2;
 	doc.save().moveTo( block.x, block.y )
@@ -50,14 +51,14 @@ Perspective.prototype.exportPDF = function( block, doc, scale, strokeWidth, patt
 		.lineTo( block.x + block.w, block.y + Math.min(block.h,block.w) * inc )
 		.lineTo( block.x + Math.min(block.h,block.w) * inc, block.y + Math.min(block.h,block.w) * inc )
 		.lineTo( block.x, block.y )
-		.lineWidth(strokeWidth*0.5).fillAndStroke('#323232','#000000').restore();
+		.lineWidth(strokeWidth*0.3).fillAndStroke('#323232','#000000').restore();
 
 	doc.save().moveTo( block.x, block.y )
 		.lineTo( block.x, block.y + block.h )
 		.lineTo( block.x + Math.min(block.h,block.w) * inc, block.y + block.h )
 		.lineTo( block.x + Math.min(block.h,block.w) * inc, block.y + Math.min(block.h,block.w) * inc )
 		.lineTo( block.x, block.y )
-		.lineWidth(strokeWidth*0.5).fillAndStroke('#B8BABC','#000000').restore();
+		.lineWidth(strokeWidth*0.3).fillAndStroke('#B8BABC','#000000').restore();
 		
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
 }

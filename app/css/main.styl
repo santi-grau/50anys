@@ -30,6 +30,10 @@ body
 		top 50%
 		margin-top -20px
 		z-index 4
+		.export
+			position fixed
+			top 30px
+			right 30px
 		.prev
 			margin-left 30px
 			a
@@ -114,6 +118,8 @@ body
 		> div
 			.help
 				display inline
+				&.en
+					display none
 			.content
 				display none
 			&.ready
@@ -219,9 +225,9 @@ body
 				display none
 
 body.en
-	.content.en
+	.en
 		display block !important
-	.content.cat
+	.cat
 		display none !important
 
 #snapSVG

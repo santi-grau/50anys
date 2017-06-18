@@ -23,8 +23,8 @@ var Bigx = function( parent, block ) {
 
 Bigx.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();
-	doc.lineWidth(strokeWidth/2).moveTo( block.x, block.y ).lineTo( block.x + block.w, block.y + block.h ).stroke();
-	doc.lineWidth(strokeWidth/2).moveTo( block.x + block.w, block.y ).lineTo( block.x, block.y + block.h ).stroke();
+	doc.lineWidth(strokeWidth*0.3).moveTo( block.x, block.y ).lineTo( block.x + block.w, block.y + block.h ).stroke();
+	doc.lineWidth(strokeWidth*0.3).moveTo( block.x + block.w, block.y ).lineTo( block.x, block.y + block.h ).stroke();
 }
 
 Bigx.prototype.switchColor = function(){

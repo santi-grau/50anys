@@ -29,9 +29,17 @@ var Points = function( parent, block ) {
 
 Points.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#000000', '#000000').restore();
+	
+	var amounts = [35,30,25,20,15,10];
+	var rads = [0.175,0.2,0.225,0.25,0.275,0.3];
 
-	var radius = strokeWidth * 0.3;
-	var amount = ( block.w / scale * block.h / scale ) * 10;
+
+	var a = amounts[this.parent.parent.size]; 
+	var r = rads[this.parent.parent.size];
+
+	var radius = strokeWidth * r;
+
+	var amount = ( block.w / scale * block.h / scale ) * a ;
 
 	for( var i = 0 ; i < amount ; i++ ){
 		var r = Math.random() * radius + radius;

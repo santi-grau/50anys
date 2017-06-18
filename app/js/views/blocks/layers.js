@@ -36,6 +36,7 @@ var Layers = function( parent, block ) {
 }
 
 Layers.prototype.exportPDF = function( block, doc, scale, strokeWidth, layer ){
+	doc.lineJoin('miter');
 	var sw = strokeWidth;
 	if( layer > 0 ) sw = strokeWidth * 0.25;
 	doc.save().translate( block.x + layer * strokeWidth * 0.5, block.y - layer * strokeWidth * 0.5 ).rect( 0, 0, block.w, block.h ).lineWidth(sw).fillAndStroke('#ffffff', '#000000').restore();

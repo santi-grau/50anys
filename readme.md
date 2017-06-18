@@ -1,19 +1,18 @@
 
 ### TODO
 
-- [ ] Fix crash on letter creation
-
-- [ ] Exporter
 - [ ] Clean up code PLEASE, separate download, separate main.js
 
+- [ ] Error when changing texture/animating?
+- [ ] Fix crash on letter creation
 - [ ] Resizes
+
 - [ ] Empty loads?
 - [ ] Refine navigation
-- [ ] Error when changing texture/animating?
-- [ ] Fix calendar and letter creation times
-- [ ] Add more letters
-- [ ] Clear navigation n mobile
 
-- [ ] check loading sequence, server and ws reliability
+- [ ] Fix calendar and letter creation times
+- [ ] Add text to large exports
+- [ ] Update info
+- [ ] Make run through exports to equalise weights
 
 - [ ] Make video exporter

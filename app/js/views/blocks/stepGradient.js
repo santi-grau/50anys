@@ -32,12 +32,13 @@ var StepGradient = function( parent, block ) {
 }
 
 StepGradient.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.lineJoin('miter');
 	var rects = this.rects.children;
 	var d = Math.max( block.w, block.h ) / rects.length;
 	for( var i = 0 ; i < rects.length ; i++ ){
 		var col = rects[i].fill.split(',')[1];
-		if( block.w > block.h ) doc.save().translate( block.x + i * d, block.y ).rect( 0, 0, d, block.h ).lineWidth(strokeWidth*0.5).fillAndStroke([ col, col, col ], '#000000').restore();
-		else doc.save().translate( block.x, block.y + i * d ).rect( 0, 0, block.w, d ).lineWidth(strokeWidth*0.5).fillAndStroke([ col, col, col ], '#000000').restore();
+		if( block.w > block.h ) doc.save().translate( block.x + i * d, block.y ).rect( 0, 0, d, block.h ).lineWidth(strokeWidth*0.3).fillAndStroke([ col, col, col ], '#000000').restore();
+		else doc.save().translate( block.x, block.y + i * d ).rect( 0, 0, block.w, d ).lineWidth(strokeWidth*0.3).fillAndStroke([ col, col, col ], '#000000').restore();
 	}
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).stroke('#000000').restore();
 }

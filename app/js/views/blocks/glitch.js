@@ -71,6 +71,7 @@ var Glitch = function( parent, block ) {
 }
 
 Glitch.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
+	doc.lineJoin('miter');
 	var canvas = document.createElement('canvas');
 	canvas.width = block.w / scale * 100;
 	canvas.height = block.h / scale * 100;

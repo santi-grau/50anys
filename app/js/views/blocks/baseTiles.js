@@ -70,10 +70,13 @@ BaseTiles.prototype.create = function( reps, tex, texName ) {
 
 BaseTiles.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	var w = scale;
-	var fitX = Math.round( block.w / w );
-	var fitY = Math.round( block.h / w );
+	var printScale = 6 - this.parent.parent.size;
+	var fitX = Math.round( block.w / w ) * printScale;
+	var fitY = Math.round( block.h / w ) * printScale;
+	
+	
 
-	for( var i = 0 ; i < fitX; i++ ) for( var j = 0 ; j < fitY; j++ ) doc.save().translate(block.x + w * i, block.y + w * j).scale(scale/512).path(patterns[this.texName]).fill('black').restore();
+	for( var i = 0 ; i < fitX; i++ ) for( var j = 0 ; j < fitY; j++ ) doc.save().translate(block.x + w * i / printScale, block.y + w * j / printScale ).scale(scale/512/printScale).path(patterns[this.texName]).fill('black').restore();
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).strokeColor('#000000').lineWidth(strokeWidth).stroke().restore();
 	
 }

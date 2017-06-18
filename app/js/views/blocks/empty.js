@@ -12,6 +12,7 @@ var Empty = function( parent, block ) {
 }
 
 Empty.prototype.exportPDF = function( block, doc, scale, strokeWidth ){
+	doc.lineJoin('miter');
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();
 }
 

@@ -36,12 +36,13 @@ var ShadowBars = function( parent, block ) {
 }
 
 ShadowBars.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.lineJoin('miter');
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();
 	var countInc = 0.9;
 
 	for( var i = 0 ; i < Math.max( block.h, block.w ) ; i+=5 ){
-		if( block.h > block.w ) doc.save().moveTo( block.x, block.y + block.h - i ).lineTo( block.x + block.w * countInc, block.y + block.h - i ).lineWidth(strokeWidth*0.5).stroke('#000000').restore();
-		else doc.save().moveTo( block.x + i, block.y + block.h ).lineTo( block.x + i, block.y + block.h - block.h * countInc ).lineWidth(strokeWidth*0.5).stroke('#000000').restore();
+		if( block.h > block.w ) doc.save().moveTo( block.x, block.y + block.h - i ).lineTo( block.x + block.w * countInc, block.y + block.h - i ).lineWidth(1).stroke('#000000').restore();
+		else doc.save().moveTo( block.x + i, block.y + block.h ).lineTo( block.x + i, block.y + block.h - block.h * countInc ).lineWidth(1).stroke('#000000').restore();
 		countInc *= 0.9;
 	}
 }

@@ -55,6 +55,7 @@ var Noise2 = function( parent, block ) {
 }
 
 Noise2.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.lineJoin('miter');
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fill('#ffffff').restore();
 	
 	var s = block.h;
@@ -63,12 +64,18 @@ Noise2.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns 
 	var vals = [];
 	
 	var p = Math.random();
-	var noiseScale = 2;
+	
+	var scales = [0.75,1,1.25,1.5,1.75,2];
+	var freqs = [90,75,60,45,30,15];
+
+	var f = freqs[this.parent.parent.size];
+
+	var noiseScale = scales[this.parent.parent.size];
 
 	doc.save().moveTo( block.x, block.y );
 
 	for( var i = 0 ; i < s ; i+= noiseScale ){
-		var n = ( this.parent.parent.simplexNoise.noise2D( p, i/ 15 ) + 1 ) / 2 ;
+		var n = ( this.parent.parent.simplexNoise.noise2D( p, i/ f ) + 1 ) / 2 ;
 		if( block.w > block.h ) doc.lineTo( block.x + i, block.y + n * block.h );
 		else  doc.lineTo( block.x + n * block.w, block.y + i );
 	}

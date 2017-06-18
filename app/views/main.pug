@@ -13,11 +13,15 @@ html
         #two.inner
         #three.inner
     #selector.left
-        div#textureDescription <span class='help'>Click to change texture</span> <span class='content'>Texture : <span id='name'>Name</span></span>
-        div#animateDescription <span class='help'>Long press to animate</span> <span class='content'>Animate : <span id='animate'>No</span></span>
+        div#textureDescription <span class='help en'>Click to change texture</span> <span class='content'>Texture : <span id='name'>Name</span></span><span class='help cat'>Clic per canviar textura</span> <span class='content'>Texture : <span id='name'>Name</span></span>
+        div#animateDescription <span class='help en'>Long press to animate</span> <span class='content'>Animate : <span id='animate'>No</span></span><span class='help cat'>Clic llarg per animar</span> <span class='content'>Animate : <span id='animate'>No</span></span>
     #cursors
 
     #nav
+        span.export
+            a#exportBut.active(href='javascript:void(0)') ⬇️
+            span #[a(href='javascript:void(0)')  DIN A1] #[a(href='javascript:void(0)')  DIN A2] #[a(href='javascript:void(0)')  DIN A3] #[a(href='javascript:void(0)')  DIN A4] #[a(href='javascript:void(0)')  DIN A5]
+            
         span.prev
             a#prevBut.active(href='javascript:void(0)') ← #[span.copy Prev ]
         span.next

@@ -36,14 +36,19 @@ var Tunel = function( parent, block ) {
 }
 
 Tunel.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
+	doc.lineJoin('miter');
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();
 	
-	var totalSquares = 4;
+	var sq = [6,6,5,5,4,4];
+	var totalSquares = sq[this.parent.parent.size];
+
+	
+
 	for( var i = 1 ; i < totalSquares; i++ ){
 		var inc = i/(totalSquares-1);
 		doc.save().translate( (block.x + Math.min( block.w , block.h ) / 2 * inc), (block.y + Math.min( block.w , block.h ) / 2 * inc) ).rect( 0, 0, (block.x + block.w - Math.min( block.w , block.h ) / 2 * inc) - (block.x + Math.min( block.w , block.h ) / 2 * inc), (block.y + block.h - Math.min( block.w , block.h ) / 2 * inc) - (block.y + Math.min( block.w , block.h ) / 2 * inc) )
 			.lineJoin('miter')
-			.lineWidth(strokeWidth*0.5)
+			.lineWidth(strokeWidth*0.3)
 			.stroke("#000000")
 			.restore();
 	}
