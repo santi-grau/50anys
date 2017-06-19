@@ -13,11 +13,11 @@ var Voronoi = function( parent, block ) {
 	this.timeInc = 0;
 	this.timeTarget = 0.01;
 
-	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.linewidth = this.parent.lineWidth;
 	rect.fill = '#ffffff'
 
-	this.group = this.parent.parent.two.makeGroup( rect );
+	this.group = this.parent.parent.parent.two.makeGroup( rect );
 
 	this.points = [];
 
@@ -37,7 +37,7 @@ Voronoi.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns
 	
 	var ps = [32, 16, 8, 4, 2, 1];
 
-	for( var i = 0 ; i < this.totalPoints * ps[this.parent.parent.size] ; i++ ) points.push( { x: block.x + block.w * Math.random(), y: block.y + block.h * Math.random() } );
+	for( var i = 0 ; i < this.totalPoints * ps[this.parent.parent.parent.size] ; i++ ) points.push( { x: block.x + block.w * Math.random(), y: block.y + block.h * Math.random() } );
 	var diagram = new voronoi().compute( points, bbox );
 	var es = diagram.edges;
 	for( var i = 0 ; i < es.length ; i++ ) doc.path('M '+ ( es[i].va.x  ) +','+( es[i].va.y )+' L '+( es[i].vb.x  )+','+( es[i].vb.y  ) ).lineWidth(strokeWidth*0.3).stroke();
@@ -46,11 +46,11 @@ Voronoi.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns
 
 Voronoi.prototype.compute = function( val ){
 	if( this.block.h > this.block.w ){
-		this.points[0].x = this.block.x + this.block.w / 2 + this.block.w * this.parent.parent.simplexNoise.noise2D( 0.5, 0.5 + this.time );
+		this.points[0].x = this.block.x + this.block.w / 2 + this.block.w * this.parent.parent.parent.simplexNoise.noise2D( 0.5, 0.5 + this.time );
 		this.points[0].y = this.block.y + this.block.h / 2 + this.block.h / 2 * Math.sin( this.time );
 	} else {
 		this.points[0].x = this.block.x + this.block.w / 2 + this.block.w / 2 * Math.sin( this.time );
-		this.points[0].y = this.block.y + this.block.h / 2 + this.block.h * this.parent.parent.simplexNoise.noise2D( 0.5, 0.5 + this.time );
+		this.points[0].y = this.block.y + this.block.h / 2 + this.block.h * this.parent.parent.parent.simplexNoise.noise2D( 0.5, 0.5 + this.time );
 	}
 
 	this.diagram = new voronoi().compute(this.points, this.bbox);
@@ -67,12 +67,12 @@ Voronoi.prototype.step = function( time ) {
 	
 	this.group.remove( this.lines );
 
-	this.lines = this.parent.parent.two.makeGroup( );
+	this.lines = this.parent.parent.parent.two.makeGroup( );
 
 	this.compute();
 
 	for( var i = 0 ; i < this.diagram.edges.length ; i++ ){
-		var line = this.parent.parent.two.makeLine(this.diagram.edges[i].va.x, this.diagram.edges[i].va.y, this.diagram.edges[i].vb.x, this.diagram.edges[i].vb.y);
+		var line = this.parent.parent.parent.two.makeLine(this.diagram.edges[i].va.x, this.diagram.edges[i].va.y, this.diagram.edges[i].vb.x, this.diagram.edges[i].vb.y);
 		line.linewidth = this.parent.lineWidth / 2;
 		this.lines.add( line );
 	}

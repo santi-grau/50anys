@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var Crosses = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1.5, this.parent.parent.textures.txtrs.crosses, 'crosses' );
+	this.create( 1.5, this.parent.parent.parent.textures.txtrs.crosses, 'crosses' );
 
 	this.name  = 'Crosses';
 

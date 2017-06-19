@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var Sprinkles = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 3, this.parent.parent.textures.txtrs.zigzag, 'zigzag' );
+	this.create( 3, this.parent.parent.parent.textures.txtrs.zigzag, 'zigzag' );
 
 	this.name = 'ZigZag';
 

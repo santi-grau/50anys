@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var vStripes = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.vlines, 'vlines' );
+	this.create( 1, this.parent.parent.parent.textures.txtrs.vlines, 'vlines' );
 
 	this.name = 'V. Stripes';
 

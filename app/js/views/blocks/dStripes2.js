@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var Diagonal1 = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 0.8, this.parent.parent.textures.txtrs.diagonal1, 'diagonal1' );
+	this.create( 0.8, this.parent.parent.parent.textures.txtrs.diagonal1, 'diagonal1' );
 
 	this.name = 'Diagonal 2';
 

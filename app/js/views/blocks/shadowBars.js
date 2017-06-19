@@ -5,19 +5,19 @@ var ShadowBars = function( parent, block ) {
 
 	this.name = 'Shadow Bars';
 
-	this.lines = this.parent.parent.two.makeGroup( );
+	this.lines = this.parent.parent.parent.two.makeGroup( );
 	
 
 	this.countInc = 0.9;
 
-	var bg = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var bg = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	bg.noStroke();
 	bg.fill = '#ffffff';
 
 	for( var i = 0 ; i < Math.max( this.block.h, this.block.w ) ; i+=5 ){
 		var line;
-		if( this.block.h > this.block.w ) line = this.parent.parent.two.makeLine( this.block.x, this.block.y + this.block.h - i, this.block.x + this.block.w * this.countInc, this.block.y + this.block.h - i );
-		else line = this.parent.parent.two.makeLine( this.block.x + i, this.block.y + this.block.h, this.block.x + i, this.block.y + this.block.h - this.block.h * this.countInc );
+		if( this.block.h > this.block.w ) line = this.parent.parent.parent.two.makeLine( this.block.x, this.block.y + this.block.h - i, this.block.x + this.block.w * this.countInc, this.block.y + this.block.h - i );
+		else line = this.parent.parent.parent.two.makeLine( this.block.x + i, this.block.y + this.block.h, this.block.x + i, this.block.y + this.block.h - this.block.h * this.countInc );
 		
 		line.l = this.countInc;
 		line.linewidth = this.parent.lineWidth / 2;
@@ -25,11 +25,11 @@ var ShadowBars = function( parent, block ) {
 		this.lines.add(line);
 	}
 
-	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.linewidth = this.parent.lineWidth;
 	rect.noFill();
 
-	this.group = this.parent.parent.two.makeGroup( bg, this.lines, rect );
+	this.group = this.parent.parent.parent.two.makeGroup( bg, this.lines, rect );
 
 	this.px = 1;
 

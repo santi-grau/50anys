@@ -15,19 +15,19 @@ var ColorGradient = function( parent, block ) {
 	var stops = [ 0, this.block.h / 2, 0, -this.block.h / 2 ];
 	if( this.block.w > this.block.h ) stops = [ -this.block.w / 2, 0, this.block.w / 2, 0 ];
 
-	this.linearGradient = this.parent.parent.two.makeLinearGradient(
+	this.linearGradient = this.parent.parent.parent.two.makeLinearGradient(
 		stops[0],stops[1],stops[2],stops[3],
 		new Two.Stop(0, 'rgba('+this.c1.r+','+this.c1.g+','+this.c1.b+',1)'),
 		new Two.Stop(1, 'rgba('+this.c2.r+','+this.c2.g+','+this.c2.b+',1)')
 	);
 
-	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.linewidth = this.parent.lineWidth;
 	rect.fill = this.linearGradient;
 
-	this.parent.parent.two.scene.remove(this.linearGradient)
+	this.parent.parent.parent.two.scene.remove(this.linearGradient)
 
-	this.group = this.parent.parent.two.makeGroup( rect );
+	this.group = this.parent.parent.parent.two.makeGroup( rect );
 }
 
 ColorGradient.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){

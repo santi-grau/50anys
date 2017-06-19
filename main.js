@@ -49,7 +49,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/main2', function(req, res){
-	res.render( 'main2', { title: pckg.name });
+	res.render( 'main', { title: pckg.name });
 });
 
 app.get('/export', function(req, res){

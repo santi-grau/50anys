@@ -10,7 +10,7 @@ var Timer = function( parent ){
 }
 
 Timer.prototype.setPosition = function( position ){
-	this.containerEl.style.transform = 'translate3d(' + ( position.x - 15 ) + 'px, ' + ( position.y - 15 ) + 'px, 0)';	
+	this.containerEl.style.transform = 'translate3d(' + ( position.x - 15 ) + 'px, ' + ( position.y - 15 + this.parent.scrollPosition ) + 'px, 0)';	
 }
 
 Timer.prototype.reset = function(){

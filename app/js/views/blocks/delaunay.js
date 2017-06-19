@@ -7,13 +7,13 @@ var Delaunay = function( parent, block ) {
 
 	this.name  = 'Delaunay';
 
-	this.totalPoints = parseInt( this.block.w / this.parent.parent.moduleSize + this.block.h / this.parent.parent.moduleSize ) / 2;
+	this.totalPoints = parseInt( this.block.w / this.parent.parent.parent.moduleSize + this.block.h / this.parent.parent.parent.moduleSize ) / 2;
 
-	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.linewidth = this.parent.lineWidth;
 	rect.fill = '#ffffff';
 
-	this.group = this.parent.parent.two.makeGroup( rect );
+	this.group = this.parent.parent.parent.two.makeGroup( rect );
 
 	this.triangulate();
 }
@@ -21,7 +21,7 @@ var Delaunay = function( parent, block ) {
 Delaunay.prototype.triangulate = function( ){
 	if( this.tris ) this.group.remove( this.tris );
 
-	this.tris = this.parent.parent.two.makeGroup( );
+	this.tris = this.parent.parent.parent.two.makeGroup( );
 
 	this.points = [];
 
@@ -39,7 +39,7 @@ Delaunay.prototype.triangulate = function( ){
 	this.triangles = triangulate( this.points );
 
 	for( var i = 0 ; i < this.triangles.length ; i++ ){
-		var tris = this.parent.parent.two.makePath(
+		var tris = this.parent.parent.parent.two.makePath(
 			this.points[ this.triangles[i][0] ][0] , this.points[ this.triangles[i][0] ][1],
 			this.points[ this.triangles[i][1] ][0] , this.points[ this.triangles[i][1] ][1],
 			this.points[ this.triangles[i][2] ][0] , this.points[ this.triangles[i][2] ][1],
@@ -66,7 +66,7 @@ Delaunay.prototype.exportPDF = function( block, doc, scale, strokeWidth, pattern
 
 	for( var i = 0 ; i < this.totalPoints * 2 ; i++ ) ps.push( [ Math.random() * (block.w ) , 0 ], [ Math.random() * ( block.w) , block.h ] );
 	for( var i = 0 ; i < this.totalPoints ; i++ ) ps.push( [ 0 , Math.random() * (block.h) ], [ (block.w) , Math.random() * (block.h) ] );
-	for( var i = 0 ; i < this.totalPoints * points[this.parent.parent.size] ; i++ ) ps.push( [ Math.random() * (block.w) , Math.random() * (block.h) ] );
+	for( var i = 0 ; i < this.totalPoints * points[this.parent.parent.parent.size] ; i++ ) ps.push( [ Math.random() * (block.w) , Math.random() * (block.h) ] );
 
 	for( var i = 0 ; i < ps.length ; i++ ){
 		ps[i][0] += block.x;

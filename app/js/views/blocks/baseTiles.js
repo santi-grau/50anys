@@ -22,7 +22,7 @@ BaseTiles.prototype.create = function( reps, tex, texName ) {
 
 	var loader = new THREE.TextureLoader();
 
-	var texture = loader.load( tex || this.parent.parent.textures.txtrs.checkers, function ( texture ) {
+	var texture = loader.load( tex || this.parent.parent.parent.textures.txtrs.checkers, function ( texture ) {
 		texture.generateMipmaps = false;
 		texture.magFilter = THREE.NearestFilter;
 		texture.minFilter = THREE.NearestFilter;
@@ -45,24 +45,24 @@ BaseTiles.prototype.create = function( reps, tex, texName ) {
 
 	var plane = new THREE.Mesh( geometry, material );
 
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 2 );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 2 );
 	
 	this.group = new THREE.Group();
 	this.group.add(plane);
-	this.parent.parent.scene.add( this.group );
+	this.parent.parent.parent.scene.add( this.group );
 
 
 	var geometry = new THREE.PlaneBufferGeometry( this.block.w + this.parent.lineWidth, this.block.h + this.parent.lineWidth );
 	var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0 );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0 );
 
 	this.group.add(plane)
 
 	var geometry = new THREE.PlaneBufferGeometry( this.block.w - this.parent.lineWidth, this.block.h - this.parent.lineWidth );
 	var material = new THREE.MeshBasicMaterial( { color : 0xffffff } );
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0 );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0 );
 
 	this.group.add(plane)
 
@@ -70,7 +70,7 @@ BaseTiles.prototype.create = function( reps, tex, texName ) {
 
 BaseTiles.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
 	var w = scale;
-	var printScale = 6 - this.parent.parent.size;
+	var printScale = 6 - this.parent.parent.parent.size;
 	var fitX = Math.round( block.w / w ) * printScale;
 	var fitY = Math.round( block.h / w ) * printScale;
 	

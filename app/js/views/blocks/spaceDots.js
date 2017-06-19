@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var DotsHollow = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 0.2, this.parent.parent.textures.txtrs.spacedots, 'spacedots' );
+	this.create( 0.2, this.parent.parent.parent.textures.txtrs.spacedots, 'spacedots' );
 
 	this.name = 'Space dots';
 

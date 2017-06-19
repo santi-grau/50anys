@@ -11,17 +11,17 @@ var StepGradient = function( parent, block ) {
 	this.timeInc = 0;
 	this.timeTarget = 0.03;
 
-	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.linewidth = this.parent.lineWidth;
 	rect.noFill();
 
-	this.rects = this.parent.parent.two.makeGroup();
-	this.group = this.parent.parent.two.makeGroup( this.rects, rect );
+	this.rects = this.parent.parent.parent.two.makeGroup();
+	this.group = this.parent.parent.parent.two.makeGroup( this.rects, rect );
 
 	for( var i = 0 ; i < this.steps ; i++ ){
 		var rect;
-		if( this.block.w > this.block.h ) rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2 - this.block.w / 2 + ( this.block.w / this.steps / 2 ) + ( this.block.w / this.steps * i), this.block.y + this.block.h / 2, this.block.w / this.steps, this.block.h );
-		else rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2 - this.block.h / 2 + ( this.block.h / this.steps / 2	) + ( this.block.h / this.steps * i), this.block.w, this.block.h / this.steps );
+		if( this.block.w > this.block.h ) rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2 - this.block.w / 2 + ( this.block.w / this.steps / 2 ) + ( this.block.w / this.steps * i), this.block.y + this.block.h / 2, this.block.w / this.steps, this.block.h );
+		else rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2 - this.block.h / 2 + ( this.block.h / this.steps / 2	) + ( this.block.h / this.steps * i), this.block.w, this.block.h / this.steps );
 
 		rect.linewidth = this.parent.lineWidth / 2;
 		var col = parseInt( 255 * 0.1 + 255 * 0.8 * i / this.steps );

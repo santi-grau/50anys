@@ -10,10 +10,10 @@ var FiftyFifty = function( parent, block ) {
 
 	this.growing = true;
 
-	var outline = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var outline = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	outline.linewidth = this.parent.lineWidth;
 
-	this.group = this.parent.parent.two.makeGroup( outline );
+	this.group = this.parent.parent.parent.two.makeGroup( outline );
 
 	this.ps = [
 		new Two.Anchor(this.block.x, this.block.y),

@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var hDashes = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 1, this.parent.parent.textures.txtrs.hdashes, 'hdashes' );
+	this.create( 1, this.parent.parent.parent.textures.txtrs.hdashes, 'hdashes' );
 
 	this.name = 'Dashes';
 

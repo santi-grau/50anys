@@ -7,7 +7,7 @@ var Points = function( parent, block ) {
 
 	this.time = 0;
 
-	this.points = this.parent.parent.two.makeGroup();
+	this.points = this.parent.parent.parent.two.makeGroup();
 	this.seq = 10;
 	this.seqCount = 0;
 
@@ -15,16 +15,16 @@ var Points = function( parent, block ) {
 	this.amount = 50;
 
 	for( var i = 0 ; i < this.amount ; i++ ){
-		var circle = this.parent.parent.two.makeCircle( this.block.x + this.radius + Math.random() * (this.block.w - this.radius * 2), this.block.y + this.radius + Math.random() * (this.block.h - this.radius * 2), this.radius  );	
+		var circle = this.parent.parent.parent.two.makeCircle( this.block.x + this.radius + Math.random() * (this.block.w - this.radius * 2), this.block.y + this.radius + Math.random() * (this.block.h - this.radius * 2), this.radius  );	
 		circle.noStroke();
 		circle.fill = '#ffffff';
 		this.points.add( circle );
 	}
 	
-	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.fill = '#000000';
 	rect.linewidth = this.parent.lineWidth;
-	this.group = this.parent.parent.two.makeGroup( rect, this.points );
+	this.group = this.parent.parent.parent.two.makeGroup( rect, this.points );
 }
 
 Points.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
@@ -34,8 +34,8 @@ Points.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns 
 	var rads = [0.175,0.2,0.225,0.25,0.275,0.3];
 
 
-	var a = amounts[this.parent.parent.size]; 
-	var r = rads[this.parent.parent.size];
+	var a = amounts[this.parent.parent.parent.size]; 
+	var r = rads[this.parent.parent.parent.size];
 
 	var radius = strokeWidth * r;
 

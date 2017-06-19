@@ -8,35 +8,32 @@ html
     title Eina 50 anys
     link(rel='stylesheet', id='mainStylesheet' href='css/main.css')
   body
-    #two
-    #three
-    #main
+    #main.active
+        #one.inner.active
+        #two.inner
+        #three.inner
     #selector.left
-        div#textureDescription <span class='help en'>Click to change texture</span> <span class='content'>Texture : <span id='name'>Name</span></span><span class='help cat'>Clic per canviar textura</span>
-        div#animateDescription <span class='help en'>Long press to animate</span> <span class='content'>Animate : <span id='animate'>No</span></span><span class='help cat'>Clic llarg per animar</span>
-    #timer
-        canvas#circleTimer(width='60',height='60')
+        div#textureDescription <span class='help en'>Click to change texture</span> <span class='content'>Texture : <span id='name'>Name</span></span><span class='help cat'>Clic per canviar textura</span> <span class='content'>Texture : <span id='name'>Name</span></span>
+        div#animateDescription <span class='help en'>Long press to animate</span> <span class='content'>Animate : <span id='animate'>No</span></span><span class='help cat'>Clic llarg per animar</span> <span class='content'>Animate : <span id='animate'>No</span></span>
     #cursors
 
-    #menu
-        p(style='white-space:pre;')
-            | 
-        p
-            a(href='javascript:void(0)')#infobut <span class='buthover'>-</span>---> INFO
-        p
-            a(href='javascript:void(0)')#downbut <span class='buthover'>-</span>---> DOWNLOAD
-        #formats
-            p(style='white-space:pre;')
-                a(href='javascript:void(0)', target='_blank').formatSize      |<span class='buthover'>-</span>---> DIN A5
-            p(style='white-space:pre;')
-                a(href='javascript:void(0)', target='_blank').formatSize      |<span class='buthover'>-</span>---> DIN A4
-            p(style='white-space:pre;')
-                a(href='javascript:void(0)', target='_blank').formatSize      |<span class='buthover'>-</span>---> DIN A3
-            p(style='white-space:pre;')
-                a(href='javascript:void(0)', target='_blank').formatSize      |<span class='buthover'>-</span>---> DIN A2
-            p(style='white-space:pre;')
-                a(href='javascript:void(0)', target='_blank').formatSize      |<span class='buthover'>-</span>---> DIN A1
+    #nav
+        span.export
+            a#exportBut.active(href='javascript:void(0)') ⬇️
+            span #[a(href='javascript:void(0)')  DIN A1] #[a(href='javascript:void(0)')  DIN A2] #[a(href='javascript:void(0)')  DIN A3] #[a(href='javascript:void(0)')  DIN A4] #[a(href='javascript:void(0)')  DIN A5]
+            
+        span.prev
+            a#prevBut.active(href='javascript:void(0)') ← #[span.copy Prev ]
+        span.next
+            a#nextBut(href='javascript:void(0)') #[span.copy Next ] →
 
+    #title(style='white-space:pre;')
+        | ------------------------ ---
+        |  EINA 50 ANYS / ##[span#logoCount 00000 ]   #[a#infoSign(href='javascript:void(0)') 🤔]
+        | ------------------------ ---
+
+    #timer
+        canvas#circleTimer(width='60',height='60')
     #info
         .content.en
             p(style='white-space:pre;')
@@ -101,6 +98,8 @@ html
                 |   2. Fer un logo evolutiu que mostri el pas del temps.
             p
                 |   3. Enfatitzar la diversitat i pluralitat que ha fet d’Eina una escola de referència.
+           
+
 
     script(src='scripts/two.min.js')
     script(src='js/main.js')

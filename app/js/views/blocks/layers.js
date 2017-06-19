@@ -15,7 +15,7 @@ var Layers = function( parent, block ) {
 		var material = new THREE.MeshBasicMaterial( { color : 0xffffff } );
 		var plane = new THREE.Mesh( geometry, material );
 
-		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * this.parent.lineWidth * 0.5, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * this.parent.lineWidth * 0.5, 1 + i * 2 + 10  );
+		plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * this.parent.lineWidth * 0.5, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * this.parent.lineWidth * 0.5, 1 + i * 2 + 10  );
 		this.group.add(plane);
 
 		var geometry
@@ -25,14 +25,14 @@ var Layers = function( parent, block ) {
 		var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
 		var plane = new THREE.Mesh( geometry, material );
 
-		plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * this.parent.lineWidth * 0.5, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * this.parent.lineWidth * 0.5, i * 2 + 10  );
+		plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x + i * this.parent.lineWidth * 0.5, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y + i * this.parent.lineWidth * 0.5, i * 2 + 10  );
 		this.group.add(plane);
 	}
 
 	this.py = this.amount;
 	this.tween = TweenMax.to( this, 0.4, { paused : !this.animate, py : 1, repeat : Infinity, yoyo : true, repeatDelay : 0.5, onRepeat: this.onRepeat.bind(this), ease : new Ease( BezierEasing( 0.25, 0.1, 0.25, 1.0 ) ) } );
 
-	this.parent.parent.scene.add( this.group );
+	this.parent.parent.parent.scene.add( this.group );
 }
 
 Layers.prototype.exportPDF = function( block, doc, scale, strokeWidth, layer ){

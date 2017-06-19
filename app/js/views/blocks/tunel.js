@@ -10,12 +10,12 @@ var Tunel = function( parent, block ) {
 	else this.timeInc = 0;
 	
 
-	var rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	var rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	rect.linewidth = this.parent.lineWidth;
 	rect.fill = '#ffffff';
 
-	this.squares = this.parent.parent.two.makeGroup( );
-	this.group = this.parent.parent.two.makeGroup( rect, this.squares );
+	this.squares = this.parent.parent.parent.two.makeGroup( );
+	this.group = this.parent.parent.parent.two.makeGroup( rect, this.squares );
 
 	var totalSquares = 4;
 	for( var i = 0 ; i < totalSquares; i++ ){
@@ -40,7 +40,7 @@ Tunel.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns )
 	doc.save().translate( block.x, block.y ).rect( 0, 0, block.w, block.h ).lineWidth(strokeWidth).fillAndStroke('#ffffff', '#000000').restore();
 	
 	var sq = [6,6,5,5,4,4];
-	var totalSquares = sq[this.parent.parent.size];
+	var totalSquares = sq[this.parent.parent.parent.size];
 
 	
 

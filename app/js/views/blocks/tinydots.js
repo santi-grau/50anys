@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var TinyDots = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 2, this.parent.parent.textures.txtrs.tinydots, 'tinydots' );
+	this.create( 2, this.parent.parent.parent.textures.txtrs.tinydots, 'tinydots' );
 
 	this.name = 'Tiny Dots';
 

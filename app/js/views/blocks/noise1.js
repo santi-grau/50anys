@@ -29,7 +29,7 @@ var Noise1 = function( parent, block ) {
 
 	var plane = new THREE.Mesh( geometry, material );
 
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0  );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0  );
 	
 	this.group = new THREE.Group();
 	this.group.add(plane);
@@ -37,23 +37,23 @@ var Noise1 = function( parent, block ) {
 	var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
 	var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.parent.lineWidth );
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1 );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1 );
 	this.group.add(plane);
 
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y - this.block.h, 1  );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y - this.block.h, 1  );
 	this.group.add(plane);
 
 	var geometry = new THREE.PlaneBufferGeometry( this.parent.lineWidth, this.block.h + this.parent.lineWidth );
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
+	plane.position.set( - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
 
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + this.block.w, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
+	plane.position.set( - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x + this.block.w, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
 
-	this.parent.parent.scene.add( this.group );
+	this.parent.parent.parent.scene.add( this.group );
 }
 
 Noise1.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns ){
@@ -69,9 +69,9 @@ Noise1.prototype.exportPDF = function( block, doc, scale, strokeWidth, patterns 
 
 	var scales = [32,24,16,12,8,4]
 
-	var noiseScale = scales[this.parent.parent.size];
+	var noiseScale = scales[this.parent.parent.parent.size];
 	for( var i = 0 ; i < s * noiseScale ; i++ ){
-		var n = Math.round( ( this.parent.parent.simplexNoise.noise2D( 0.5, t + i / 50 ) + 1 ) / 2 );
+		var n = Math.round( ( this.parent.parent.parent.simplexNoise.noise2D( 0.5, t + i / 50 ) + 1 ) / 2 );
 		if( v !== n ) vals.push( i );
 		v = n;
 	}

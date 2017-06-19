@@ -29,6 +29,8 @@ module.exports = function(grunt) {
           cwd: "./",
           src: [
             "server.js",
+            "current.json",
+            "positions.json",
             "routes/**/*",
           ],
           dest: "docs"

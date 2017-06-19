@@ -41,7 +41,7 @@ var Glitch = function( parent, block ) {
 
 	var plane = new THREE.Mesh( geometry, material );
 
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0  );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 0  );
 	
 	this.group = new THREE.Group();
 	this.group.add(plane);
@@ -49,24 +49,24 @@ var Glitch = function( parent, block ) {
 	var material = new THREE.MeshBasicMaterial( { color : 0x000000 } );
 	var geometry = new THREE.PlaneBufferGeometry( this.block.w, this.parent.lineWidth );
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
 
 	
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( this.block.w / 2 - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.containerThree.offsetHeight / 2 - this.block.y - this.block.h, 1  );
+	plane.position.set( this.block.w / 2 - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y - this.block.h, 1  );
 	this.group.add(plane);
 
 	var geometry = new THREE.PlaneBufferGeometry( this.parent.lineWidth, this.block.h + this.parent.lineWidth );
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
+	plane.position.set( - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
 
 	var plane = new THREE.Mesh( geometry, material );
-	plane.position.set( - this.parent.parent.containerThree.offsetWidth / 2 + this.block.x + this.block.w, -this.block.h / 2 + this.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
+	plane.position.set( - this.parent.parent.parent.containerThree.offsetWidth / 2 + this.block.x + this.block.w, -this.block.h / 2 + this.parent.parent.parent.containerThree.offsetHeight / 2 - this.block.y, 1  );
 	this.group.add(plane);
 
-	this.parent.parent.scene.add( this.group );
+	this.parent.parent.parent.scene.add( this.group );
 	
 }
 

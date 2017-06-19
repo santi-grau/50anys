@@ -9,38 +9,97 @@ body
 	margin 0
 	padding 0
 	font-family Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif
-	font-size 11px
-
-	#two
-		position fixed
-		width 100%
-		height 100%
+	font-size 12px
+	overflow hidden
+	#scroller
+		display none
+		width 400vw
+		height 50%
+		position absolute
 		top 0
 		left 0
-		z-index 0
-	#three
-		position fixed
-		width 100%
-		height 100%
-		top 0
-		left 0
-		z-index 1
-	#main
-		position relative
-		width 100%
-		z-index 2
+		background #ff0000;
+		z-index 5
 		.inner
 			width 100vw
 			height 100vh
-			position relative
-			.title
-				width 100vw
-				text-align center
-				position absolute
-				bottom 30px
-			.block
-				position absolute
-				cursor pointer
+			float left
+	#nav
+		width 100%
+		position absolute
+		top 50%
+		margin-top -20px
+		z-index 4
+		.export
+			position fixed
+			top 30px
+			right 30px
+		.prev
+			margin-left 30px
+			a
+				display none
+				text-decoration none
+				&.active
+					display inline
+		.next
+			float right
+			margin-right 30px
+			a
+				display none
+				&.active
+					display inline
+	#title
+		width 100%
+		position fixed
+		bottom 30px
+		text-align center
+		z-index 4
+		a
+			text-decoration none
+	#timer
+		opacity 0
+		position absolute
+		z-index 3
+		pointer-events none
+		width 30px
+		height 30px
+		transition opacity 0.3s
+		&.active
+			opacity 1
+		canvas
+			width 30px
+			height 30px
+	#main
+		transform scale(1)
+		z-index 1
+		position fixed
+		top 0
+		left 0
+		width 100%
+		height 100%
+		.inner
+			width 100%
+			height 100%
+			position absolute
+			top 0
+			left 0
+			&#one
+				left 50%
+				top 50%
+				z-index 3
+				display none
+				&.active
+					display block
+				.block
+					position absolute
+					cursor pointer
+			&#two
+				z-index 1
+			&#three
+				z-index 2
+		canvas
+			width 100%
+			height 100%
 	#selector
 		z-index 4
 		opacity 0
@@ -65,7 +124,7 @@ body
 				display none
 			&.ready
 				.help
-					display none !important
+					display none
 				.content
 					display block
 		ul
@@ -121,28 +180,13 @@ body
 		&:before 
 			border-width 13px
 			margin-top -13px
-	#timer
-		opacity 0
-		position absolute
-		z-index 5
-		pointer-events none
-		width 30px
-		height 30px
-		top 0
-		left 0
-		transition opacity 0.3s
-		&.active
-			opacity 1
-		canvas
-			width 30px
-			height 30px
 	#cursors
-		z-index 6
-		position absolute
+		z-index 2
+		position fixed
 		top 0
 		left 0
-		width 100vw
-		height 100vh
+		width 100%
+		height 100%
 		pointer-events none
 		.cursor
 			position absolute
@@ -153,34 +197,6 @@ body
 			background url(../media/cursors.png)
 			background-size contain
 			font-size 8px
-	#menu
-		z-index 9
-		position fixed
-		top 0
-		left 0
-		font-size 9px
-		#downbut
-			display none
-			&.active
-				display inline
-		a
-			color #000000
-			text-decoration none
-			.buthover
-				display none
-			&:hover
-				.buthover
-					display inline
-		p
-			margin 0
-			padding 0
-		#formats
-			display none
-			&.active
-				display block
-		&.downloadActive
-			#formats
-				display block
 	#info
 		opacity 0
 		top 100vh
@@ -214,6 +230,9 @@ body.en
 	.cat
 		display none !important
 
+#snapSVG
+	display none
+
 @media only screen and (min-device-width : 414px) and (max-device-width : 736px)
 	body
 		#info
@@ -222,10 +241,14 @@ body.en
 			.content
 				padding 10px
 				width calc( 100% - 20px )
-		#menu
-			#downbut
-				&.active
-					display none
+		#nav
+			z-index 6
+			top auto
+			margin-top auto
+			bottom 45px
+			.copy
+				display none
+			
 	#selector
 		display none
 	
@@ -238,10 +261,14 @@ body.en
 			.content
 				padding 10px
 				width calc( 100% - 20px )
-		#menu
-			#downbut
-				&.active
-					display none
+		#nav
+			z-index 6
+			top auto
+			margin-top auto
+			bottom 45px
+			.copy
+				display none
+			
 	#selector
 		display none
 @media only screen and (min-device-width : 320px) and (max-device-width : 568px)
@@ -252,11 +279,14 @@ body.en
 			.content
 				padding 10px
 				width calc( 100% - 20px )
-		#menu
-			#downbut
-				&.active
-					display none
-
+		#nav
+			z-index 6
+			top auto
+			margin-top auto
+			bottom 45px
+			.copy
+				display none
+			
 	#selector
 		display none
 

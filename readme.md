@@ -1,18 +1,16 @@
-
-### TODO
-
-- [ ] Clean up code PLEASE, separate download, separate main.js
-
+### POLISH
+- [ ] Downloads parenting
 - [ ] Error when changing texture/animating?
 - [ ] Fix crash on letter creation
 - [ ] Resizes
-
-- [ ] Empty loads?
-- [ ] Refine navigation
-
-- [ ] Fix calendar and letter creation times
-- [ ] Add text to large exports
+- [ ] Fade in of letters
 - [ ] Update info
+
+- [ ] Design better ui
+- [ ] Add calendar
+- [ ] Adjust colors
+- [ ] Add text to large exports
 - [ ] Make run through exports to equalise weights
 
 - [ ] Make video exporter
+- [ ] Show tap states from mobile websockets

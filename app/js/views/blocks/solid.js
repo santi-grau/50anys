@@ -7,11 +7,11 @@ var Solid = function( parent, block ) {
 
 	this.timeStep = Math.random();
 
-	this.rect = this.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
+	this.rect = this.parent.parent.parent.two.makeRectangle( this.block.x + this.block.w / 2, this.block.y + this.block.h / 2, this.block.w, this.block.h );
 	this.rect.linewidth = this.parent.lineWidth;
 	this.rect.fill = '#000000';
 
-	this.group = this.parent.parent.two.makeGroup( this.rect );
+	this.group = this.parent.parent.parent.two.makeGroup( this.rect );
 }
 
 Solid.prototype.exportPDF = function( block, doc, scale, strokeWidth ){

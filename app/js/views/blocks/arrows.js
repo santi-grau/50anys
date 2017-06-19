@@ -2,7 +2,7 @@ var BaseTiles = require('./BaseTiles');
 
 var Arrows = function( ) {
 	BaseTiles.apply(this, arguments);
-	this.create( 0.5, this.parent.parent.textures.txtrs.arrows, 'arrows' );
+	this.create( 0.5, this.parent.parent.parent.textures.txtrs.arrows, 'arrows' );
 
 	this.name  = 'Arrows';
 
