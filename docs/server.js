@@ -37,13 +37,23 @@ var Srvr = function(){
 		fs.writeFileSync("./current.json", JSON.stringify( this.currentLetter ) ); 
 	}
 
+	this.positions = JSON.parse( fs.readFileSync('./positions.json', 'utf8') );
+	// this.savePositions( this.currentLetter );
+
 	this.getFiles();
 }
 
 Srvr.prototype.listFiles = function(err, data){
-	console.log(data.Contents.length)
 	if(err) console.log(err);
 	this.totalFiles = data.Contents.length;
+}
+
+Srvr.prototype.savePositions = function( data ){
+	function n(n){ return n > 9 ? "" + n: "0" + n; }
+	var v = '' + n(data.viewBox[0]) + '' + n(data.viewBox[1]);
+	for( var i = 0 ; i < data.list.length ; i++ ) v += n(data.list[i].x) + '' + n(data.list[i].y) + '' +  n(data.list[i].w) + '' + n(data.list[i].h);
+	this.positions.push(v);
+	fs.writeFileSync('./positions.json', JSON.stringify( this.positions ) ); 
 }
 
 Srvr.prototype.getFiles = function(){
@@ -60,13 +70,15 @@ Srvr.prototype.makeNew = function(){
 		}
 	}.bind(this));
 
+	
 
 	this.currentLetter = new MakeLetter().blocks;
-	
+	this.savePositions(this.currentLetter);
+
 	fs.writeFile("./current.json", JSON.stringify( this.currentLetter ), function(err) {
 		if(err) return console.log(err);
 		wss.clients.forEach(function each(client) {
-			if ( client.readyState ) client.send( JSON.stringify( { t : 'updateLetter', data : this.currentLetter } ) );
+			if ( client.readyState ) client.send( JSON.stringify( { t : 'updateLetter', data : this.currentLetter, positions : this.positions[ this.positions.length - 1 ] } ) );
 		}.bind(this));
 		console.log("New letter created");
 	}.bind(this)); 
@@ -80,6 +92,7 @@ Srvr.prototype.saveCurrent = function(){
 var srvr = new Srvr();
 
 var makeLetter = new CronJob({
+	// cronTime: '0 * * * * *',
 	cronTime: '0 0 0 * * *',
 	onTick : srvr.makeNew.bind(srvr),
 	start: true,
@@ -96,7 +109,7 @@ wss.on('connection', function connection(ws) {
 	var id = 'c' + new Date().getTime();
 	ws.id = id;
 
-	ws.send( JSON.stringify( { t : 'setup', data : { id : id, currentLetter : JSON.stringify(srvr.currentLetter), letterId : srvr.totalFiles } } ) );
+	ws.send( JSON.stringify( { t : 'setup', data : { id : id, currentLetter : JSON.stringify(srvr.currentLetter), letterId : srvr.totalFiles, positions : JSON.stringify( srvr.positions )  } } ) );
 
 	ws.on('message', function incoming(data) {
 		var d = JSON.parse(data);

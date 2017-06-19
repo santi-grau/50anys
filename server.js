@@ -91,13 +91,12 @@ Srvr.prototype.saveCurrent = function(){
 
 var srvr = new Srvr();
 
-var makeLetter = new CronJob({
-	// cronTime: '0 * * * * *',
-	cronTime: '0 0 0 * * *',
-	onTick : srvr.makeNew.bind(srvr),
-	start: true,
-	timeZone: 'Europe/Madrid'
-});
+// var makeLetter = new CronJob({
+// 	cronTime: '0 0 0 * * *',
+// 	onTick : srvr.makeNew.bind(srvr),
+// 	start: true,
+// 	timeZone: 'Europe/Madrid'
+// });
 
 var saveCurrent = new CronJob({
 	cronTime: '0 * * * * *',
