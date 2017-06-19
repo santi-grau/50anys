@@ -140,7 +140,7 @@ Dom.prototype.addLetter = function( ){
 }
 
 Dom.prototype.updateBackgroundColor = function( v ){
-	document.body.style.background = 'hsl(' + v * 360 + ', 14%, 88% )';
+	document.body.style.background = 'hsl(' + v * 360 + ', 0%, 88% )';
 }
 
 Dom.prototype.scroll = function(){

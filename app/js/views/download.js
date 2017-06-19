@@ -17,7 +17,7 @@ var Download = function( parent, data, id ){
 	var ps = new DOMParser().parseFromString(patterns, "image/svg+xml").getElementsByTagName('path');
 	for( var i = 0 ; i < ps.length ; i++ ) this.patterns[ps[i].getAttribute('id')] = ps[i].getAttribute('d');
 
-	var tt = String(this.id).split('');
+	var tt = String( parseInt( this.id ) + 1 ).split('');
 	var ttt = '';
 	for( var i = 0 ; i < 5 - tt.length ; i++ ) ttt += '0';
 	for( var i =0 ; i < tt.length ; i++ ) ttt += tt[i];
@@ -52,7 +52,7 @@ var Download = function( parent, data, id ){
 
 	for( var i = 0 ; i < blocks.length ; i++ ){
 		doc.lineJoin('miter');
-		this.blocks.push( new Block( this.parent, { x : this.data.list[i].x * moduleSize, y : this.data.list[i].y * moduleSize, w : this.data.list[i].w * moduleSize, h : this.data.list[i].h * moduleSize, t : this.data.list[i].t, a : this.data.list[i].a }, i, this.parent.lineWidth, false ) );
+		this.blocks.push( new Block( this, { x : this.data.list[i].x * moduleSize, y : this.data.list[i].y * moduleSize, w : this.data.list[i].w * moduleSize, h : this.data.list[i].h * moduleSize, t : this.data.list[i].t, a : this.data.list[i].a }, i, this.parent.lineWidth, false ) );
 	}
 
 	for( var i = 0 ; i < blocks.length ; i++ ){
@@ -74,11 +74,13 @@ var Download = function( parent, data, id ){
 			if( i < this.blocks[layerBlocks[j]].currentBlock.amount ) this.blocks[layerBlocks[j]].currentBlock.exportPDF( blocks[layerBlocks[j]], doc, scale, lineWidth, i );
 		}
 	}
-	console.log(doc)
+	
 	doc.fillColor('black').font('Courier').fontSize(8).text('------------------------',0,doc.page.height - doc.page.margins.bottom * 2 - 26, { width : doc.page.width, height : 50, align: 'center', lineBreak : true });
 	doc.fillColor('black').font('Courier').fontSize(8).text('EINA 50 ANYS / #'+this.id,0,doc.page.height - doc.page.margins.bottom * 2 - 15, { width : doc.page.width, height : 50, align: 'center', lineBreak : true });
 	doc.fillColor('black').font('Courier').fontSize(8).text('------------------------',0,doc.page.height - doc.page.margins.bottom * 2 - 6, { width : doc.page.width, height : 50, align: 'center', lineBreak : true });
-   
+   	
+   	var id = this.id;
+
 	setTimeout( function(){
 		doc.end();
 		stream.on('finish', function(){
@@ -86,20 +88,19 @@ var Download = function( parent, data, id ){
 			var csvUrl = URL.createObjectURL(blob);
 			var element = document.createElement('a');
 			element.setAttribute('href', csvUrl);
-			var w = window.open(csvUrl);
 
-			// window.location.href = csvUrl;
+			window.location.href = csvUrl;
 			// download
-			// element.setAttribute('download', 'SVGexport');
-			// element.style.display = 'none';
-			// document.body.appendChild(element);
-			// element.click();
-			// document.body.removeChild(element);
+			element.setAttribute('download', 'eina_50_anys_logo' + id);
+			element.style.display = 'none';
+			document.body.appendChild(element);
+			element.click();
+			document.body.removeChild(element);
 
 
 
 		})
-	}, 0)
+	}, 2000)
 	
 }
 

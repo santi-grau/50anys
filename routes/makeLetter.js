@@ -93,7 +93,7 @@ App.prototype.blockType = function(){
 		else simplex.push( blocks[ i ] );
 	}
 
-	return ( Math.random() > 0.2 ) ? ( complex[Math.floor( Math.random() * complex.length )] ) : (simplex[Math.floor( Math.random() * simplex.length )]);
+	return ( Math.random() > 0.6 ) ? ( complex[Math.floor( Math.random() * complex.length )] ) : (simplex[Math.floor( Math.random() * simplex.length )]);
 }
 
 App.prototype.computeAvailable = function(){
