@@ -12,15 +12,12 @@ var Menu = function( parent ) {
 	this.downBut.addEventListener('click', this.toggleFormats.bind( this ) );
 
 	this.formatList = this.formats.getElementsByClassName('formatSize');
-	// for( var i = 0 ; i < this.formatList.length ; i++ ){
-	// 	this.formatList[i].addEventListener('click', this.downloadFile.bind( this ) );
-	// }
 }
 
 Menu.prototype.updateUrls = function( id ) {
 	this.downBut.classList.add('active');
 	for( var i = 0 ; i < this.formatList.length ; i++ ){
-		this.formatList[i].setAttribute('href', 'export#' + id + '/5')
+		this.formatList[i].setAttribute('href', 'export#' + id + '/' + ( 5 - ( i ) ) )
 	}
 }
 
