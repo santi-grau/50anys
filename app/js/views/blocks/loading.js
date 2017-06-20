@@ -8,8 +8,8 @@ var Loading = function( parent, block ) {
 	var grayscale = (value << 16) | (value << 8) | value;
 	var color = '#' + grayscale.toString(16);
 	
-	this.rect.fill = 'none'
-	// this.rect.fill = color;
+	// this.rect.fill = 'none'
+	this.rect.fill = color;
 	this.rect.linewidth = 2;
 
 	this.group = this.parent.parent.parent.two.makeGroup( this.rect );

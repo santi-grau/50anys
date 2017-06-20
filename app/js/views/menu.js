@@ -15,15 +15,10 @@ var Menu = function( parent ) {
 }
 
 Menu.prototype.updateUrls = function( id ) {
-	this.downBut.classList.add('active');
+	// this.downBut.classList.add('active');
 	for( var i = 0 ; i < this.formatList.length ; i++ ){
 		this.formatList[i].setAttribute('href', 'export#' + id + '/' + ( 5 - ( i ) ) )
 	}
-}
-
-Menu.prototype.hideDownload = function( ) {
-	this.downBut.classList.remove('active');
-	this.formats.classList.remove('active');
 }
 
 Menu.prototype.showInfo = function( ) {
@@ -32,10 +27,6 @@ Menu.prototype.showInfo = function( ) {
 
 Menu.prototype.hideInfo = function( ) {
 	this.info.classList.remove('active');
-}
-
-Menu.prototype.downloadFile = function( e ) {
-	console.log(e)
 }
 
 Menu.prototype.toggleFormats = function( ) {

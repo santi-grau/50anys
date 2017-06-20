@@ -1,10 +1,7 @@
 ### POLISH
 - [ ] Error when changing texture/animating?
 - [ ] Fix crash on logo creation
-- [ ] Resizes
 - [ ] Fade in of letters
-- [ ] Smartscroll?
-- [ ] Firefox fail, phone fail
 
 ### 2.0
 - [ ] Design better ui

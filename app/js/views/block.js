@@ -96,14 +96,14 @@ Block.prototype.setBlockTexture = function( block ){
 	this.block.t = block;
 	this.currentBlock = new blockScripts[block]( this, this.block );
 
-	if(this.currentBlock.group.type) this.parent.threeGroup.add( this.currentBlock.group );
-	else this.parent.twoLogoGroup.add( this.currentBlock.group );
+	if(this.currentBlock.group.type) this.parent.parent.threeLogoGroup.add( this.currentBlock.group );
+	else this.parent.parent.twoLogoGroup.add( this.currentBlock.group );
 
 }
 
 Block.prototype.destroy = function(  ){
-	if(this.currentBlock.group.type) this.parent.threeGroup.remove( this.currentBlock.group );
-	else this.parent.twoLogoGroup.remove( this.currentBlock.group );
+	if(this.currentBlock.group.type) this.parent.parent.threeLogoGroup.remove( this.currentBlock.group );
+	else this.parent.parent.twoLogoGroup.remove( this.currentBlock.group );
 }
 
 Block.prototype.setBlockAnimate = function( animate ){

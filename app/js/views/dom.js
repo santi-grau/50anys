@@ -10,18 +10,18 @@ var Dom = function( parent ) {
 	if( language == 'en-US') document.body.classList.add('en');
 
 	this.startDate = new Date("September 20, 2016 12:00:00 GMT+2");
-	
-	// console.log
+
+	this.scrollHeight = 3;
 
 	this.length = 0;
-	this.current = 0;
-	this.semi = 0;
-	this.old = 0;
-	this.oldSemi = 0;
 	this.scrollPosition = 0;
 
 	this.updateBackgroundColor( 0 );
 	this.container = document.getElementById('main');
+	this.buts = document.getElementById('buts');
+	this.title = document.getElementById('title');
+
+	
 
 	this.selector = new Selector( this );
 	this.timer = new Timer( this );
@@ -31,19 +31,10 @@ var Dom = function( parent ) {
 
 Dom.prototype.init = function( length ){
 	this.length = length;
-	for ( var i = this.length - 1; i >= 0; i-- ) {
-		var inner = this.makeInner( i );
-		this.container.appendChild( inner );
-	}
+	this.current = this.old = this.length - 1;
 
-	// this.menu.updateUrls( length - 1 );
-
-	this.current = this.length - 1;
-	this.semi = this.length - 1;
-	this.old = this.length - 1;
-	this.oldSemi = this.length - 1;
-
-	this.addClicks()
+	this.updateTitle();
+	this.addClicks();
 }
 
 Dom.prototype.addClicks = function( ){
@@ -54,31 +45,18 @@ Dom.prototype.addClicks = function( ){
 	for( var i = 0 ; i < blocks.length ; i++ ){
 		var but = document.createElement('div');
 		but.classList.add('block');
-		this.container.firstChild.append( but );
+		this.buts.append( but );
 	}
 	this.bindButs();
 	this.resize();
 }
 
-Dom.prototype.mouseEnter = function( block ){
-	this.selector.setActive( true, block );
-}
-
-Dom.prototype.mouseLeave = function( e ){
-	this.selector.remove( );
-}
-
 Dom.prototype.updatePreview = function( ){
-
-	if( this.current !== this.old && this.current !== this.oldSemi ) this.parent.previews[this.current].initPreview();
-	if( this.semi !== this.oldSemi && this.semi !== this.old ) this.parent.previews[this.semi].initPreview();
-	if( this.semi !== this.oldSemi && this.oldSemi !== this.current ) this.parent.previews[this.oldSemi].destroyPreview();
-
-	if( this.current !== this.old && this.current < this.length - 1 ) this.menu.updateUrls( this.current );
-	if( this.current !== this.old && this.current == this.length - 1 ) this.menu.hideDownload( this.current );
-
-	this.old = this.current;
-	this.oldSemi = this.semi;
+	if( this.current == this.length - 1 ) document.body.classList.add('first');
+	else document.body.classList.remove('first');
+	this.parent.previews[this.old].destroyPreview();
+	this.parent.previews[ this.current ].initPreview();
+	this.menu.updateUrls( this.current );
 }
 
 Dom.prototype.makeInner = function( id ){
@@ -107,14 +85,14 @@ Dom.prototype.makeInner = function( id ){
 
 Dom.prototype.bindButs = function( ){
 	var lastLogo = this.parent.previews[ this.parent.previews.length - 1 ];
-	var blocks = this.container.firstChild.getElementsByClassName('block');
+	var blocks = this.buts.getElementsByClassName('block');
 	for( var i = 0 ; i < blocks.length ; i++ ){
 		blocks[i].addEventListener('mousedown', lastLogo.blocks[i].mousedown.bind( lastLogo.blocks[i] ) );
 		blocks[i].addEventListener('touchstart', lastLogo.blocks[i].mousedown.bind( lastLogo.blocks[i] ) );		
 		blocks[i].addEventListener('mouseup', lastLogo.blocks[i].mouseup.bind( lastLogo.blocks[i] ) );
 		blocks[i].addEventListener('touchend', lastLogo.blocks[i].mouseup.bind( lastLogo.blocks[i] ) );
-		blocks[i].addEventListener('mouseenter', this.mouseEnter.bind( this, lastLogo.blocks[i] ) );
-		blocks[i].addEventListener('mouseleave', this.mouseLeave.bind( this ) );
+		blocks[i].addEventListener('mouseenter', this.selector.setActive.bind( this.selector, true, lastLogo.blocks[i] ) );
+		blocks[i].addEventListener('mouseleave', this.selector.remove.bind(this.selector) );
 	}
 }
 
@@ -133,36 +111,49 @@ Dom.prototype.resize = function( ){
 	}
 }
 
-Dom.prototype.addLetter = function( ){
-	this.length++;
-	var inner = this.makeInner( this.length - 1 );
-	this.container.insertBefore( inner, this.container.firstChild );
-}
-
 Dom.prototype.updateBackgroundColor = function( v ){
 	document.body.style.background = 'hsl(' + v * 360 + ', 0%, 88% )';
 }
 
 Dom.prototype.scroll = function(){
-	this.scrollPosition = document.body.scrollTop;
-	this.parent.two.scene.translation.y = -this.scrollPosition;
-	this.parent.scene.position.y = this.scrollPosition;
-	this.current = this.length - Math.round( this.scrollPosition / window.innerHeight ) - 1;
+	this.title.classList.remove('active');
+	var scrollPosition = window.scrollY / ( this.container.offsetHeight - window.innerHeight );
+	this.current = ( this.length - 1 ) - Math.min( this.length - 1, Math.max( 0, Math.round( scrollPosition * ( this.length - 1 ) ) ) );
+	console.log(scrollPosition)
+	if( this.old !== this.current ) this.updatePreview();
+	this.updateBackgroundColor( scrollPosition );
 
-	var totalScroll = this.scrollPosition / this.container.offsetHeight;
-	this.updateBackgroundColor( totalScroll );
+	this.old = this.current;
+}
+
+Dom.prototype.updateTitle = function(){
+	var logoNum = document.getElementById('logoNum');
+
+	var tt = String(this.current + 1).split('');
+	var ttt = '';
+	for( var i = 0 ; i < 5 - tt.length ; i++ ) ttt += '0';
+	for( var i =0 ; i < tt.length ; i++ ) ttt += tt[i];
+
+	logoNum.innerHTML = ttt;
 	
+	var dateNum = document.getElementById('dateNum');
 
-	var p = this.length - this.scrollPosition / window.innerHeight - 1;
-	if ( p > this.current ) this.semi = this.current + 1;
-	else this.semi = Math.max( this.current - 1, 0 );
+	var day = new Date( this.startDate );
+	day = day.setDate(day.getDate() + parseInt( this.current ) );
+	day = new Date( day );
+	var date = day.getDate() + '/' + ( day.getMonth() + 1 ) + '/' + day.getFullYear();
+
+	dateNum.innerHTML = date;
+}
+
+Dom.prototype.scrollEnd = function(){
+	this.title.classList.add('active');
+	this.updateTitle();
 }
 
 Dom.prototype.step = function(){
 	this.timer.step();
 	this.cursors.step();
-	if( this.current !== this.old || this.semi !== this.oldSemi ) this.updatePreview();
-	this.old = this.current;
 }
 	
 module.exports = Dom;

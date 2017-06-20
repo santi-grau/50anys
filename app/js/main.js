@@ -28,10 +28,15 @@ var App = function() {
 
 	this.two = new Two( { width : this.containerTwo.offsetWidth, height : this.containerTwo.offsetHeight, autostart : true, type : Two.Types.canvas } ).appendTo( this.containerTwo );
 	
+	this.twoPreviewGroup = this.two.makeGroup( );
+	this.twoLogoGroup = this.two.makeGroup( );
+
 	this.renderer = new THREE.WebGLRenderer( { alpha : true, antialias : true } );
 	this.containerThree.appendChild( this.renderer.domElement );
 	this.scene = new THREE.Scene();
 	this.camera = new THREE.OrthographicCamera();
+	this.threeLogoGroup = new THREE.Group();
+	this.scene.add( this.threeLogoGroup );
 
 	this.dom = new Dom( this );
 	this.ws = new Ws( this );
@@ -60,6 +65,7 @@ App.prototype.setup = function( message ){ // Connection from Websocket
 	this.sockets = true;
 	var data = message.data;
 	this.socketId = data.id;
+
 	// Instantiate previews
 	var positions = JSON.parse( data.positions );
 
@@ -69,7 +75,7 @@ App.prototype.setup = function( message ){ // Connection from Websocket
 	this.previews[ this.previews.length - 1 ].logoData = currentLetter;
 	this.setModuleSize( currentLetter );
 
-	this.previews[ this.previews.length - 1 ].initLogo();
+	this.previews[this.previews.length - 1].loadLogo();
 	this.dom.init( this.previews.length );
 
 	setInterval( this.sendCurrentMouse.bind(this), 250 );
@@ -123,7 +129,6 @@ App.prototype.mouseMove = function( event ){
 	this.dom.timer.setPosition( { x : event.clientX, y : event.clientY } );
 }
 
-
 App.prototype.resize = function( e ){
 	if( this.resizeTimer ) this.resizeTimer = clearTimeout( this.resizeTimer );
 	if( !this.resizeTimer ) this.resizeTimer = setTimeout( this.resizeEnd.bind( this ), 400 );
@@ -143,7 +148,8 @@ App.prototype.resize = function( e ){
 
 App.prototype.scrollEnd = function( ){
 	this.scrolling = false;
-	this.dom.updatePreview();
+	this.previews[this.dom.current].loadLogo();
+	this.dom.scrollEnd();
 }
 
 App.prototype.resizeEnd = function( ){
@@ -152,9 +158,9 @@ App.prototype.resizeEnd = function( ){
 
 App.prototype.step = function( time ) {
 	window.requestAnimationFrame( this.step.bind( this ) );
-	if( !this.scrolling ) for( var i = 0 ; i < this.previews.length ; i++ ) if( this.previews[i].state.logo ) this.previews[i].step( time );
-	this.renderer.render( this.scene, this.camera );
+	if( !this.scrolling && this.previews[this.dom.current] ) if( this.previews[this.dom.current].state.logo ) this.previews[this.dom.current].step( time );
 	this.dom.step();
+	this.renderer.render( this.scene, this.camera );
 };
 
 var app = new App();
