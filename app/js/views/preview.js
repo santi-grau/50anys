@@ -69,6 +69,7 @@ Preview.prototype.destroyPreview = function( ){
 	while (this.parent.threeLogoGroup.children.length){
 		this.parent.threeLogoGroup.remove(this.parent.threeLogoGroup.children[0]);
 	}
+	this.state.preview = false;
 	this.state.logo = false;
 }
 

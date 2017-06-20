@@ -8,6 +8,7 @@ var Menu = function( parent ) {
 	this.formats = document.getElementById('formats');
 
 	this.infoBut.addEventListener('click', this.showInfo.bind( this ) );
+	this.infoBut.addEventListener('touchend', this.showInfo.bind( this ) );
 	this.info.addEventListener('click', this.hideInfo.bind(this) );
 	this.downBut.addEventListener('click', this.toggleFormats.bind( this ) );
 

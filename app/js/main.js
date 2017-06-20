@@ -37,6 +37,7 @@ var App = function() {
 	this.camera = new THREE.OrthographicCamera();
 	this.threeLogoGroup = new THREE.Group();
 	this.scene.add( this.threeLogoGroup );
+	console.log(this.threeLogoGroup)
 
 	this.dom = new Dom( this );
 	this.ws = new Ws( this );
@@ -148,7 +149,7 @@ App.prototype.resize = function( e ){
 
 App.prototype.scrollEnd = function( ){
 	this.scrolling = false;
-	this.previews[this.dom.current].loadLogo();
+	if( !this.previews[this.dom.current].state.logo ) this.previews[this.dom.current].loadLogo();
 	this.dom.scrollEnd();
 }
 

@@ -4,6 +4,7 @@
 - [ ] Fade in of letters
 
 ### 2.0
+- [ ] Code cleanup
 - [ ] Design better ui
 - [ ] Add calendar
 - [ ] Why can't i save the exported PDF???

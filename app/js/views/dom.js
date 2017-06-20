@@ -21,8 +21,6 @@ var Dom = function( parent ) {
 	this.buts = document.getElementById('buts');
 	this.title = document.getElementById('title');
 
-	
-
 	this.selector = new Selector( this );
 	this.timer = new Timer( this );
 	this.cursors = new Cursors( this );
@@ -54,33 +52,22 @@ Dom.prototype.addClicks = function( ){
 Dom.prototype.updatePreview = function( ){
 	if( this.current == this.length - 1 ) document.body.classList.add('first');
 	else document.body.classList.remove('first');
+	// if( this.old == this.length - 1 ) this.unbindButs();
+	// if( this.current == this.length - 1 ) this.bindButs();
 	this.parent.previews[this.old].destroyPreview();
 	this.parent.previews[ this.current ].initPreview();
 	this.menu.updateUrls( this.current );
 }
 
-Dom.prototype.makeInner = function( id ){
+Dom.prototype.unbindButs = function( ){
 	
-	var inner = document.createElement( 'div' );
-	inner.classList.add( 'inner' );
+	var blocks = this.buts.getElementsByClassName('block');
+	for( var i = 0 ; i < blocks.length ; i++ ){
+		var old_element = blocks[i];
+		var new_element = old_element.cloneNode(true);
+		old_element.parentNode.replaceChild(new_element, old_element);
+	}
 
-	var title = document.createElement( 'div' );
-	title.classList.add( 'title' );
-
-	var tt = String(id + 1).split('');
-	var ttt = '';
-	for( var i = 0 ; i < 5 - tt.length ; i++ ) ttt += '0';
-	for( var i =0 ; i < tt.length ; i++ ) ttt += tt[i];
-
-	var day = new Date( this.startDate );
-	day = day.setDate(day.getDate() + id );
-	day = new Date( day );
-	var date = day.getDate() + '/' + ( day.getMonth() + 1 ) + '/' + day.getFullYear();
-
-	title.innerHTML = '-----------------------------------------<br />EINA 50 ANYS | #' + ttt + ' | ' + date + '<br/>-----------------------------------------';
-	inner.appendChild( title );
-
-	return inner;
 }
 
 Dom.prototype.bindButs = function( ){
@@ -119,7 +106,6 @@ Dom.prototype.scroll = function(){
 	this.title.classList.remove('active');
 	var scrollPosition = window.scrollY / ( this.container.offsetHeight - window.innerHeight );
 	this.current = ( this.length - 1 ) - Math.min( this.length - 1, Math.max( 0, Math.round( scrollPosition * ( this.length - 1 ) ) ) );
-	console.log(scrollPosition)
 	if( this.old !== this.current ) this.updatePreview();
 	this.updateBackgroundColor( scrollPosition );
 

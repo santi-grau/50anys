@@ -21,15 +21,15 @@ body
 				display none
 	#two
 		position fixed
-		width 100%
-		height 100%
+		width 100vw
+		height 100vh
 		top 0
 		left 0
 		z-index 0
 	#three
 		position fixed
-		width 100%
-		height 100%
+		width 100vw
+		height 100vh
 		top 0
 		left 0
 		z-index 1
@@ -241,8 +241,6 @@ body.en
 			#downbut
 				&.active
 					display none
-	#selector
-		display none
 	
 
 @media only screen and (min-device-width : 375px) and (max-device-width : 667px)
@@ -257,10 +255,15 @@ body.en
 			#downbut
 				&.active
 					display none
-	#selector
-		display none
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 568px)
 	body
+		&.first
+			#selector
+				display none
+			#menu
+				#downbut
+					display none
 		#info
 			font-size 10px
 			-webkit-overflow-scrolling: touch;
@@ -269,10 +272,7 @@ body.en
 				width calc( 100% - 20px )
 		#menu
 			#downbut
-				&.active
-					display none
+				display none
 
-	#selector
-		display none
 
 	

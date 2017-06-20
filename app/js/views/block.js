@@ -102,6 +102,7 @@ Block.prototype.setBlockTexture = function( block ){
 }
 
 Block.prototype.destroy = function(  ){
+	console.log(this.currentBlock.group)
 	if(this.currentBlock.group.type) this.parent.parent.threeLogoGroup.remove( this.currentBlock.group );
 	else this.parent.parent.twoLogoGroup.remove( this.currentBlock.group );
 }
