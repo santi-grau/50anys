@@ -32,7 +32,7 @@ var Dom = function( parent ) {
 Dom.prototype.init = function( length ){
 	this.length = length;
 	this.current = this.old = this.length - 1;
-
+	this.title.classList.add('active');
 	this.updateTitle();
 	this.addClicks();
 }
@@ -55,11 +55,9 @@ Dom.prototype.updatePreview = function( ){
 
 	this.parent.previews[this.old].destroyPreview();
 	this.parent.previews[ this.current ].initPreview();
-	
 
 	if( this.current == this.length - 1 ) document.body.classList.add('first');
 	else document.body.classList.remove('first');
-	
 
 	this.menu.updateUrls( this.current );
 	this.calendar.updateLines( ( this.length - 1 ) - this.current );

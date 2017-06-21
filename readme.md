@@ -1,6 +1,7 @@
 ### 2.0
 - [ ] Error when changing texture/animating?
 - [ ] New letter created
+- [ ] Make version without sockets
 - [ ] Fade in of letters
 - [ ] Code cleanup
 - [ ] Resizes
