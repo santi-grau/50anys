@@ -37,7 +37,6 @@ var App = function() {
 	this.camera = new THREE.OrthographicCamera();
 	this.threeLogoGroup = new THREE.Group();
 	this.scene.add( this.threeLogoGroup );
-	console.log(this.threeLogoGroup)
 
 	this.dom = new Dom( this );
 	this.ws = new Ws( this );

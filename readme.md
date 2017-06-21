@@ -1,12 +1,11 @@
 ### POLISH
 - [ ] Error when changing texture/animating?
-- [ ] Fix crash on logo creation
+- [ ] New letter created
 - [ ] Fade in of letters
 
 ### 2.0
 - [ ] Code cleanup
-- [ ] Design better ui
-- [ ] Add calendar
+- [ ] Resizes
 - [ ] Why can't i save the exported PDF???
 - [ ] Adjust colors
 - [ ] Add text to large exports

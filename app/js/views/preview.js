@@ -64,6 +64,8 @@ Preview.prototype.initPreview = function( ){
 }
 
 Preview.prototype.destroyPreview = function( ){
+	if(this.state.logo) for( var i = 0 ; i < this.blocks.length ; i++ ) if(this.blocks[i].currentBlock.switchInterval) clearInterval(this.blocks[i].currentBlock.switchInterval)
+
 	this.parent.twoPreviewGroup.remove(this.parent.twoPreviewGroup.children );
 	this.parent.twoLogoGroup.remove(this.parent.twoLogoGroup.children );
 	while (this.parent.threeLogoGroup.children.length){

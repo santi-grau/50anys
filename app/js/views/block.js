@@ -102,7 +102,8 @@ Block.prototype.setBlockTexture = function( block ){
 }
 
 Block.prototype.destroy = function(  ){
-	console.log(this.currentBlock.group)
+	console.log(this.currentBlock.group.parent)
+	if(this.currentBlock.group.parent == null) this.parent.parent.scene.remove( this.currentBlock.group );
 	if(this.currentBlock.group.type) this.parent.parent.threeLogoGroup.remove( this.currentBlock.group );
 	else this.parent.parent.twoLogoGroup.remove( this.currentBlock.group );
 }
@@ -147,7 +148,7 @@ Block.prototype.mouseup = function( e ){
 
 	this.parent.parent.dom.selector.setActive( true, this );
 	this.animateComplete = false;
-	
+
 	clearTimeout( this.longPressTimer );
 	this.down = false;
 	this.parent.parent.dom.timer.down = false;

@@ -2,6 +2,7 @@ var Selector = require('./selector');
 var Timer = require('./timer');
 var Cursors = require('./cursors');
 var Menu = require('./menu');
+var Calendar = require('./calendar');
 
 var Dom = function( parent ) {
 	this.parent = parent;
@@ -25,6 +26,7 @@ var Dom = function( parent ) {
 	this.timer = new Timer( this );
 	this.cursors = new Cursors( this );
 	this.menu = new Menu( this );
+	this.calendar = new Calendar( this );
 }
 
 Dom.prototype.init = function( length ){
@@ -50,13 +52,17 @@ Dom.prototype.addClicks = function( ){
 }
 
 Dom.prototype.updatePreview = function( ){
-	if( this.current == this.length - 1 ) document.body.classList.add('first');
-	else document.body.classList.remove('first');
-	// if( this.old == this.length - 1 ) this.unbindButs();
-	// if( this.current == this.length - 1 ) this.bindButs();
+
 	this.parent.previews[this.old].destroyPreview();
 	this.parent.previews[ this.current ].initPreview();
+	
+
+	if( this.current == this.length - 1 ) document.body.classList.add('first');
+	else document.body.classList.remove('first');
+	
+
 	this.menu.updateUrls( this.current );
+	this.calendar.updateLines( ( this.length - 1 ) - this.current );
 }
 
 Dom.prototype.unbindButs = function( ){
@@ -104,11 +110,10 @@ Dom.prototype.updateBackgroundColor = function( v ){
 
 Dom.prototype.scroll = function(){
 	this.title.classList.remove('active');
-	var scrollPosition = window.scrollY / ( this.container.offsetHeight - window.innerHeight );
-	this.current = ( this.length - 1 ) - Math.min( this.length - 1, Math.max( 0, Math.round( scrollPosition * ( this.length - 1 ) ) ) );
+	this.scrollPosition = window.scrollY / ( this.container.offsetHeight - window.innerHeight );
+	this.current = ( this.length - 1 ) - Math.min( this.length - 1, Math.max( 0, Math.round( this.scrollPosition * ( this.length - 1 ) ) ) );
 	if( this.old !== this.current ) this.updatePreview();
-	this.updateBackgroundColor( scrollPosition );
-
+	this.updateBackgroundColor( this.scrollPosition );
 	this.old = this.current;
 }
 

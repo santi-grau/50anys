@@ -16,10 +16,7 @@ var Menu = function( parent ) {
 }
 
 Menu.prototype.updateUrls = function( id ) {
-	// this.downBut.classList.add('active');
-	for( var i = 0 ; i < this.formatList.length ; i++ ){
-		this.formatList[i].setAttribute('href', 'export#' + id + '/' + ( 5 - ( i ) ) )
-	}
+	for( var i = 0 ; i < this.formatList.length ; i++ ) this.formatList[i].setAttribute('href', 'export#' + id + '/' + ( 5 - ( i ) ) )
 }
 
 Menu.prototype.showInfo = function( ) {

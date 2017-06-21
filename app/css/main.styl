@@ -1,3 +1,6 @@
+::-webkit-scrollbar { 
+    display: none; 
+}
 
 html
 	height 100%
@@ -9,7 +12,7 @@ body
 	margin 0
 	padding 0
 	font-family Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif
-	font-size 11px
+	font-size 10px
 	&.first
 		#selector
 			display block
@@ -222,6 +225,12 @@ body
 			padding-bottom 60px
 			&.en
 				display none
+	#calendar
+		position fixed
+		top 0
+		right 0
+		width 100px
+		text-align right
 
 body.en
 	.en
@@ -231,6 +240,12 @@ body.en
 
 @media only screen and (min-device-width : 414px) and (max-device-width : 736px)
 	body
+		&.first
+			#selector
+				display none
+			#menu
+				#downbut
+					display none
 		#info
 			font-size 10px
 			-webkit-overflow-scrolling: touch;
@@ -239,12 +254,25 @@ body.en
 				width calc( 100% - 20px )
 		#menu
 			#downbut
-				&.active
-					display none
+				display none
+		#calendar
+			.line:first-child
+				.info
+					display inline
+			.line:last-child
+				.info
+					display inline
+			.info
+				display none
 	
-
 @media only screen and (min-device-width : 375px) and (max-device-width : 667px)
 	body
+		&.first
+			#selector
+				display none
+			#menu
+				#downbut
+					display none
 		#info
 			font-size 10px
 			-webkit-overflow-scrolling: touch;
@@ -253,8 +281,16 @@ body.en
 				width calc( 100% - 20px )
 		#menu
 			#downbut
-				&.active
-					display none
+				display none
+		#calendar
+			.line:first-child
+				.info
+					display inline
+			.line:last-child
+				.info
+					display inline
+			.info
+				display none
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 568px)
 	body
@@ -273,6 +309,12 @@ body.en
 		#menu
 			#downbut
 				display none
-
-
-	
+		#calendar
+			.line:first-child
+				.info
+					display inline
+			.line:last-child
+				.info
+					display inline
+			.info
+				display none
