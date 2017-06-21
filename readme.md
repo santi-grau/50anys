@@ -1,9 +1,7 @@
-### POLISH
+### 2.0
 - [ ] Error when changing texture/animating?
 - [ ] New letter created
 - [ ] Fade in of letters
-
-### 2.0
 - [ ] Code cleanup
 - [ ] Resizes
 - [ ] Why can't i save the exported PDF???
@@ -12,4 +10,5 @@
 - [ ] Make run through exports to equalise weights
 
 ### 3.0
+- [ ] Make large exporter
 - [ ] Make video exporter
