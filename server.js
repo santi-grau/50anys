@@ -41,6 +41,12 @@ var Srvr = function(){
 	// this.savePositions( this.currentLetter );
 
 	this.getFiles();
+
+	new CronJob({
+		cronTime: '* * * * * 0',
+		onTick : this.makeNew.bind(this),
+		start: true
+	});
 }
 
 Srvr.prototype.listFiles = function(err, data){
@@ -85,18 +91,21 @@ Srvr.prototype.makeNew = function(){
 
 }
 
+Srvr.prototype.testNew = function(){
+	console.log('a')
+}
+
 Srvr.prototype.saveCurrent = function(){
 	fs.writeFileSync("./current.json", JSON.stringify( this.currentLetter ));
 }
 
 var srvr = new Srvr();
 
-// var makeLetter = new CronJob({
-// 	cronTime: '0 0 0 * * *',
-// 	onTick : srvr.makeNew.bind(srvr),
-// 	start: true,
-// 	timeZone: 'Europe/Madrid'
-// });
+
+
+// new CronJob('* * * * * *', function() {
+//   console.log('You will see this message every second');
+// }, null, true, 'America/Los_Angeles');
 
 var saveCurrent = new CronJob({
 	cronTime: '0 * * * * *',
